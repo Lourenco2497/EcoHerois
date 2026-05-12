@@ -1,0 +1,1077 @@
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Montserrat', sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+}
+
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+}
+
+html {
+    overflow-x: hidden;
+}
+
+header {
+    background-color: #ffffff;
+    padding: 15px 0;
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: auto;
+}
+
+h2 {
+    font-family: 'Boogaloo';
+    font-size: 36px;
+    color: #386B6B;
+    margin: 0;
+}
+
+h1 {
+    font-family: 'Boogaloo';
+    color: #386B6B;
+}
+
+nav .nav-list {
+    list-style: none;
+    display: flex;
+    gap: 64px;
+    margin: 0;
+    padding: 0;
+}
+
+nav .nav-list li {
+    font-size: 16px;
+}
+
+a {
+    text-decoration: none;
+}
+
+nav .nav-list a {
+    text-decoration: none;
+    font-family: 'Montserrat', sans-serif;
+    color: #363636;
+    font-size: 16px;
+    font-weight: 400;
+    transition: color 0.3s ease;
+}
+
+nav .nav-list a:hover {
+    color: #386B6B;
+}
+
+li {
+    position: relative;
+}
+
+li::after {
+    content: '';
+    transition: all 0.5s ease;
+    opacity: 0;
+    height: 2px;
+    width: 0;
+    background-color: #386B6B;
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+}
+
+li:hover::after {
+    opacity: 1;
+    width: 100%;
+}
+
+#fundo-gradiente {
+    background-image: url("imagens/fundos/JOGO.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 130vh;
+    display: flex;
+    justify-content: center;
+}
+
+/* Página Inicial */
+
+#mascote {
+    transform: translateX(7%);
+}
+
+#caixa-dialogo {
+    transform: translateX(-20%);
+}
+
+#texto-caixa-dialogo {
+    top: 20%;
+    left: 20%;
+    transform: translate(-26%, -12%);
+    color: #2D5A5A;
+    font-family: 'Montserrat', sans-serif;
+    text-align: left;
+    max-width: 80%;
+}
+
+#texto-caixa-dialogo h1 {
+    margin-bottom: 15px;
+    color: #386B6B;
+}
+
+#texto-caixa-dialogo p {
+    font-size: 1rem;
+    line-height: 1.5;
+    margin-bottom: 10px;
+}
+
+.btn-comecar {
+    background-color: #386B6B;
+    color: #ffffff;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border: #DCEACF solid 3px;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-comecar:hover {
+    background-color: #2D5A5A;
+    transform: scale(1.05);
+    color: #ffffff;
+}
+
+
+.btn-tutorial {
+    background-color: #b5e3e3;
+    color: #386B6B;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    font-weight: bold;
+    border: white solid 3px;
+    border-radius: 12px;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-eco-tutorial {
+    background-color: #b5e3e3;
+    color: #386B6B;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-tutorial:hover {
+    background-color: #a0d8d8;
+    color: #386B6B;
+    transform: scale(1.05);
+}
+
+/* Aprende a reciclar */
+
+#texto-titulo-informativo {
+    text-align: center;
+    font-size: 3rem;
+}
+
+.caixa-texto-informativo {
+    background-color: white;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: auto;
+    margin: 20px auto;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    color: #333;
+    justify-content: center;
+    align-items: center;
+}
+
+#caixa-texto-informativo-topo {
+    background-color: white;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: auto;
+    margin: 20px auto;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    color: #333;
+    transform: translateX(10%);
+}
+
+#conteudo-texto-camiao {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    transform: translateX(-10%);
+
+}
+
+#background-pagina-informativa > * {
+    margin: 0;
+}
+
+#camiao {
+    width: 7%;
+    height: auto;
+    transform: scale(2.4) translateX(-100%);
+}
+
+strong {
+    color: #386B6B;
+}
+
+#background-pagina-informativa {
+    background: linear-gradient(180deg, #98EAEA 0%, #ffffff 100%);
+    padding: 0;
+    max-width: 100%;
+}
+
+
+#titulo-reciclagem-learn {
+    color: #386B6B;
+    font-family: 'Boogaloo';
+}
+
+#subtitulo-reciclagem-learn {
+    color: #F7FCF3;
+    font-family: 'Boogaloo';
+    -webkit-text-stroke: 1px #386B6B;
+    font-size: 2rem;
+}
+
+/* Atividade Interativa bio */
+
+.game-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.items {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.item {
+    width: 80px;
+    cursor: grab;
+}
+
+.contentor-biodegradavel img {
+    width: 170px;
+}
+
+.planta-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.planta {
+    width: 110px;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+#mensagem {
+    font-size: 1.2rem;
+    color: green;
+}
+
+/* Atividade interativa bio */
+
+/* Atividade interativa água */
+
+.jogo-torneiras {
+    display: flex;
+    justify-content: space-around;
+    margin: 20px 0;
+    position: relative;
+}
+
+
+.torneira {
+    width: 50px;
+    cursor: pointer;
+    animation: pingar 1.5s infinite ease-in-out;
+}
+
+
+#progresso {
+    width: 80%;
+    height: 20px;
+    background: #ddd;
+    border-radius: 10px;
+    margin: 20px auto;
+    position: relative;
+    overflow: hidden;
+}
+
+#desperdicio {
+    height: 100%;
+    width: 0%;
+    background: red;
+    transition: width 0.3s ease;
+    border-radius: 10px;
+}
+
+
+/* Atividade interativa água */
+
+/* Atividade interativa luz */
+
+
+
+
+#lampada {
+    width: 100px;
+    cursor: pointer;
+}
+
+.texto-ecopontos-learn {
+    color: #555;
+}
+
+.imagens-ecopontos-learn {
+    width: 150px;
+    height: auto;
+}
+
+.imagens-ecopontos-learn-eletronico {
+    width: 150px;
+    height: auto;
+    cursor: pointer;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.imagens-ecopontos-learn-eletronico.abrir {
+    opacity: 1;
+    transform: rotateX(0deg);
+}
+
+.imagens-ecopontos-learn-eletronico.fechando {
+    opacity: 0.5;
+    transform: rotateX(90deg);
+}
+
+
+.imagem-compostagem {
+    width: 500px;
+    height: auto;
+}
+
+.ecoponto-off {
+    opacity: 0.5;
+}
+
+.custom-btn-learn {
+    width: 50px;
+    height: 50px;
+    background-color: #386B6B;
+    border: none;
+    border-radius: 25%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    cursor: pointer;
+    margin-top: 50px;
+}
+
+.esquerda-arrow-learn::before {
+    content: '<';
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    display: block;
+}
+
+.direita-arrow-learn::before {
+    content: '>';
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    display: block;
+}
+
+.custom-btn-learn:hover {
+    background-color: #2D5555;
+}
+
+section p {
+    margin-bottom: 0;
+}
+
+#porque-reciclar {
+    background: linear-gradient(180deg, #DCEACF, #F7FCF3);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 90%;
+
+}
+
+#texto-eletronico {
+    color: #DCEACF;
+}
+
+#reciclar-eletronico {
+    background: linear-gradient(180deg, #386B6B, #8AB5AC);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 90%;
+}
+
+.section-divider {
+    height: 2px;
+    background: #386B6B;
+    margin: 30px auto;
+    width: 50%;
+    border-radius: 5px;
+}
+
+#reciclar-bio {
+    background: linear-gradient(180deg, #DCEACF, #F7FCF3);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 90%;
+}
+
+#desperdicio-agua {
+    background: linear-gradient(180deg, #386B6B, #8AB5AC);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 90%;
+}
+
+#texto-agua {
+    color: #DCEACF;
+}
+
+#luz {
+    background: linear-gradient(180deg, #DCEACF, #F7FCF3);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px auto;
+    max-width: 90%;
+}
+
+/* Footer */
+
+footer {
+    position: relative;
+    width: 100%;
+    background-color: #386B6B;
+    min-height: 100px;
+    padding: 20px 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.social_icon, .menu {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px 0;
+}
+
+.social_icon li, .menu li {
+    list-style: none;
+}
+
+.social_icon li a{
+    font-size: 2em;
+    color: white;
+    margin: 0 10px;
+    display: inline-block;
+    transition: 0.5s;
+}
+
+.social_icon li a:hover {
+    transform: translateY(-10px);
+}
+
+.menu li a {
+    font-size: 1em;
+    color: white;
+    margin: 0 10px;
+    display: inline-block;
+    text-decoration: none;
+    opacity: 0.75;
+}
+
+.menu li a:hover {
+    opacity: 1;
+}
+
+footer p {
+    color: white;
+    text-align: center;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    font-size: 0.7em;
+}
+
+.onda {
+    position: absolute;
+    top: -100px;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    background: url("imagens/Footer/onda.png");
+    background-size: 1000px 100px;
+}
+
+#onda1 {
+    z-index: 1000;
+    opacity: 1;
+    bottom: 0;
+    animation: animateWave1 4s linear infinite;
+}
+
+#onda2 {
+    z-index: 999;
+    opacity: 0.5;
+    bottom: 10px;
+    animation: animateWave2 4s linear infinite;
+}
+
+@keyframes animateWave1 {
+    0% {
+        background-position-x: 1000px;
+    }
+    100% {
+        background-position-x: 0;
+    }
+    
+}
+
+@keyframes animateWave2 {
+    0% {
+        background-position-x: 0;
+    }
+    100% {
+        background-position-x: 1000px;
+    }
+
+}
+
+/* Nível 1 */
+
+
+.titulo-niveis {
+    font-family: 'Boogaloo';
+    font-size: 36px;
+    color: #DCEACF;
+    -webkit-text-stroke: 1.7px #386B6B;
+    margin: 0;
+    justify-content: center;
+}
+
+#nivel1-fundo {
+    background-image: url("imagens/fundos/46232.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+    display: none;
+}
+
+.lixo-drag {
+    position: absolute;
+    width: 100px;
+    z-index: 2;
+}
+
+.ecoponto-drop {
+    cursor: pointer;
+}
+
+.lixo-drag {
+    cursor: grab;
+}
+
+.lixo-drag:active {
+    cursor: grabbing;
+}
+
+
+#lixo-3, #lixo-8, #lixo-10, #lixo-12, #lixo-14 {
+    width: 50px;
+}
+
+#lixo-9 {
+    width: 35px;
+}
+
+#ecoponto-1, #ecoponto-2, #ecoponto-3 {
+    width: 150px;
+}
+
+.ecopontos {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    bottom: 0;
+}
+
+.texto-nivel1 {
+    position: relative;
+    line-height: 0.4rem;
+    font-size: 1rem;
+    left: 50%;
+    transform: translateY(-170%) translateX(-34%);
+}
+
+.fundo-parque {
+    background-image: url("imagens/fundos/nivel 1 blur.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+
+.caixa-dialogo-1 {
+    transform: translateX(-6%) translateY(20%);
+}
+
+#nivel1-fim {
+    background-image: url("imagens/fundos/46232.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+    display: none;
+}
+
+#ganhar-nivel1 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+    flex-direction: column;
+}
+
+#btn-proximo {
+    font-size: 0.9rem;
+}
+
+#texto-perder-1 {
+    transform: translateY(-146%) translateX(-35%);
+}
+
+#nivel1-perder {
+    display: none;
+}
+
+
+/* Nível 2 */
+
+#nivel2-fundo {
+    background-image: url("imagens/fundos/nivel2background.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    min-height: 100%;
+    position: relative;
+    overflow: hidden;
+    display: none;
+}
+
+#lixo-15, #lixo-16, #lixo-24 {
+    width: 50px;
+}
+
+#lixo-17, #lixo-21, #lixo-22 {
+    width: 70px;
+}
+
+#lixo-19 {
+    width: 120px;
+}
+
+#lixo-20 {
+    width: 220px;
+}
+
+#caixa-eletronicos {
+    width: 13%;
+    height: auto;
+    object-fit: contain;
+    position: absolute;
+    transform: translateY(60%) translateX(-20%);
+}
+
+#ecoponto-4 {
+    width: 210px;
+    object-fit: contain;
+    position: absolute;
+    transform: translateY(100%) translateX(80%);
+}
+
+
+.fundo-quarto {
+    background-image: url("imagens/fundos/nivel 2 blur.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+#texto-nivel2 {
+    position: relative;
+    line-height: 0.4rem;
+    font-size: 1rem;
+    left: 50%;
+    transform: translateY(-170%) translateX(-35%);
+}
+
+#nivel2-fim {
+    background-image: url("imagens/fundos/nivel2background.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+    display: none;
+}
+
+#ganhar-nivel2 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+    flex-direction: column;
+}
+
+#texto-perder-2 {
+    transform: translateY(-147%) translateX(-32%);
+}
+
+#nivel2-perder {
+    display: none;
+}
+
+/* Nível 3 */
+
+#nivel3-fundo {
+    background-image: url("imagens/fundos/fundonivel3.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+    display: none;
+}
+
+#ecoponto-5 {
+    width: 230px;
+    object-fit: contain;
+    position: absolute;
+    transform: translateY(60%);
+}
+
+.fundo-jardim {
+    background-image: url("imagens/fundos/nivel 3 blur.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+#texto-nivel3 {
+    position: relative;
+    line-height: 0.4rem;
+    font-size: 1rem;
+    left: 50%;
+    transform: translateY(-170%) translateX(-34%);
+}
+
+#lixo-25 {
+    width: 45px;
+}
+
+#lixo-27, #lixo-28 {
+    width: 200px;
+}
+
+#lixo-32 {
+    width: 50px;
+}
+
+#lixo-33 {
+    width: 70px;
+}
+
+#lixo-36 {
+    width: 150px;
+}
+
+#nivel3-flores {
+    background-image: url("imagens/fundos/fundonivel3.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+    display: none;
+}
+
+#flor1 {
+    width: 500px;
+    position: absolute;
+    transform: translateY(120%);
+    z-index: 2;
+
+}
+
+#flor2 {
+    width: 600px;
+    position: absolute;
+    transform: translateY(110%) translateX(70%);
+}
+
+#ganhar-nivel3 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+    flex-direction: column;
+}
+
+#nivel3-perder {
+    display: none;
+}
+
+/* Nível 4 */
+
+.fundo-casadebanho {
+    background-image: url("imagens/fundos/nivel 4 blur.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+#nivel4-fundo {
+    background-image:url("imagens/fundos/nivel4background.jpg");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+}
+
+#texto-nivel4 {
+    position: relative;
+    line-height: 0.4rem;
+    font-size: 1rem;
+    left: 50%;
+    transform: translateY(-170%) translateX(-31%);
+}
+
+#texto-perder-4 {
+    position: relative;
+    line-height: 0.4rem;
+    font-size: 1rem;
+    left: 50%;
+    transform: translateY(-170%) translateX(-36%);
+}
+
+#nivel4-ganhar{
+    background-image:url("imagens/fundos/nivel4background.jpg");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+}
+
+/* Nível 5 */
+
+.nivel5-fundo {
+    background-image:url("imagens/fundos/nivel5background.jpg");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100vh;
+}
+
+.fundo-sala {
+    background-image: url("imagens/fundos/nivel 5 blur.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+#nivel5-fundo {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+}
+
+#texto-perder-5 {
+    position: relative;
+    line-height: 0.4rem;
+    font-size: 1rem;
+    left: 50%;
+    transform: translateY(-170%) translateX(-36%);
+}
+
+#texto-nivel-5 {
+    position: relative;
+    line-height: 0.4rem;
+    font-size: 1rem;
+    left: 50%;
+    transform: translateY(-170%) translateX(-34%);
+}
+
+#texto-ganhar-5 {
+    position: relative;
+    line-height: 0.4rem;
+    font-size: 1rem;
+    left: 50%;
+    transform: translateY(-160%) translateX(-36%);
+}
+
+/* Tutorial */
+
+#texto-caixa-dialogo-2 {
+    top: 20%;
+    left: 20%;
+    transform: translate(-26%, -20%);
+    color: #2D5A5A;
+    font-family: 'Montserrat', sans-serif;
+    text-align: left;
+    max-width: 80%;
+}
+
+#btn-comecartut {
+    transform: translateX(50%);
+}
+
+.fundo-tutorial {
+    background-image: url("imagens/fundos/JOGO.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 130vh;
+    display: flex;
+    justify-content: center;
+    display: none;
+}
+
+video {
+    width: 70%;
+    object-fit: contain;
+}
+
+.video {
+    flex-direction: column;
+    align-items: center;
+}
+
+#fundo-sobrenos {
+    background-image: url('imagens/fundos/JOGO.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 170vh;
+    justify-content: center;
+}
+
+.imgcard {
+    width: 80%;
+    top: -80px;
+    position: relative;
+    object-fit: cover;
+    margin: auto;
+}
+
+.equipa {
+    background-color: #386B6B;
+    color: #fff;
+    cursor: pointer;
+    margin-top: 100px;
+}
+
+.equipa:hover {
+    box-shadow: #635e5e 0px 3px 8px;
+}
+
+.crdbd {
+    margin-top: -50px;
+}

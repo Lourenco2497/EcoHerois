@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Eco Heróis</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <!-- Estilos CSS -->
+    <link href="estilos.css" rel="stylesheet">
+
+    <!-- Fonte títulos -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Oswald:wght@500&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Work+Sans&display=swap" rel="stylesheet">
+
+    <!-- Fonte textos -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Oswald:wght@500&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Work+Sans&display=swap" rel="stylesheet">
+</head>
+
+<body>
+<main>
+    <div id="nivel3-intro">
+        <div class="fundo-jardim">
+            <div class="align-items-center justify-content-center">
+                <div class="container">
+                    <div class="row">
+                        <!-- Caixa de diálogo -->
+                        <div class="col-md-12 position-relative">
+                            <h3 class="titulo-niveis d-flex pb-4">Nível 3</h3>
+                            <img src="imagens/caixa%20nivel%201.png" class="img-fluid caixa-dialogo-1" alt="Caixa de diálogo">
+                            <div id="texto-nivel3">
+                                <p>É hora de sair para o jardim e fazer a diferença!</p>
+                                <p>Vais aprender como transformar <strong>restos de</strong></p>
+                                <p><strong>comida</strong> em adubo para fazer compostagem.</p>
+                                <br>
+                                <p>Mostra as tuas habilidades e continua a ajudar</p>
+                                <p>o planeta!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <button id="btn-iniciar" class="btn btn-comecar p-2 px-5">Jogar!</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="nivel3-fundo">
+        <div class="row mt-0 ps-5 pe-5">
+            <div class="col text-start titulo-niveis ps-3 pt-0 mt-4 ms-3">
+                <a href="nivel2.html"><img src="imagens/simbolos/seta%20fi.png" alt=""></a>
+                <p class="mt-3" id="pontos" >0/11</p>
+            </div>
+            <div class="col text-end titulo-niveis pe-3 pt-5 mt-5 me-3">
+                <p id="timer" class="m-0" >00:00</p>
+            </div>
+            <div>
+                <img id="lixo-25" class="lixo-drag bio" src="imagens/lixo/biodegradavel/cascaovo.png" alt="Casca de ovo">
+                <img id="lixo-26" class="lixo-drag bio" src="imagens/lixo/biodegradavel/casca%20banana.png" alt="Casca de banana">
+                <img id="lixo-27" class="lixo-drag bio" src="imagens/lixo/biodegradavel/cenourapodre.png" alt="Cenoura">
+                <img id="lixo-28" class="lixo-drag bio" src="imagens/lixo/biodegradavel/coisapodre.png" alt="Chuchu">
+                <img id="lixo-30" class="lixo-drag bio" src="imagens/lixo/biodegradavel/maca.png" alt="Maçã">
+                <img id="lixo-31" class="lixo-drag bio" src="imagens/lixo/biodegradavel/outracoisapodre.png" alt="Diospiro">
+                <img id="lixo-32" class="lixo-drag bio" src="imagens/lixo/biodegradavel/perapodre.png" alt="Pera">
+                <img id="lixo-33" class="lixo-drag bio" src="imagens/lixo/biodegradavel/romapodre.png" alt="Romã">
+                <img id="lixo-34" class="lixo-drag bio" src="imagens/lixo/biodegradavel/cascalaranja.png" alt="Casca Laranja">
+                <img id="lixo-35" class="lixo-drag bio" src="imagens/lixo/biodegradavel/nozes.png" alt="Nozes">
+                <img id="lixo-36" class="lixo-drag bio" src="imagens/lixo/biodegradavel/melancia1.png" alt="Melancia">
+
+            </div>
+            <!-- Ecopontos -->
+            <div class="ecopontos3 d-flex justify-content-center">
+                <img src="imagens/ecopontos/composteira.png" class="ecoponto-drop" id="ecoponto-5" alt="Composteira"></div>
+            </div>
+    </div>
+
+    <div id="nivel3-flores">
+        <div class="row mt-0 ps-5 pe-5">
+            <div class="col text-start titulo-niveis ps-3 pt-0 mt-4 ms-3">
+                <a href="nivel2.html"><img src="imagens/simbolos/seta%20fi.png" alt=""></a>
+            </div>
+        </div>
+        <div id="ganhar-nivel3" class="container-fluid d-flex justify-content-center align-items-center">
+            <div class="caixa-texto-informativo d-flex justify-content-center align-items-center">
+                <p class="mb-0">Parabéns! Ajudaste as plantas do teu jardim a crescer! <ion-icon name="flower-outline"></ion-icon></p>
+            </div>
+            <button id="btn-proximo" class="btn btn-comecar p-2 px-3">Próximo nível</button>
+        </div>
+            <div>
+                <img id="flor1" class="flores" src="imagens/fundos/plantas/rb_28314.png" alt="Flores">
+                <img id="flor2" class="flores" src="imagens/fundos/plantas/rb_29038.png" alt="Flores">
+            </div>
+    </div>
+
+    <div id="nivel3-perder">
+        <div class="fundo-jardim">
+            <div class="align-items-center justify-content-center">
+                <div class="container">
+                    <div class="row">
+                        <!-- Caixa de diálogo -->
+                        <div class="col-md-12 position-relative">
+                            <img id="caixa-dialogo-2" src="imagens/caixa%20nivel%201.png" class="img-fluid caixa-dialogo-1" alt="Caixa de diálogo">
+                            <div id="texto-perder-3" class="texto-nivel1">
+                                <p><strong>Nutrientes perdidos!</strong></p>
+                                <br>
+                                <p>Restos biodegradáveis libertam gás metano,</p>
+                                <p>um causador do efeito estufa. Separa os</p>
+                                <p>resíduos e transforma o lixo em fertilizante</p>
+                                <p>rico para o solo! O planeta agradece!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <button id="btn-voltar" class="btn btn-comecar p-2 px-5">Voltar</button>
+            </div>
+        </div>
+</main>
+
+<!-- Ionicons -->
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
+<script src="nivel3.js"></script>
+</body>
+</html>
