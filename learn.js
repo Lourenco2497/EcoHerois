@@ -1,259 +1,173 @@
-/* Função mudar de ecoponto */
+/**
+ * Eco Heróis — Aprende a Reciclar Controller
+ * Gere o mostruário de ecopontos, a ferramenta de pesquisa de resíduos e o simulador de compostagem.
+ */
+document.addEventListener('DOMContentLoaded', () => {
+    // Menu mobile
+    const toggleBtn = document.getElementById('nav-toggle');
+    const navList = document.getElementById('nav-list');
+    if (toggleBtn && navList) {
+        toggleBtn.addEventListener('click', () => {
+            navList.classList.toggle('is-open');
+        });
+    }
 
-const contentores = document.querySelectorAll('.imagens-ecopontos-learn');
-const textoEcopontos = document.querySelector('.texto-ecopontos-learn');
-const arrows = document.querySelectorAll('.custom-btn-learn');
-
-const textos = [
-    'Coloca o <b>vidro</b> no contentor <span class="text-success"><b>verde</b></span>.',
-    'Coloca o <b>papel</b> no contentor <span class="text-primary"><b>azul</b></span>.',
-    'Coloca o <b>plástico</b> ou <b>metal</b> no contentor <span class="text-warning"><b>amarelo</b></span>.'
-];
-
-let ecopontoinicial = 1;
-
-function atualizarContentores (){
-    contentores.forEach((contentor, index) =>
-        contentor.classList.toggle('ecoponto-off', index !== ecopontoinicial)
-    );
-    textoEcopontos.innerHTML = textos[ecopontoinicial];
-}
-
-
-arrows[0].onclick = () => {
-    ecopontoinicial = (ecopontoinicial - 1 + contentores.length) % contentores.length;
-    atualizarContentores();
-};
-arrows[1].onclick = () => {
-    ecopontoinicial = (ecopontoinicial + 1) % contentores.length;
-    atualizarContentores();
-};
-
-
-atualizarContentores();
-
-/* Função mudar de ecoponto */
-
-/* Função click ecoponto/loja */
-
-function clickEcopontoCaixa() {
-    const ecopontoVermelho = document.getElementById("ecoponto-vermelho");
-    const caixa = document.getElementById("caixa");
-    const texto = document.getElementById("cenasfixes");
-
-    let isCaixaAberta = false;
-
-
-    ecopontoVermelho.onclick = function () {
-        caixa.style.opacity = "0.5"; // Reduzir opacidade da caixa
-        ecopontoVermelho.style.opacity = "1"; // Restaurar opacidade do contentor vermelho
-        texto.innerHTML = 'Coloca <b>pilhas</b> no contentor <b><span class="text-danger">vermelho</span></b>.';
-    };
-
-
-    caixa.onclick = function () {
-        isCaixaAberta = !isCaixaAberta;
-
-        if (isCaixaAberta) {
-            caixa.src = "imagens/ecopontos/caixa-aberta.png";
-            caixa.classList.remove("fechar");
-            caixa.classList.add("abrir");
-            texto.innerHTML = "Guarda os teus <b>aparelhos estragados</b> e entrega a uma loja que os aceite para serem reutilizados.";
-        } else {
-            caixa.src = "imagens/lixo/papel%20e%20cartão/mais%20caixa.webp";
-            caixa.classList.remove("abrir");
-            caixa.classList.add("fechar");
+    // 1. Dados dos Ecopontos
+    const binData = {
+        azul: {
+            title: 'Ecoponto Azul: Papel e Cartão',
+            color: 'var(--bin-papel)',
+            simbolo: '🔵',
+            aceita: 'Caixas de cereais, caixas de cartão espalmadas, jornais, revistas, folhas de papel, sacos de papel e cadernos sem espiral.',
+            evita: 'Papel plastificado, papel com gordura (guardanapos usados, toalhas de papel sujas, caixas de pizza com queijo) e fraldas.'
+        },
+        amarelo: {
+            title: 'Ecoponto Amarelo: Plástico e Metal',
+            color: 'var(--bin-plastico)',
+            simbolo: '🟡',
+            aceita: 'Garrafas de água e refrigerante, pacotes de leite e sumo (tetrapak), latas de conserva e refrigerante, sacos de plástico, frascos de champô e embalagens de detergente.',
+            evita: 'Talheres de plástico descartáveis, brinquedos de plástico que não sejam embalagem, canetas e cabides.'
+        },
+        verde: {
+            title: 'Ecoponto Verde: Vidro',
+            color: 'var(--bin-vidro)',
+            simbolo: '🟢',
+            aceita: 'Garrafas de azeite, vinho e água, frascos de compota, boiões de comida de bebé e frascos de perfume vazios.',
+            evita: 'Espelhos, vidros de janelas, pratos, travessas de pirex, lâmpadas e loiças de cerâmica.'
+        },
+        pilhas: {
+            title: 'Pilhão: Pilhas e Baterias',
+            color: 'var(--bin-pilhas)',
+            simbolo: '🔴',
+            aceita: 'Pilhas alcalinas normais (AA, AAA, 9V), pilhas de relógio (tipo botão) e baterias recarregáveis de telemóveis e portáteis.',
+            evita: 'Lixo indiferenciado e baterias de automóvel (estas devem ser entregues em oficinas autorizadas).'
+        },
+        bio: {
+            title: 'Composteira: Matéria Orgânica',
+            color: 'var(--bin-bio)',
+            simbolo: '🟤',
+            aceita: 'Cascas de fruta e legumes, borras de café, saquetas de chá (sem agrafo), cascas de ovo esmagadas, folhas secas e aparas de relva.',
+            evita: 'Restos de carne ou peixe, lacticínios, ossos e fezes de animais de estimação.'
         }
-
-        ecopontoVermelho.style.opacity = "0.5";
-        caixa.style.opacity = "1";
     };
-}
 
-clickEcopontoCaixa();
+    const binCards = document.querySelectorAll('.bin-option-card');
+    const binDetailContent = document.getElementById('bin-detail-content');
 
+    binCards.forEach(card => {
+        card.addEventListener('click', () => {
+            binCards.forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
 
-/* Função click ecoponto/loja */
+            const binKey = card.dataset.bin;
+            const data = binData[binKey];
 
-/* Mini Jogo Bio */
+            if (data && binDetailContent) {
+                binDetailContent.innerHTML = `
+                    <h3 style="color: ${data.color}; margin-bottom: 0.4rem;">${data.simbolo} ${data.title}</h3>
+                    <p style="margin-bottom: 0.5rem;">
+                        <strong>O que deitar:</strong> ${data.aceita}
+                    </p>
+                    <p style="margin: 0; font-size: 0.95rem; color: var(--eco-danger);">
+                        ⚠️ <em>Não deitar:</em> ${data.evita}
+                    </p>
+                `;
+            }
+        });
+    });
 
-document.addEventListener("DOMContentLoaded", function () {
-    const draggableItems = document.querySelectorAll(".draggable");
-    const contentor = document.querySelector(".contentor-biodegradavel img");
-    const planta = document.getElementById("planta");
-    const mensagem = document.getElementById("mensagem");
-
-    const crescimentoplanta = [
-        "imagens/pagina-learn/Planta-inicial.png",
-        "imagens/pagina-learn/Planta1.png",
-        "imagens/pagina-learn/Planta2.png",
-        "imagens/pagina-learn/Planta-final.png",
+    // 2. Pesquisa de Resíduos (Onde Deitar o Quê)
+    const wasteDatabase = [
+        { termo: 'garrafa de plastico', nome: 'Garrafa de Plástico (Água / Refrigerante)', bin: 'Amarelo', motivo: 'Esvazia e espalma a garrafa para poupar espaço!' },
+        { termo: 'lata', nome: 'Lata de Bebida ou Conserva', bin: 'Amarelo', motivo: 'O alumínio e o aço podem ser 100% reciclados infinitas vezes.' },
+        { termo: 'leite', nome: 'Pacote de Leite / Sumo (Tetrapak)', bin: 'Amarelo', motivo: 'Embalagens de cartão complexo para líquidos vão para o ecoponto amarelo.' },
+        { termo: 'caixa de papelao', nome: 'Caixa de Cartão', bin: 'Azul', motivo: 'Espalma a caixa para caber facilmente no contentor azul.' },
+        { termo: 'jornal', nome: 'Jornal ou Revista', bin: 'Azul', motivo: 'O papel limpo deve ser reciclado no ecoponto azul.' },
+        { termo: 'pizza', nome: 'Caixa de Pizza com Gordura', bin: 'Lixo Comum (Indiferenciado)', motivo: 'O papel engordurado não pode ser reciclado! Só a tampa limpa pode ir para o azul.' },
+        { termo: 'azeite', nome: 'Garrafa de Vidro de Azeite', bin: 'Verde', motivo: 'Basta escorrer bem o azeite antes de colocar no ecoponto verde.' },
+        { termo: 'frasco', nome: 'Frasco de Compota ou Conserva', bin: 'Verde', motivo: 'Coloca o frasco de vidro no verde e a tampa de metal no amarelo.' },
+        { termo: 'pilha', nome: 'Pilha ou Bateria', bin: 'Pilhão (Vermelho)', motivo: 'Contém mercúrio e cádmio perigosos. Deves levar ao pilhão de qualquer supermercado ou escola.' },
+        { termo: 'banana', nome: 'Casca de Banana ou Maçã', bin: 'Castanho (Composteira)', motivo: 'Excelente matéria orgânica que vira adubo fértil!' },
+        { termo: 'telemovel', nome: 'Telemóvel ou Computador Estragado', bin: 'Ponto Eletrão / Loja de Tecnologia', motivo: 'As lojas de eletrodomésticos têm obrigação de recolher aparelhos para reciclagem.' },
+        { termo: 'lampada', nome: 'Lâmpada Fundida', bin: 'Ponto Eletrão / Loja', motivo: 'Lâmpadas fluorescentes e LED contêm gases e componentes que não devem ir para o vidro comum.' }
     ];
 
-    let crescimentoatual = 0;
+    const wasteInput = document.getElementById('waste-input');
+    const wasteResult = document.getElementById('waste-result');
+    const wasteResTitle = document.getElementById('waste-res-title');
+    const wasteResDesc = document.getElementById('waste-res-desc');
 
-
-    planta.src = crescimentoplanta[crescimentoatual];
-
-
-    draggableItems.forEach(function (item) {
-        item.draggable = true;
-
-        item.ondragstart = function (event) {
-            event.dataTransfer.setData("text/plain", item.alt);
-        };
-    });
-
-
-    contentor.ondragover = function (event) {
-        event.preventDefault();
-    };
-
-
-    contentor.ondrop = function (event) {
-        event.preventDefault();
-        const item = event.dataTransfer.getData("text/plain");
-        if (item) {
-            if (crescimentoatual < crescimentoplanta.length - 1) {
-                crescimentoatual++;
-                planta.src = crescimentoplanta[crescimentoatual];
-                mensagem.innerText = "Boa! A planta está a crescer! 🌱";
+    if (wasteInput && wasteResult) {
+        wasteInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            if (query.length < 2) {
+                wasteResult.style.display = 'none';
+                return;
             }
 
-            if (crescimentoatual === crescimentoplanta.length - 1) {
-                mensagem.innerText =
-                    "Parabéns! 🌳 A planta cresceu completamente graças ao lixo biodegradável!";
+            const match = wasteDatabase.find(item => item.termo.includes(query) || item.nome.toLowerCase().includes(query));
+
+            if (match) {
+                wasteResult.style.display = 'block';
+                wasteResTitle.textContent = `${match.nome} ➔ Ecoponto ${match.bin}`;
+                wasteResDesc.textContent = match.motivo;
+            } else {
+                wasteResult.style.display = 'block';
+                wasteResTitle.textContent = 'Não encontramos o resíduo exato';
+                wasteResDesc.textContent = 'Se for papel limpo vai para o Azul, embalagem plástica/metálica para o Amarelo, garrafa de vidro para o Verde, e restos alimentares para a Composteira!';
+            }
+        });
+    }
+
+    // 3. Simulador de Crescimento de Planta
+    const plantStages = [
+        { src: 'imagens/pagina-learn/Planta-inicial.png', label: 'Fase 1: Semente no Solo (Início)' },
+        { src: 'imagens/pagina-learn/Planta1.png', label: 'Fase 2: Primeiro Broto a Germinar com Nutrientes 🌱' },
+        { src: 'imagens/pagina-learn/Planta2.png', label: 'Fase 3: Caule Forte e Folhas Verdes 🌿' },
+        { src: 'imagens/pagina-learn/Planta-final.png', label: 'Fase 4: Planta Adulta e Flor Florescente! 🌸' }
+    ];
+
+    let currentPlantStage = 0;
+    const plantImg = document.getElementById('sim-plant-img');
+    const plantLabel = document.getElementById('sim-plant-stage');
+    const btnFeed = document.getElementById('btn-feed-compost');
+    const btnReset = document.getElementById('btn-reset-compost');
+
+    function updatePlantDisplay() {
+        const stage = plantStages[currentPlantStage];
+        if (plantImg && stage) {
+            plantImg.classList.add('counter-bump');
+            plantImg.src = stage.src;
+            setTimeout(() => plantImg.classList.remove('counter-bump'), 300);
+        }
+        if (plantLabel && stage) {
+            plantLabel.textContent = stage.label;
+        }
+
+        if (btnFeed) {
+            btnFeed.disabled = currentPlantStage >= plantStages.length - 1;
+            if (btnFeed.disabled) {
+                btnFeed.textContent = '🎉 Planta 100% Florescida!';
+            } else {
+                btnFeed.textContent = '🍎 Adicionar Composto Natural (+1)';
             }
         }
-    };
+    }
+
+    if (btnFeed) {
+        btnFeed.addEventListener('click', () => {
+            if (currentPlantStage < plantStages.length - 1) {
+                currentPlantStage++;
+                if (window.audioManager) window.audioManager.play('certo');
+                updatePlantDisplay();
+            }
+        });
+    }
+
+    if (btnReset) {
+        btnReset.addEventListener('click', () => {
+            currentPlantStage = 0;
+            updatePlantDisplay();
+        });
+    }
 });
-
-/* Mini Jogo Bio */
-
-/* Atividade Interativa água */
-
-document.addEventListener("DOMContentLoaded", function () {
-    const botaoComecar = document.getElementById("botao-comecar-agua");
-    const jogoTorneiras = document.getElementById("jogo-torneiras");
-    const progresso = document.getElementById("desperdicio");
-    const resultado = document.getElementById("resultado");
-
-    let jogoAtivo = false;
-    let progressoInterval;
-    let progressoAtual = 0;
-
-    // Função para criar as torneiras
-    function criarTorneiras() {
-        jogoTorneiras.innerHTML = ""; // Limpa as torneiras anteriores
-        for (let i = 0; i < 5; i++) {
-            const torneira = document.createElement("img");
-            torneira.src = "imagens/pagina-learn/torneira-aberta.png";
-            torneira.alt = "Torneira aberta";
-            torneira.classList.add("torneira");
-            torneira.addEventListener("click", function () {
-                if (jogoAtivo && torneira.alt === "Torneira aberta") {
-                    torneira.src = "imagens/pagina-learn/torneira-fechada.png";
-                    torneira.alt = "Torneira fechada";
-                    verificarFimJogo();
-                }
-            });
-            jogoTorneiras.appendChild(torneira);
-        }
-    }
-
-    // Função para verificar se todas as torneiras estão fechadas
-    function verificarFimJogo() {
-        const todasTorneiras = document.querySelectorAll(".torneira");
-        const todasFechadas = Array.from(todasTorneiras).every(
-            (t) => t.alt === "Torneira fechada"
-        );
-        if (todasFechadas) {
-            terminarJogo("Parabéns! Fechas-te todas as torneiras a tempo! 🎉");
-        }
-    }
-
-    // Função para iniciar o progresso
-    function iniciarProgresso() {
-        progresso.style.width = "0%";
-        progressoAtual = 0;
-        progressoInterval = setInterval(function () {
-            progressoAtual += 1;
-            progresso.style.width = progressoAtual + "%";
-            if (progressoAtual >= 100) {
-                terminarJogo("Oh não! Algumas torneiras ficaram abertas e muita água foi desperdiçada. 😢");
-            }
-        }, 100);
-    }
-
-    // Função para terminar o jogo
-    function terminarJogo(mensagem) {
-        clearInterval(progressoInterval);
-        jogoAtivo = false;
-        resultado.textContent = mensagem;
-    }
-
-    // Evento de clique no botão "Começar o Jogo"
-    botaoComecar.addEventListener("click", function () {
-        if (!jogoAtivo) {
-            jogoAtivo = true;
-            resultado.textContent = "";
-            criarTorneiras();
-            iniciarProgresso();
-        }
-    });
-});
-
-
-/* Atividade Interativa água */
-
-/* Atividade Interativa luz */
-
-document.addEventListener("DOMContentLoaded", function () {
-    const lampada = document.getElementById("lampada");
-    const energia = document.getElementById("energia");
-
-    let energiaDesperdicada = 0;
-    let lampadaAcesa = false;
-    let intervalo;
-
-    // Função para ligar a lâmpada
-    function ligarLampada() {
-        lampada.src = "imagens/pagina-learn/luz-ligada.png";
-        lampada.alt = "Lâmpada acesa";
-        lampadaAcesa = true;
-
-        // Incrementa o desperdício de energia a cada segundo
-        intervalo = setInterval(() => {
-            if (lampadaAcesa) {
-                energiaDesperdicada++;
-                energia.textContent = energiaDesperdicada;
-            }
-        }, 1000);
-    }
-
-    // Função para desligar a lâmpada
-    function desligarLampada() {
-        lampada.src = "imagens/pagina-learn/luz-desligada.png";
-        lampada.alt = "Lâmpada apagada";
-        lampadaAcesa = false;
-
-        // Para o contador de desperdício
-        clearInterval(intervalo);
-    }
-
-    // Clique na lâmpada para alternar entre ligar e desligar
-    lampada.addEventListener("click", function () {
-        if (lampadaAcesa) {
-            desligarLampada();
-        } else {
-            ligarLampada();
-        }
-    });
-
-    // Liga a lâmpada automaticamente ao iniciar
-    ligarLampada();
-});
-
-
-
-/* Atividade Interativa luz */

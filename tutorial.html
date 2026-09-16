@@ -3,184 +3,221 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Eco Heróis</title>
+    <title>Eco Heróis — Tutorial e Guia do Jogo</title>
+    <meta name="description" content="Aprende as mecânicas das 5 missões ecológicas do Eco Heróis com demonstrações em vídeo e dicas práticas de sustentabilidade.">
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- Estilos CSS -->
+    <!-- Estilos Globais -->
     <link href="estilos.css" rel="stylesheet">
+    <style>
+        .tutorial-container {
+            max-width: 980px;
+            margin: 2.5rem auto 4rem auto;
+            padding: 0 1.5rem;
+        }
 
-    <!-- Fonte títulos -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Oswald:wght@500&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Work+Sans&display=swap" rel="stylesheet">
+        .tutorial-tabs {
+            display: flex;
+            gap: 0.6rem;
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
+            margin-bottom: 2rem;
+            scrollbar-width: thin;
+        }
 
-    <!-- Fonte textos -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Oswald:wght@500&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Work+Sans&display=swap" rel="stylesheet">
+        .tutorial-tab {
+            background: var(--eco-surface);
+            border: 2px solid var(--eco-border);
+            padding: 0.65rem 1.2rem;
+            border-radius: var(--radius-pill);
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--eco-text);
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all var(--transition-fast);
+        }
+
+        .tutorial-tab:hover {
+            border-color: var(--eco-primary);
+            background: var(--eco-bg-alt);
+        }
+
+        .tutorial-tab.active {
+            background: var(--eco-primary);
+            color: var(--eco-surface);
+            border-color: var(--eco-primary-dark);
+        }
+
+        .tutorial-card {
+            background: var(--eco-surface);
+            border: 3px solid var(--eco-border);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+            box-shadow: var(--eco-shadow-md);
+        }
+
+        .video-wrapper {
+            background: #000;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: var(--eco-shadow-sm);
+            margin-bottom: 1.8rem;
+            max-width: 820px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .video-wrapper video {
+            width: 100%;
+            max-height: 440px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .tutorial-info {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .tutorial-info p {
+            font-size: 1.1rem;
+            color: var(--eco-text-muted);
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        .tutorial-info strong {
+            color: var(--eco-primary);
+        }
+
+        .tutorial-nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+            border-top: 2px solid var(--eco-border);
+            padding-top: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .tutorial-info {
+                grid-template-columns: 1fr;
+            }
+            .tutorial-card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
 </head>
 
 <body>
-<header>
-    <div class="header-container">
-        <a href="index.html"><h2>ECO HERÓIS</h2></a>
-        <nav>
-            <ul class="nav-list">
-                <li><a href="index.html">Jogo</a></li>
-                <li><a href="tutorial.html">Tutorial</a></li>
-                <li><a href="learn.html">Aprende a Reciclar</a></li>
-                <li><a href="sobrenos.html">Sobre Nós</a></li>
-            </ul>
-        </nav>
-    </div>
-</header>
+    <!-- Cabeçalho -->
+    <header class="eco-header">
+        <div class="eco-header-container">
+            <a href="index.html" class="eco-logo">
+                🌱 ECO HERÓIS
+                <span class="eco-logo-badge">Tutorial</span>
+            </a>
+            <button class="eco-nav-toggle" id="nav-toggle" aria-label="Abrir Menu de Navegação">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+            <nav>
+                <ul class="eco-nav-list" id="nav-list">
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="index.html#missoes">Missões</a></li>
+                    <li><a href="tutorial.html" class="active">Tutorial</a></li>
+                    <li><a href="learn.html">Aprende a Reciclar</a></li>
+                    <li><a href="sobrenos.html">Sobre Nós</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
 
-<main>
-    <div id="fundo-gradiente">
-        <div class="align-items-start justify-content-center">
-            <div class="container">
-                <div class="row align-items-center">
-                    <!-- Mascote -->
-                    <div class="col-md-6 d-flex justify-content-center">
-                        <img id="mascote" src="imagens/BONECO.png" class="img-fluid" alt="mascote">
+    <main>
+        <section class="learn-hero">
+            <h1>Como Jogar o Eco Heróis</h1>
+            <p style="max-width: 650px; margin: 0.5rem auto 0 auto; color: var(--eco-text-muted); font-size: 1.1rem;">
+                Consulta as instruções e vídeos de demonstração de cada missão para aprenderes a proteger o ambiente com pontuação máxima!
+            </p>
+        </section>
+
+        <div class="tutorial-container">
+            <!-- Abas dos Níveis -->
+            <div class="tutorial-tabs" role="tablist">
+                <button class="tutorial-tab active" data-step="1">1. Parque da Cidade</button>
+                <button class="tutorial-tab" data-step="2">2. Lixo Tecnológico</button>
+                <button class="tutorial-tab" data-step="3">3. Compostagem</button>
+                <button class="tutorial-tab" data-step="4">4. Poupança de Água</button>
+                <button class="tutorial-tab" data-step="5">5. Eficiência Energética</button>
+            </div>
+
+            <!-- Cartão Principal do Tutorial -->
+            <div class="tutorial-card">
+                <h2 id="tutorial-step-title" style="margin-bottom: 1.2rem;">Missão 1: Parque da Cidade</h2>
+
+                <div class="video-wrapper">
+                    <video id="tutorial-video" loop autoplay muted playsinline controls>
+                        <source src="videos/nivel1.mp4" type="video/mp4">
+                        O teu navegador não suporta vídeos HTML5.
+                    </video>
+                </div>
+
+                <div class="tutorial-info">
+                    <div>
+                        <p id="tutorial-step-desc">
+                            Arrasta ou toca nos resíduos de <strong>papel, plástico e vidro</strong> para os colocares nos respetivos ecopontos oficiais antes que o tempo esgote!
+                        </p>
                     </div>
-                    <!-- Caixa de diálogo -->
-                    <div class="col-md-6 position-relative">
-                        <img id="caixa-dialogo" src="imagens/caixa.png" class="img-fluid" alt="Caixa de diálogo">
-                        <div id="texto-caixa-dialogo-2" class="position-absolute">
-                            <h1>Não te preocupes!</h1>
-                            <p>
-                                Vou-te guiar passo a passo para te tornares um<br>
-                                verdadeiro defensor da natureza! Neste tutorial,<br>
-                                vais aprender:<br>
-                                🌿<strong>Como separar o lixo corretamente</strong><br>
-                                ♻️<strong>Reduzir o desperdício</strong><br>
-                                🎯<strong>Completar os níveis</strong><br>
-                                Lembra-te, cada ação conta! Estás preparado?
-                            </p>
-                            </div>
-                        <div class="container text-center d-flex justify-content-start">
-                            <button class="btn btn-comecar p-3 px-5" id="btn-comecartut">Começar</button>
-                        </div>
+                    <div>
+                        <a href="nivel1.html" id="btn-jogar-nivel" class="eco-btn eco-btn-primary">
+                            Jogar Esta Missão ➔
+                        </a>
                     </div>
+                </div>
+
+                <div class="tutorial-nav-buttons">
+                    <button id="btn-prev-tut" class="eco-btn eco-btn-secondary" style="visibility: hidden;">
+                        ◀ Missão Anterior
+                    </button>
+                    <button id="btn-next-tut" class="eco-btn eco-btn-secondary">
+                        Próxima Missão ▶
+                    </button>
                 </div>
             </div>
         </div>
-    </div>
+    </main>
 
-    <div class="fundo-tutorial" id="tut1">
-        <div>
-            <div class="d-flex justify-content-center p-4 pb-0 video">
-                <h3 class="titulo-niveis d-flex pb-4">Nível 1</h3>
-                <video loop autoplay muted>
-                    <source src="videos/nivel1.mp4">
-                </video>
-                <p class="p-5 pb-3">Arrasta o lixo para o contentor certo dentro do limite de tempo!</p>
-            </div>
-            <div class="col-12 mb-4 d-flex justify-content-around">
-                <button class="btn btn-comecar me-5 p-2 px-3" id="tras1"> < </button>
-                <button class="btn btn-comecar ms-5 p-2 px-3" id="frente1"> > </button>
-            </div>
+    <!-- Rodapé -->
+    <footer class="eco-footer">
+        <div class="footer-wave-container">
+            <svg class="footer-wave-svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M0,0 C150,90 350,-40 500,45 C650,130 900,10 1200,40 L1200,120 L0,120 Z" fill="#1B4D43"></path>
+            </svg>
         </div>
-    </div>
-
-    <div class="fundo-tutorial" id="tut2">
-        <div>
-            <div class="d-flex justify-content-center p-4 pb-0 video">
-                <h3 class="titulo-niveis d-flex pb-4">Nível 2</h3>
-                <video loop autoplay muted>
-                    <source src="videos/nivel2.mp4">
-                </video>
-                <p class="p-5 pb-3">Arrasta o lixo eletrónico para a caixa para ser levado para uma loja, as pilhas devem ir para o seu ecoponto!</p>
-            </div>
-            <div class="col-12 mb-4 d-flex justify-content-around">
-                <button class="btn btn-comecar me-5 p-2 px-3" id="tras2"> < </button>
-                <button class="btn btn-comecar ms-5 p-2 px-3" id="frente2"> > </button>
-            </div>
+        <div class="footer-content">
+            <div class="footer-logo">🌱 Eco Heróis</div>
+            <nav class="footer-nav">
+                <a href="index.html">Início</a>
+                <a href="tutorial.html">Tutorial</a>
+                <a href="learn.html">Aprende a Reciclar</a>
+                <a href="sobrenos.html">Sobre Nós</a>
+            </nav>
+            <p class="footer-copy">
+                Projeto educativo de sensibilização ambiental e sustentabilidade (ODS 12 — Agenda 2030).
+            </p>
         </div>
-    </div>
+    </footer>
 
-    <div class="fundo-tutorial" id="tut3">
-        <div>
-            <div class="d-flex justify-content-center p-4 pb-0 video">
-                <h3 class="titulo-niveis d-flex pb-4">Nível 3</h3>
-                <video loop autoplay muted>
-                    <source src="videos/nivel3.mp4">
-                </video>
-                <p class="p-5 pb-3">Arrasta o lixo biodegradável para a composteira dentro do limite de tempo para teres uma surpresa!</p>
-            </div>
-            <div class="col-12 mb-4 d-flex justify-content-around">
-                <button class="btn btn-comecar me-5 p-2 px-3" id="tras3"> < </button>
-                <button class="btn btn-comecar ms-5 p-2 px-3" id="frente3"> > </button>
-            </div>
-        </div>
-    </div>
-
-    <div class="fundo-tutorial" id="tut4">
-        <div>
-            <div class="d-flex justify-content-center p-4 pb-0 video">
-                <h3 class="titulo-niveis d-flex pb-4">Nível 4</h3>
-                <video loop autoplay muted>
-                    <source src="videos/nivel4.mp4">
-                </video>
-                <p class="p-5 pb-3">Desliga as torneiras 10 vezes dentro do limite de tempo!</p>
-            </div>
-            <div class="col-12 mb-4 d-flex justify-content-around">
-                <button class="btn btn-comecar me-5 p-2 px-3" id="tras4"> < </button>
-                <button class="btn btn-comecar ms-5 p-2 px-3" id="frente4"> > </button>
-            </div>
-        </div>
-    </div>
-
-    <div class="fundo-tutorial" id="tut5">
-        <div>
-            <div class="d-flex justify-content-center p-4 pb-0 video">
-                <h3 class="titulo-niveis d-flex pb-4">Nível 5</h3>
-                <video loop autoplay muted>
-                    <source src="videos/nivel5.mp4">
-                </video>
-                <p class="p-5 pb-3">Desliga as lâmpadas dentro do limite de tempo!</p>
-            </div>
-            <div class="col-12 mb-4 d-flex justify-content-around">
-                <button class="btn btn-comecar me-5 p-2 px-3" id="tras5"> < </button>
-                <button class="btn btn-comecar ms-5 p-2 px-3" id="frente5"> > </button>
-            </div>
-        </div>
-    </div>
-</main>
-
-<footer class="mt-4">
-    <div>
-        <div class="onda" id="onda1"></div>
-        <div class="onda" id="onda2"></div>
-        <div class="onda" id="onda3"></div>
-    </div>
-    <ul class="social_icon">
-        <li><a href="#"><ion-icon name="logo-instagram"></ion-icon></a></li>
-        <li><a href="#"><ion-icon name="logo-youtube"></ion-icon></a></li>
-        <li><a href="#"><ion-icon name="logo-twitter"></ion-icon></a></li>
-        <li><a href="#"><ion-icon name="logo-tiktok"></ion-icon></a></li>
-    </ul>
-    <ul class="menu">
-        <li><a href="index.html">Jogo</a></li>
-        <li><a href="tutorial.html">Tutorial</a></li>
-        <li><a href="learn.html">Aprende a Reciclar</a></li>
-        <li><a href="sobrenos.html">Sobre Nós</a></li>
-    </ul>
-    <p>© 2025 Copyright: Eco Heróis.</p>
-</footer>
-
-
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-<!-- Ionicons -->
-<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-
-<!-- JS -->
-<script src="tutorial.js"></script>
-
+    <script src="tutorial.js"></script>
 </body>
 </html>

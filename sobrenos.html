@@ -1,153 +1,234 @@
 <!doctype html>
 <html lang="pt">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Eco Heróis</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Eco Heróis — Sobre o Projeto e Equipa</title>
+    <meta name="description" content="Conhece a equipa e a missão pedagógica por trás do Eco Heróis, inspirado no Objetivo de Desenvolvimento Sustentável 12 (ODS 12) da Agenda 2030.">
 
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <!-- Estilos CSS -->
-  <link href="estilos.css" rel="stylesheet">
+    <!-- Estilos Globais -->
+    <link href="estilos.css" rel="stylesheet">
+    <style>
+        .about-container {
+            max-width: 1100px;
+            margin: 2rem auto 4rem auto;
+            padding: 0 1.5rem;
+        }
 
-  <!-- Fonte títulos -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Oswald:wght@500&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Work+Sans&display=swap" rel="stylesheet">
+        .mission-card {
+            background: var(--eco-surface);
+            border: 3px solid var(--eco-border);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem 3rem;
+            box-shadow: var(--eco-shadow-md);
+            margin-bottom: 3.5rem;
+            display: grid;
+            grid-template-columns: 1fr 280px;
+            gap: 2.5rem;
+            align-items: center;
+        }
 
-  <!-- Fonte textos -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Oswald:wght@500&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Work+Sans&display=swap" rel="stylesheet">
+        .mission-content h2 {
+            margin-bottom: 1rem;
+        }
+
+        .mission-content p {
+            font-size: 1.05rem;
+            color: var(--eco-text-muted);
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+
+        .ods-badge-box {
+            background: #D5A021;
+            color: #FFFFFF;
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: var(--eco-shadow-sm);
+        }
+
+        .ods-number {
+            font-family: var(--font-title);
+            font-size: 3.2rem;
+            line-height: 1;
+            margin-bottom: 0.2rem;
+        }
+
+        .ods-title {
+            font-weight: 700;
+            font-size: 1.05rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .team-section-title {
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .team-section-sub {
+            text-align: center;
+            color: var(--eco-text-muted);
+            margin-bottom: 2.5rem;
+            font-size: 1.05rem;
+        }
+
+        @media (max-width: 860px) {
+            .mission-card {
+                grid-template-columns: 1fr;
+                padding: 2rem;
+            }
+            .ods-badge-box {
+                max-width: 240px;
+                margin: 0 auto;
+            }
+        }
+    </style>
 </head>
 
 <body>
-<header>
-  <div class="header-container">
-    <a href="index.html"><h2>ECO HERÓIS</h2></a>
-    <nav>
-      <ul class="nav-list">
-        <li><a href="index.html">Jogo</a></li>
-        <li><a href="tutorial.html">Tutorial</a></li>
-        <li><a href="learn.html">Aprende a Reciclar</a></li>
-        <li><a href="sobrenos.html">Sobre Nós</a></li>
-      </ul>
-    </nav>
-  </div>
-</header>
-
-<main>
-  <div id = fundo-sobrenos>
-    <section class="pt-5 pb-5">
-      <h2 class="text-center p-3 mb-4">O Projeto Eco Heróis</h2>
-      <div class="row">
-      <p class="caixa-texto-informativo col-6">
-        O Eco Heróis é um jogo educativo criado para introduzir as crianças à reciclagem e sensibilizá-las para a<br>
-        importância da sustentabilidade. Inspirado pelo 12.º Objetivo de Desenvolvimento Sustentável (ODS) da <br>
-        Agenda 2030, "Produção e Consumo Sustentáveis", este projeto visa preparar os mais pequenos para um<br>
-        futuro mais consciente e responsável. <br>
-        Acreditamos que, ao introduzir conceitos como a reciclagem e o consumo consciente desde cedo, podemos <br>
-        formar gerações mais atentas ao meio ambiente e capacitadas para enfrentar os desafios globais atuais.<br>
-      </p>
-      </div>
-    </section>
-
-    <div class="section-divider"></div>
-
-      <section class="container py-3">
-        <h2 class="text-center p-3">Os Criadores</h2>
-        <div class="row row-cols-1 row-cols-md-4 g-4 text-center">
-          <div class="col">
-            <div class="card equipa">
-              <img src="imagens/picprofile/carol.jpg" class="card-img-top rounded-circle imgcard" alt="...">
-              <div class="card-body crdbd">
-                <h5 class="card-title">Ana Guedes</h5>
-              </div>
-              <div class="d-flex justify-content-evenly p-4">
-                <i class="bi bi-instagram"></i>
-                <i class="bi bi-tiktok"></i>
-                <i class="bi bi-whatsapp"></i>
-                <i class="bi bi-envelope"></i>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card equipa">
-              <img src="imagens/picprofile/lourenco.jpg" class="card-img-top rounded-circle imgcard" alt="...">
-              <div class="card-body crdbd">
-                <h5 class="card-title">Lourenço Soares</h5>
-              </div>
-              <div class="d-flex justify-content-evenly p-4">
-                <i class="bi bi-instagram"></i>
-                <i class="bi bi-tiktok"></i>
-                <i class="bi bi-whatsapp"></i>
-                <i class="bi bi-envelope"></i>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card equipa">
-              <img src="imagens/picprofile/beijoca.png" class="card-img-top rounded-circle imgcard" alt="...">
-              <div class="card-body crdbd">
-                <h5 class="card-title">Lourenço Beijoca</h5>
-              </div>
-              <div class="d-flex justify-content-evenly p-4">
-                <i class="bi bi-instagram"></i>
-                <i class="bi bi-tiktok"></i>
-                <i class="bi bi-whatsapp"></i>
-                <i class="bi bi-envelope"></i>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <div class="card equipa">
-              <img src="imagens/picprofile/lia.png" class="card-img-top rounded-circle imgcard" alt="...">
-              <div class="card-body crdbd">
-                <h5 class="card-title">Marília Pereira</h5>
-              </div>
-              <div class="d-flex justify-content-evenly p-4">
-                <i class="bi bi-instagram"></i>
-                <i class="bi bi-tiktok"></i>
-                <i class="bi bi-whatsapp"></i>
-                <i class="bi bi-envelope"></i>
-              </div>
-            </div>
-          </div>
+    <!-- Cabeçalho -->
+    <header class="eco-header">
+        <div class="eco-header-container">
+            <a href="index.html" class="eco-logo">
+                🌱 ECO HERÓIS
+                <span class="eco-logo-badge">Sobre Nós</span>
+            </a>
+            <button class="eco-nav-toggle" id="nav-toggle" aria-label="Abrir Menu de Navegação">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+            <nav>
+                <ul class="eco-nav-list" id="nav-list">
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="index.html#missoes">Missões</a></li>
+                    <li><a href="tutorial.html">Tutorial</a></li>
+                    <li><a href="learn.html">Aprende a Reciclar</a></li>
+                    <li><a href="sobrenos.html" class="active">Sobre Nós</a></li>
+                </ul>
+            </nav>
         </div>
-      </section>
-    </div>
+    </header>
 
-</main>
+    <main>
+        <section class="about-hero">
+            <h1>A Nossa Missão</h1>
+            <p style="max-width: 650px; margin: 0.5rem auto 0 auto; color: var(--eco-text-muted); font-size: 1.1rem;">
+                Sensibilizar as novas gerações para a conservação do planeta através de experiências digitais lúdicas e interativas.
+            </p>
+        </section>
 
-<footer class="mt-4">
-  <div>
-    <div class="onda" id="onda1"></div>
-    <div class="onda" id="onda2"></div>
-    <div class="onda" id="onda3"></div>
-  </div>
-  <ul class="social_icon">
-    <li><a href="#"><ion-icon name="logo-instagram"></ion-icon></a></li>
-    <li><a href="#"><ion-icon name="logo-youtube"></ion-icon></a></li>
-    <li><a href="#"><ion-icon name="logo-twitter"></ion-icon></a></li>
-    <li><a href="#"><ion-icon name="logo-tiktok"></ion-icon></a></li>
-  </ul>
-  <ul class="menu">
-    <li><a href="index.html">Jogo</a></li>
-    <li><a href="tutorial.html">Tutorial</a></li>
-    <li><a href="learn.html">Aprende a Reciclar</a></li>
-    <li><a href="sobrenos.html">Sobre Nós</a></li>
-  </ul>
-  <p>© 2025 Copyright: Eco Heróis.</p>
-</footer>
+        <div class="about-container">
+            <!-- Cartão de Apresentação e ODS 12 -->
+            <div class="mission-card">
+                <div class="mission-content">
+                    <h2>O Projeto Eco Heróis</h2>
+                    <p>
+                        O <strong>Eco Heróis</strong> nasceu como um projeto universitário de licenciatura em multimédia e tecnologias web, concebido para transformar conceitos complexos de sustentabilidade num jogo web dinâmico e acessível.
+                    </p>
+                    <p>
+                        Inspirado pelo <strong>12.º Objetivo de Desenvolvimento Sustentável (ODS 12) da Agenda 2030 da ONU — "Garantir padrões de consumo e de produção sustentáveis"</strong>, o jogo demonstra de forma tangível o impacto das nossas escolhas diárias: desde a correta separação de resíduos até à poupança de água e energia.
+                    </p>
+                    <p>
+                        Acreditamos que educar com empatia e diversão é a forma mais eficaz de capacitar os mais jovens a tornarem-se defensores ativos da biodiversidade.
+                    </p>
+                </div>
+                <div class="ods-badge-box">
+                    <div class="ods-number">12</div>
+                    <div class="ods-title">Produção e Consumo Sustentáveis</div>
+                    <p style="font-size: 0.85rem; margin-top: 0.8rem; opacity: 0.9;">
+                        Objetivos de Desenvolvimento Sustentável da ONU
+                    </p>
+                </div>
+            </div>
 
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+            <!-- Equipa de Criadores -->
+            <h2 class="team-section-title">A Equipa Criativa</h2>
+            <p class="team-section-sub">Os autores e estudantes responsáveis pelo desenvolvimento do projeto:</p>
 
-<!-- Ionicons -->
-<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+            <div class="team-grid">
+                <!-- Ana Guedes -->
+                <div class="team-card">
+                    <img src="imagens/picprofile/carol.jpg" alt="Ana Guedes" class="team-avatar">
+                    <h3 class="team-name">Ana Guedes</h3>
+                    <div class="team-role">Design & Conteúdos</div>
+                    <p style="font-size: 0.88rem; color: var(--eco-text-muted); margin: 0;">
+                        Conceção visual, ilustração e criação dos diálogos educativos com a mascote.
+                    </p>
+                </div>
 
+                <!-- Lourenço Soares -->
+                <div class="team-card">
+                    <img src="imagens/picprofile/lourenco.jpg" alt="Lourenço Soares" class="team-avatar">
+                    <h3 class="team-name">Lourenço Soares</h3>
+                    <div class="team-role">Desenvolvimento Frontend</div>
+                    <p style="font-size: 0.88rem; color: var(--eco-text-muted); margin: 0;">
+                        Arquitetura web, programação das mecânicas de jogo e integração áudio.
+                    </p>
+                </div>
+
+                <!-- Lourenço Beijoca -->
+                <div class="team-card">
+                    <img src="imagens/picprofile/beijoca.png" alt="Lourenço Beijoca" class="team-avatar">
+                    <h3 class="team-name">Lourenço Beijoca</h3>
+                    <div class="team-role">Multimédia & Vídeo</div>
+                    <p style="font-size: 0.88rem; color: var(--eco-text-muted); margin: 0;">
+                        Produção multimédia, edição dos tutoriais em vídeo e efeitos de animação.
+                    </p>
+                </div>
+
+                <!-- Marília Pereira -->
+                <div class="team-card">
+                    <img src="imagens/picprofile/lia.png" alt="Marília Pereira" class="team-avatar">
+                    <h3 class="team-name">Marília Pereira</h3>
+                    <div class="team-role">Investigação Pedagógica</div>
+                    <p style="font-size: 0.88rem; color: var(--eco-text-muted); margin: 0;">
+                        Alinhamento com os ODS da ONU, pesquisa sobre reciclagem e experiência de utilizador.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Rodapé -->
+    <footer class="eco-footer">
+        <div class="footer-wave-container">
+            <svg class="footer-wave-svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M0,0 C150,90 350,-40 500,45 C650,130 900,10 1200,40 L1200,120 L0,120 Z" fill="#1B4D43"></path>
+            </svg>
+        </div>
+        <div class="footer-content">
+            <div class="footer-logo">🌱 Eco Heróis</div>
+            <nav class="footer-nav">
+                <a href="index.html">Início</a>
+                <a href="index.html#missoes">Missões</a>
+                <a href="tutorial.html">Tutorial</a>
+                <a href="learn.html">Aprende a Reciclar</a>
+                <a href="sobrenos.html">Sobre Nós</a>
+            </nav>
+            <p class="footer-copy">
+                Projeto educativo de sensibilização ambiental e sustentabilidade (ODS 12 — Agenda 2030).
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        const toggleBtn = document.getElementById('nav-toggle');
+        const navList = document.getElementById('nav-list');
+        if (toggleBtn && navList) {
+            toggleBtn.addEventListener('click', () => {
+                navList.classList.toggle('is-open');
+            });
+        }
+    </script>
 </body>
 </html>

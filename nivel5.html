@@ -3,120 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Eco Heróis</title>
+    <title>Eco Heróis — Nível 5: Sala Inteligente</title>
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- Estilos CSS -->
+    <!-- Estilos Globais -->
     <link href="estilos.css" rel="stylesheet">
-
-    <!-- Fonte títulos -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Oswald:wght@500&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Work+Sans&display=swap" rel="stylesheet">
-
-    <!-- Fonte textos -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Oswald:wght@500&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Work+Sans&display=swap" rel="stylesheet">
 </head>
 
-<body>
-
-<main>
-    <div id="nivel5-intro">
-        <div class="fundo-sala">
-            <div class="align-items-center justify-content-center">
-                <div class="container">
-                    <div class="row">
-                        <!-- Caixa de diálogo -->
-                        <div class="col-md-12 position-relative">
-                            <h3 class="titulo-niveis d-flex pb-4">Nível 5</h3>
-                            <img src="imagens/caixa%20nivel%201.png" class="img-fluid caixa-dialogo-1" alt="Caixa de diálogo">
-                            <div id="texto-nivel-5">
-                                <p>Bem-vindo à <strong>aventura na sala!</strong> Este é mais</p>
-                                <p>um passo para seres um herói.</p>
-                                <br>
-                                <p>O desafio é <strong>apagar todas as luzes</strong> antes que o</p>
-                                <p><strong>tempo acabe.</strong> Faz a diferença no ambiente</p>
-                                <p>e ajuda a salvar energia para um futuro melhor!</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+<body style="overflow: hidden;">
+    <!-- Ecrã de Introdução da Missão -->
+    <div id="nivel5-intro" class="level-intro-screen" style="background-image: url('imagens/fundos/nivel%205%20blur.png');">
+        <div class="level-intro-card scale-in">
+            <div class="eco-modal-mascot-header">
+                <img src="imagens/mascote_final_fixe.png" alt="EcoFox Mascote" class="modal-mascot-img">
             </div>
-            <div>
-                <button id="btn-iniciar" class="btn btn-comecar p-2 px-5">Jogar!</button>
-            </div>
+            <h2>Missão 5: Eficiência Energética</h2>
+            <p>
+                Chegaste à última grande missão! A sala está cheia de luzes acesas sem ninguém a usá-las, gastando energia preciosa.
+            </p>
+            <p>
+                A eletricidade muitas vezes provém de fontes fósseis que poluem o ar. O teu objetivo é <strong>encontrar e apagar as 10 lâmpadas</strong> acesas na sala antes que o tempo termine!
+            </p>
+            <button id="btn-iniciar" class="eco-btn eco-btn-primary eco-btn-lg">
+                💡 Apagar as Luzes!
+            </button>
         </div>
     </div>
 
-    <div id="nivel5-fundo" class="nivel5-fundo">
-        <div class="row mt-0 ps-5 pe-5">
-            <div class="col text-start titulo-niveis ps-3 pt-0 mt-4 ms-3">
-                <a href="index.html"><img src="imagens/simbolos/seta%20fi.png" alt=""></a>
-                <p class="mt-3" id="pontos" >0/10</p>
+    <!-- Contentor de Jogo -->
+    <main id="nivel5-fundo" class="eco-game-container" style="background-image: url('imagens/fundos/nivel5background.jpg'); display: none;">
+        <div class="eco-game-stage" id="game-stage">
+            <!-- Instrução Superior -->
+            <div style="position: absolute; top: 1.5rem; left: 50%; transform: translateX(-50%); z-index: 100; text-align: center; background: rgba(255, 255, 255, 0.92); backdrop-filter: blur(6px); padding: 0.6rem 1.4rem; border-radius: var(--radius-pill); border: 2px solid var(--eco-border); box-shadow: var(--eco-shadow-md);">
+                <span style="font-weight: 700; color: var(--eco-primary); font-size: 1rem;">
+                    💡 Clica em todas as lâmpadas acesas para poupar energia!
+                </span>
             </div>
-            <div class="col text-end titulo-niveis pe-3 pt-5 mt-5 me-3">
-                <p id="timer" class="m-0" >00:20</p>
-            </div>
-        </div>
-    </div>
 
-    <div id="nivel5-ganhar">
-        <div class="fundo-sala">
-            <div class="align-items-center justify-content-center">
-                <div class="container">
-                    <div class="row">
-                        <!-- Caixa de diálogo -->
-                        <div class="col-md-12 position-relative">
-                            <img src="imagens/caixa%20nivel%201.png" class="img-fluid caixa-dialogo-1" alt="Caixa de diálogo">
-                            <div id="texto-ganhar-5">
-                                <p><strong>Parabéns!</strong> Completaste o desafio e ajudaste</p>
-                                <p>a tornar o planeta um lugar melhor!</p>
-                                <br>
-                                <p>Obrigado por jogares e contribuíres para um</p>
-                                <p>futuro mais sustentável. Cada ação conta!</p>
-                                <br>
-                                <p><strong>Continua a fazer a diferença pelo planeta!</strong> 🌍✨</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <a href="index.html"><button id="btn-sair" class="btn btn-comecar p-2 px-5">Sair</button></a>
-            </div>
+            <!-- As 10 Lâmpadas serão criadas dinamicamente de forma segura no game-stage -->
         </div>
-    </div>
+    </main>
 
-    <div id="nivel5-perder">
-        <div class="fundo-sala">
-            <div class="align-items-center justify-content-center">
-                <div class="container">
-                    <div class="row">
-                        <!-- Caixa de diálogo -->
-                        <div class="col-md-12 position-relative">
-                            <img src="imagens/caixa%20nivel%201.png" class="img-fluid caixa-dialogo-1" alt="Caixa de diálogo">
-                            <div id="texto-perder-5">
-                                <p><strong>Atenção ao aquecimento global</strong> e ao ambiente!</p>
-                                <p>Este é o teu primeiro passo para seres um herói.</p>
-                                <br>
-                                <p>Deixar luzes acesas sem necessidade aumenta</p>
-                                <p><strong>o consumo e o impacto ambiental</strong>. Apaga luzes e</p>
-                                <p>usa fontes renováveis para proteger o planeta!</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <button id="btn-voltar" class="btn btn-comecar p-2 px-5">Voltar</button>
-            </div>
-        </div>
-    </div>
-</main>
-<script src="nivel5.js"></script>
+    <!-- Módulos Core -->
+    <script src="js/audio-manager.js"></script>
+    <script src="js/storage-manager.js"></script>
+    <script src="js/game-hud.js"></script>
+
+    <!-- Lógica do Nível 5 -->
+    <script src="nivel5.js"></script>
 </body>
 </html>

@@ -1,228 +1,138 @@
-window.onload = function() {
+/**
+ * Eco Heróis — Nível 2: Quarto Tecnológico
+ * Separação de pilhas gastas (Pilhão) e aparelhos eletrónicos avariados (Caixa de Eletrónicos).
+ */
+document.addEventListener('DOMContentLoaded', () => {
+    const TOTAL_ITENS = 10;
+    const TEMPO_MAXIMO = 45;
+
+    const introScreen = document.getElementById('nivel2-intro');
+    const gameContainer = document.getElementById('nivel2-fundo');
+    const gameStage = document.getElementById('game-stage');
+    const btnIniciar = document.getElementById('btn-iniciar');
     const lixos = document.querySelectorAll('.lixo-drag');
-    const ecopontos = document.querySelectorAll('.ecoponto-drop');
-    let beingDragged;
 
-    let pontos = 0;
-    let tempoRestante = 30;
-    const timer = document.getElementById('timer');
+    // Inicializar HUD de jogo
+    const hud = new GameHUD({
+        levelNumber: 2,
+        levelTitle: 'Nível 2',
+        levelSubtitle: 'Quarto Tecnológico',
+        totalPoints: TOTAL_ITENS,
+        maxTime: TEMPO_MAXIMO,
+        nextLevelUrl: 'nivel3.html',
+        onTimeout: () => {
+            hud.showDefeatModal(
+                'O tempo acabou! As pilhas deixadas no lixo comum libertam substâncias tóxicas graves no solo e na água. Os eletrónicos devem ser sempre encaminhados para reciclagem especializada!'
+            );
+        }
+    });
 
-    const fundo = document.getElementById('nivel2-fundo');
-    const posicaoUsada = [];
+    // Distribuição realista dos resíduos tecnológicos no quarto (secretária, tapete e chão)
+    function distribuirLixosSeguro() {
+        const stageWidth = gameStage.clientWidth || window.innerWidth;
+        const stageHeight = gameStage.clientHeight || window.innerHeight;
 
-    // Função para atualizar o timer
-    function atualizarTimer() {
-        const minutos = Math.floor(tempoRestante / 60);
-        const segundos = tempoRestante % 60;
+        // Zonas lógicas do quarto: secretária à esquerda, chão/tapete central e área da cama à direita
+        const zones = [
+            // Secretária / Mesa de estudo à esquerda (3 itens)
+            { minX: stageWidth * 0.08, maxX: stageWidth * 0.28, minY: stageHeight * 0.46, maxY: stageHeight * 0.76 },
+            { minX: stageWidth * 0.06, maxX: stageWidth * 0.26, minY: stageHeight * 0.50, maxY: stageHeight * 0.80 },
+            { minX: stageWidth * 0.10, maxX: stageWidth * 0.30, minY: stageHeight * 0.44, maxY: stageHeight * 0.74 },
 
-        // Formata minutos e segundos para sempre terem 2 dígitos
-        timer.innerHTML =
-            (minutos < 10 ? "0" + minutos : minutos) + ":" +
-            (segundos < 10 ? "0" + segundos : segundos);
-    }
+            // Área central do tapete e chão acima dos contentores (4 itens)
+            { minX: stageWidth * 0.30, maxX: stageWidth * 0.48, minY: stageHeight * 0.44, maxY: stageHeight * 0.63 },
+            { minX: stageWidth * 0.50, maxX: stageWidth * 0.68, minY: stageHeight * 0.44, maxY: stageHeight * 0.63 },
+            { minX: stageWidth * 0.35, maxX: stageWidth * 0.55, minY: stageHeight * 0.46, maxY: stageHeight * 0.65 },
+            { minX: stageWidth * 0.45, maxX: stageWidth * 0.65, minY: stageHeight * 0.47, maxY: stageHeight * 0.66 },
 
-// Função para iniciar o timer
-    let timerInterval
-    function startTimer() {
-        timerInterval = setInterval(function () {
-            if (tempoRestante > 0) {
-                tempoRestante--;
-                atualizarTimer();
-            } else {
-                clearInterval(timerInterval);
-                tempoAcaba();
+            // Área da mesinha e chão à direita (3 itens)
+            { minX: stageWidth * 0.70, maxX: stageWidth * 0.90, minY: stageHeight * 0.46, maxY: stageHeight * 0.76 },
+            { minX: stageWidth * 0.72, maxX: stageWidth * 0.92, minY: stageHeight * 0.50, maxY: stageHeight * 0.80 },
+            { minX: stageWidth * 0.68, maxX: stageWidth * 0.88, minY: stageHeight * 0.44, maxY: stageHeight * 0.74 }
+        ];
+
+        const posicoesUsadas = [];
+
+        lixos.forEach((item, index) => {
+            const zone = zones[index % zones.length];
+            const itemW = item.offsetWidth || 85;
+            const itemH = item.offsetHeight || 85;
+
+            let posX, posY;
+            let tentativas = 0;
+            let sobreposto = true;
+
+            while (sobreposto && tentativas < 60) {
+                tentativas++;
+                const spanX = Math.max(10, zone.maxX - zone.minX - itemW);
+                const spanY = Math.max(10, zone.maxY - zone.minY - itemH);
+
+                posX = Math.floor(zone.minX + Math.random() * spanX);
+                posY = Math.floor(zone.minY + Math.random() * spanY);
+
+                sobreposto = posicoesUsadas.some(pos => {
+                    const dist = Math.hypot(pos.x - posX, pos.y - posY);
+                    return dist < 85;
+                });
             }
-        }, 1000);
+
+            if (sobreposto) {
+                posX = Math.floor(zone.minX + 20);
+                posY = Math.floor(zone.minY + 20);
+            }
+
+            posicoesUsadas.push({ x: posX, y: posY });
+
+            item.style.position = 'absolute';
+            item.style.left = `${posX}px`;
+            item.style.top = `${posY}px`;
+            item.dataset.originLeft = posX;
+            item.dataset.originTop = posY;
+        });
     }
 
-// Função chamada quando o tempo acaba
-    function tempoAcaba() {
-        const audioPerder = new Audio('sons/perder.wav');
-        audioPerder.play();
-        document.getElementById('nivel2-fundo').style.display = 'none';
-        document.getElementById('nivel2-perder').style.display = 'block';
-    }
+    // Motor de Drag and Drop
+    const dnd = new DragDropEngine({
+        container: gameStage,
+        draggableSelector: '.lixo-drag',
+        dropZoneSelector: '.ecoponto-drop',
+        onDrop: (draggedElem, dropTarget) => {
+            const tipoItem = draggedElem.dataset.tipo;
+            const tipoAceite = dropTarget.dataset.aceita;
 
-    document.getElementById('btn-voltar').onclick = function() {
-        window.location.href = 'nivel2.html';
-        console.log('voltar ao nível 2');
-    }
+            if (tipoItem === tipoAceite) {
+                if (window.audioManager) window.audioManager.play('certo');
+                dnd.consumeItem(draggedElem, dropTarget);
+                const currentPoints = hud.addPoints(1);
 
-    function posAleatoria() {
-        const fundoWidth = fundo.offsetWidth;
-        const fundoHeight = fundo.offsetHeight;
-        const imagemWidth = 100;
-        const imagemHeight = 100;
-
-        // Define os limites de posicionamento
-        const minY = fundoHeight * 0.80;
-        const maxY = fundoHeight - 50;
-
-        let randomX, randomY;
-        let overlapping;
-
-        do {
-            // Posição aleatória dentro dos limites
-            randomX = Math.random() * (fundoWidth - imagemWidth);
-            randomY = minY + Math.random() * (maxY - minY - imagemHeight);
-
-            // Verificar sobreposição com outras posições de lixo
-            overlapping = posicaoUsada.some(pos => {
-                return (
-                    Math.abs(pos.x - randomX) < imagemWidth &&
-                    Math.abs(pos.y - randomY) < imagemHeight
-                );
-            });
-        } while (overlapping);
-
-        // Guardar a posição usada
-        posicaoUsada.push({ x: randomX, y: randomY });
-        return { x: randomX, y: randomY };
-    }
-
-    function resetLixos() {
-        for (let i = 0; i < lixos.length; i++) {
-            const imagem = lixos[i];
-            const posAleatoria1 = posAleatoria();
-            imagem.style.position = 'absolute';
-            imagem.style.left = posAleatoria1.x + 'px';
-            imagem.style.top = posAleatoria1.y + 'px';
-        }
-    }
-
-    document.getElementById('btn-iniciar').onclick = function() {
-        document.getElementById('nivel2-intro').style.display = 'none';
-        document.getElementById('nivel2-fundo').style.display = 'block';
-
-        resetLixos();
-        startTimer();
-
-    }
-
-    // Drag and drop
-    for (let i = 0; i < lixos.length; i++) {
-        const lixo = lixos[i];
-        lixo.setAttribute('draggable', 'true');
-        lixo.addEventListener('dragstart', dragStart);
-        lixo.addEventListener('drag', dragging);
-    }
-
-    for (let j = 0; j < ecopontos.length; j++) {
-        const ecoponto = ecopontos[j];
-        ecoponto.addEventListener('dragover', dragOver);
-        ecoponto.addEventListener('dragenter', dragEnter);
-        ecoponto.addEventListener('dragleave', dragLeave);
-        ecoponto.addEventListener('drop', dragDrop);
-    }
-
-    function dragStart(e) {
-        beingDragged = e.target;
-        // Guardar a posição inicial do lixo
-        beingDragged.dataset.startX = beingDragged.offsetLeft;
-        beingDragged.dataset.startY = beingDragged.offsetTop;
-        console.log('drag iniciado no ' + beingDragged.id);
-    }
-
-    function dragging(e) {
-        console.log('dragging ' + beingDragged.id);
-    }
-
-    function dragOver(e) {
-        e.preventDefault();
-        console.log('dragging over ' + e.target.id);
-    }
-
-
-    function dragEnter(e) {
-        console.log('a entrar no' + e.target.id);
-    }
-
-    function dragLeave(e) {
-        console.log('a sair de' + e.target.id);
-    }
-
-    function dragDrop(e) {
-        e.preventDefault();
-        console.log('drop realizado no: ' + e.target.id);
-        verificarLixo(e);
-    }
-
-    function dragEnd(e) {
-        console.log('acabou no' + e.target.id);
-    }
-
-
-// Verificar se o lixo é o correto para o ecoponto
-    function verificarLixo(e){
-        const lixoClass = beingDragged.classList;
-        const ecopontoId = e.target.id;
-
-        const audioCerto = new Audio('sons/certo.wav');
-        audioCerto.volume = 0.7;
-        const audioErrado = new Audio('sons/errado.mp3');
-
-        switch (ecopontoId){
-            case 'ecoponto-4':
-                if (lixoClass.contains('pilha')) {
-                    console.log('Lixo correto');
-                    e.target.append(beingDragged);
-                    pontos = pontos + 1;
-                    document.getElementById('pontos').innerHTML = '<p class="m-0" id="pontos">' + pontos + '/10</p>';
-                    audioCerto.play();
-                } else {
-                    console.log('Lixo errado');
-                    lixoPosInicial();
-                    audioErrado.play();
+                if (currentPoints >= TOTAL_ITENS) {
+                    setTimeout(() => {
+                        hud.showVictoryModal(
+                            'Fantástico, Eco Herói! Todo o lixo eletrónico e pilhas foram encaminhados com segurança. Evitaste a contaminação do solo e salvaste recursos valiosos!'
+                        );
+                    }, 500);
                 }
-                break;
-            case 'caixa-eletronicos':
-                if (lixoClass.contains('eletronico')) {
-                    console.log('Lixo correto');
-                    e.target.append(beingDragged);
-                    pontos = pontos + 1;
-                    document.getElementById('pontos').innerHTML = '<p class="m-0" id="pontos">' + pontos + '/10</p>';
-                    audioCerto.play();
-                }
-                else {
-                    console.log('Lixo errado');
-                    lixoPosInicial();
-                    audioErrado.play();
-                }
-                break;
-
-            default:
-                console.log('Não é um ecoponto válido');
-                lixoPosInicial();
+                return true;
+            } else {
+                if (window.audioManager) window.audioManager.play('errado');
+                return false;
+            }
         }
+    });
 
-        if (pontos === 10) {
-            fimNivel2();
+    btnIniciar.addEventListener('click', () => {
+        introScreen.style.display = 'none';
+        gameContainer.style.display = 'flex';
+
+        setTimeout(() => {
+            distribuirLixosSeguro();
+            hud.startTimer();
+        }, 80);
+    });
+
+    window.addEventListener('resize', () => {
+        if (gameContainer.style.display !== 'none' && !hud.isEnded) {
+            distribuirLixosSeguro();
         }
-    }
-
-function fimNivel2() {
-    clearInterval(timerInterval);
-    document.getElementById('nivel2-fundo').style.display = 'none';
-    document.getElementById('nivel2-fim').style.display = 'block';
-    passarParaNivel3();
-}
-
-function passarParaNivel3() {
-    const audioGanhar = new Audio('sons/ganhar.wav');
-    audioGanhar.play();
-    document.getElementById('btn-proximo').onclick = function() {
-        window.location.href = 'nivel3.html';
-        console.log('passar para nível 3');
-    }
-}
-
-// Voltar à posição inicial
-function lixoPosInicial() {
-    beingDragged.style.left = beingDragged.dataset.startX + 'px';
-    beingDragged.style.top = beingDragged.dataset.startY + 'px';
-    console.log('Lixo voltou à posição inicial.');
-
-}
-
-}
-
+    });
+});

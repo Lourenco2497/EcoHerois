@@ -1,290 +1,284 @@
 <!doctype html>
 <html lang="pt">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Eco Heróis</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Eco Heróis — Aprende a Reciclar e a Sustentar</title>
+    <meta name="description" content="Guia interativo e lúdico de reciclagem para crianças e famílias. Descobre que materiais colocar em cada ecoponto e simula a compostagem natural.">
 
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <!-- Estilos CSS -->
-  <link href="estilos.css" rel="stylesheet">
+    <!-- Estilos Globais -->
+    <link href="estilos.css" rel="stylesheet">
+    <style>
+        .learn-section {
+            max-width: 1100px;
+            margin: 3rem auto;
+            padding: 0 1.5rem;
+        }
 
-  <!-- Fonte títulos -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Oswald:wght@500&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Work+Sans&display=swap" rel="stylesheet">
+        .bin-showcase {
+            background: var(--eco-surface);
+            border: 3px solid var(--eco-border);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+            box-shadow: var(--eco-shadow-md);
+            text-align: center;
+        }
 
-  <!-- Fonte textos -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Oswald:wght@500&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Work+Sans&display=swap" rel="stylesheet">
+        .bin-selector-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            margin: 2rem 0 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .bin-option-card {
+            background: var(--eco-bg);
+            border: 3px solid transparent;
+            border-radius: var(--radius-md);
+            padding: 1.2rem;
+            cursor: pointer;
+            transition: all var(--transition-bounce);
+            text-align: center;
+            width: 170px;
+        }
+
+        .bin-option-card:hover {
+            transform: translateY(-6px);
+        }
+
+        .bin-option-card.selected {
+            background: var(--eco-surface);
+            border-color: var(--eco-primary);
+            box-shadow: var(--eco-shadow-md);
+            transform: scale(1.05);
+        }
+
+        .bin-option-img {
+            height: 120px;
+            margin: 0 auto 0.6rem;
+            object-fit: contain;
+        }
+
+        .bin-detail-box {
+            background: var(--eco-bg-alt);
+            border: 2px solid var(--eco-border);
+            border-radius: var(--radius-md);
+            padding: 1.5rem 2rem;
+            margin-top: 1.5rem;
+            font-size: 1.1rem;
+            color: var(--eco-text);
+            line-height: 1.6;
+        }
+
+        /* Ferramenta Onde Deitar */
+        .search-waste-box {
+            background: var(--eco-surface);
+            border: 3px solid var(--eco-border);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+            box-shadow: var(--eco-shadow-md);
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .waste-input-wrapper {
+            max-width: 540px;
+            margin: 1.5rem auto 1rem auto;
+            position: relative;
+        }
+
+        .waste-search-input {
+            width: 100%;
+            padding: 0.9rem 1.4rem;
+            border: 2px solid var(--eco-border);
+            border-radius: var(--radius-pill);
+            font-family: var(--font-sans);
+            font-size: 1.05rem;
+            outline: none;
+            transition: border-color var(--transition-fast);
+        }
+
+        .waste-search-input:focus {
+            border-color: var(--eco-primary);
+        }
+
+        .waste-result-card {
+            display: none;
+            background: var(--eco-bg);
+            border: 2px solid var(--eco-border);
+            border-radius: var(--radius-md);
+            padding: 1.4rem;
+            margin-top: 1.2rem;
+            text-align: left;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            animation: fadeIn 0.3s ease;
+        }
+    </style>
 </head>
 
 <body>
-<header>
-
-  <div class="header-container">
-    <a href="index.html"><h2>ECO HERÓIS</h2></a>
-    <nav>
-      <ul class="nav-list">
-        <li><a href="index.html">Jogo</a></li>
-        <li><a href="tutorial.html">Tutorial</a></li>
-        <li><a href="learn.html">Aprende a Reciclar</a></li>
-        <li><a href="sobrenos.html">Sobre Nós</a></li>
-      </ul>
-    </nav>
-  </div>
-</header>
-
-<main>
-
-  <!-- Secção principal: Reciclagem -->
-  <section class="container mb-5" id="background-pagina-informativa">
-    <div class="mb-0" id="texto-titulo-informativo">
-      <p id="titulo-reciclagem-learn" class="pt-4 mb-0">Reciclagem</p>
-      <p id="subtitulo-reciclagem-learn" class="mb-0">Um superpoder para salvar o planeta!</p>
-    </div>
-    <div id="conteudo-texto-camiao">
-      <div id="caixa-texto-informativo-topo">
-        <p class="mb-0">Sabias que muitos materiais, como <strong>papel,</strong></p>
-        <p class="mb-0"> <strong>plástico, vidro e metal</strong>, podem ser reciclados?</p>
-        <p class="mb-0">Isso significa que eles podem ser transformados</p>
-        <p class="mb-0">em coisas novas! Quando não reciclamos, o lixo</p>
-        <p class="mb-0">vai parar a aterros e polui a natureza.</p>
-      </div>
-      <img src="imagens/camiao-reciclagem.png" alt="Camião de reciclagem" id="camiao">
-    </div>
-  </section>
-
-  <!-- Secção de reciclagem o que fazer -->
-  <section class="container mb-5">
-    <h2 class="mb-4 text-center">O que podes fazer?</h2>
-    <div class="d-flex justify-content-center gap-4">
-      <img src="imagens/ecopontos/vidro%201.png" alt="Contentor Verde" class="img-fluid imagens-ecopontos-learn ecoponto-off">
-
-      <button class="custom-btn-learn esquerda-arrow-learn"></button>
-
-      <img src="imagens/ecopontos/papel%20e%20cartão.png" alt="Contentor Azul" class="img-fluid imagens-ecopontos-learn">
-
-      <button class="custom-btn-learn direita-arrow-learn"></button>
-
-      <img src="imagens/ecopontos/plástico%20e%20metal.png" alt="Contentor Amarelo" class="img-fluid imagens-ecopontos-learn ecoponto-off">
-    </div>
-    <p class="mt-3 text-center texto-ecopontos-learn pb-5 mb-5">
-      Coloca o <b>papel</b> no contentor <span class="text-primary">azul</span>.
-    </p>
-  </section>
-
-  <div id="porque-reciclar">
-    <div class="pt-5 container pb-5">
-      <h2 class="mb-4 text-center">Por que devemos reciclar?</h2>
-      <div class="row">
-        <div class=" caixa-texto-informativo col-4 ">
-          <p class="mb-0">Sabias que uma garrafa de plástico leva centenas de anos para desaparecer da<br>
-            natureza? Reciclar plástico, metal e vidro ajuda a proteger o ambiente e<br>
-            economizar recursos. Podemos transformá-los em novos brinquedos e garrafas,<br>
-            por exemplo. Recicla e dá-lhes uma nova vida!</p>
+    <!-- Cabeçalho -->
+    <header class="eco-header">
+        <div class="eco-header-container">
+            <a href="index.html" class="eco-logo">
+                🌱 ECO HERÓIS
+                <span class="eco-logo-badge">Aprender</span>
+            </a>
+            <button class="eco-nav-toggle" id="nav-toggle" aria-label="Abrir Menu de Navegação">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+            <nav>
+                <ul class="eco-nav-list" id="nav-list">
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="index.html#missoes">Missões</a></li>
+                    <li><a href="tutorial.html">Tutorial</a></li>
+                    <li><a href="learn.html" class="active">Aprende a Reciclar</a></li>
+                    <li><a href="sobrenos.html">Sobre Nós</a></li>
+                </ul>
+            </nav>
         </div>
-      </div>
-    </div>
-  </div>
+    </header>
 
-  <div class="section-divider mt-5 mb-5"></div>
+    <main>
+        <section class="learn-hero">
+            <h1>Aprende a Salvar o Planeta</h1>
+            <p style="max-width: 680px; margin: 0.5rem auto 0 auto; color: var(--eco-text-muted); font-size: 1.1rem;">
+                A reciclagem e a poupança de recursos são os superpoderes que todos temos para construir um futuro mais verde e limpo.
+            </p>
+        </section>
 
-  <!-- Secção de Reciclagem Eletrônica -->
-  <div id="reciclar-eletronico">
-  <section class="container p-5" >
-    <h2 class="mb-3 text-center texto-ecopontos-learn" id="texto-eletronico">
-      🔌 Reciclagem de Lixo Eletrônico
-    </h2>
-    <div class="row">
-      <div class="caixa-texto-informativo texto-ecopontos-learn col-6 text-start">
-      <p>Telefones, computadores e pilhas são lixo eletrônico. Se não os <br>
-            reciclarmos corretamente, podem libertar substâncias tóxicas no <br>
-            ambiente. Os aparelhos tecnológicos contêm materiais que podem <br>
-            ser reaproveitados, como metais preciosos. Leva o lixo eletrónico <br>
-            para um ponto de reciclagem e contribui para a produção de novos <br>
-            telemóveis e dispositivos eletrónicos!<br>
-      </p>
-      </div>
-    </div>
-  </section>
-  </div>
+        <div class="learn-section">
+            <!-- Mostruário de Ecopontos -->
+            <div class="bin-showcase">
+                <h2>Guia dos Ecopontos Oficiais</h2>
+                <p style="color: var(--eco-text-muted);">
+                    Clica em cada contentor para saberes exatamente o que deitar e o que deves evitar:
+                </p>
 
+                <div class="bin-selector-row">
+                    <!-- Azul -->
+                    <div class="bin-option-card selected" data-bin="azul">
+                        <img src="imagens/ecopontos/papel%20e%20cartão%20cortado.png" alt="Ecoponto Azul" class="bin-option-img">
+                        <strong style="color: var(--bin-papel);">Azul</strong>
+                        <div style="font-size: 0.85rem; color: var(--eco-text-muted);">Papel e Cartão</div>
+                    </div>
+                    <!-- Amarelo -->
+                    <div class="bin-option-card" data-bin="amarelo">
+                        <img src="imagens/ecopontos/plástico%20e%20metal%20cortado.png" alt="Ecoponto Amarelo" class="bin-option-img">
+                        <strong style="color: var(--bin-plastico);">Amarelo</strong>
+                        <div style="font-size: 0.85rem; color: var(--eco-text-muted);">Plástico e Metal</div>
+                    </div>
+                    <!-- Verde -->
+                    <div class="bin-option-card" data-bin="verde">
+                        <img src="imagens/ecopontos/vidro%20cortado.png" alt="Ecoponto Verde" class="bin-option-img">
+                        <strong style="color: var(--bin-vidro);">Verde</strong>
+                        <div style="font-size: 0.85rem; color: var(--eco-text-muted);">Vidro</div>
+                    </div>
+                    <!-- Pilhão -->
+                    <div class="bin-option-card" data-bin="pilhas">
+                        <img src="imagens/ecopontos/pilhas.png" alt="Pilhão" class="bin-option-img">
+                        <strong style="color: var(--bin-pilhas);">Pilhão</strong>
+                        <div style="font-size: 0.85rem; color: var(--eco-text-muted);">Pilhas e Baterias</div>
+                    </div>
+                    <!-- Composteira -->
+                    <div class="bin-option-card" data-bin="bio">
+                        <img src="imagens/ecopontos/composteira.png" alt="Composteira" class="bin-option-img">
+                        <strong style="color: var(--bin-bio);">Castanho</strong>
+                        <div style="font-size: 0.85rem; color: var(--eco-text-muted);">Orgânico / Composto</div>
+                    </div>
+                </div>
 
-  <!-- Secção de Reciclagem Eletrônica o que fazer -->
+                <!-- Caixa Detalhada -->
+                <div class="bin-detail-box" id="bin-detail-content">
+                    <h3 style="color: var(--bin-papel); margin-bottom: 0.4rem;">Ecoponto Azul: Papel e Cartão</h3>
+                    <p style="margin-bottom: 0.5rem;">
+                        <strong>O que deitar:</strong> Caixas de cereais, caixas de cartão espalmadas, jornais, revistas, folhas de papel e cadernos sem espiral.
+                    </p>
+                    <p style="margin: 0; font-size: 0.95rem; color: var(--eco-danger);">
+                        ⚠️ <em>Atenção: Papel engordurado (guardanapos usados, caixas de pizza com gordura) não pode ser reciclado aqui!</em>
+                    </p>
+                </div>
+            </div>
 
-  <section class="container mb-5 pt-5">
-    <h3 class="mb-5 text-center texto-ecopontos-learn">Clica na imagem e descobre o que podes fazer!</h3>
-    <div class="d-flex justify-content-center gap-4">
-      <img id="ecoponto-vermelho" src="imagens/ecopontos/pilhas.png" alt="Contentor Vermelho" class="img-fluid imagens-ecopontos-learn-eletronico">
-      <img id="caixa" src="imagens/lixo/papel%20e%20cartão/mais%20caixa.webp" alt="Caixa Fechada" class="img-fluid imagens-ecopontos-learn-eletronico">
-    </div>
-    <p id="cenasfixes" class="mt-3 text-center texto-ecopontos-learn">
-      <!-- Este texto vai ser atualizado pelo JavaScript -->
-    </p>
-  </section>
+            <!-- Pesquisa Rápida: Onde Deitar o Quê? -->
+            <div class="search-waste-box">
+                <h2>🔎 Onde Deitar o Quê?</h2>
+                <p style="color: var(--eco-text-muted);">
+                    Tens dúvidas sobre onde colocar algum objeto? Escreve abaixo para descobrires num instante:
+                </p>
 
-  <div class="section-divider mt-5 mb-5"></div>
+                <div class="waste-input-wrapper">
+                    <input type="text" id="waste-input" class="waste-search-input" placeholder="Ex: garrafa de azeite, pilha, caixa de leite, maçã..." aria-label="Pesquisar resíduo">
+                </div>
 
-  <!-- Lixo biodegradável e reutilização de óleo  -->
+                <div class="waste-result-card" id="waste-result">
+                    <h4 id="waste-res-title" style="margin-bottom: 0.3rem;">Garrafa de Plástico</h4>
+                    <p id="waste-res-desc" style="margin-bottom: 0; color: var(--eco-text-muted);">Deves colocar no ecoponto amarelo após escorrer o líquido.</p>
+                </div>
+            </div>
 
-  <div id="reciclar-bio">
-  <section class="container p-5" id="secao-biodegradavel">
-    <h2 class="mb-3 text-center" >
-      ♻️ Lixo Biodegradável e Reutilização de Óleo
-    </h2>
-    <div class="row">
-    <div class="caixa-texto-informativo col-6">
-      <p>
-        Restos de frutas e verduras tornam-se fertilizantes naturais se forem<br>
-        separados do lixo comum. Chama-se a isso compostagem! E o óleo de<br>
-        cozinha usado? Não se deita na sanita porque polui a água. Ele pode<br>
-        ser reciclado para produzir sabão ou combustível. Incrível, não é?<br>
-      </p>
-    </div>
-    </div>
-    </section>
-  </div>
+            <!-- Simulador de Crescimento de Planta com Compostagem -->
+            <div class="compost-sim-container">
+                <h2>🌱 Simulador de Compostagem</h2>
+                <p style="color: var(--eco-text-muted); max-width: 650px; margin: 0 auto 1.5rem auto;">
+                    Vê o que acontece quando alimentas a terra com adubo orgânico! Clica no botão para adicionar restos de fruta e vegetais à terra e observa a planta a crescer:
+                </p>
 
-  <!-- Lixo biodegradável e reutilização de óleo o que fazer  -->
+                <div style="margin: 1.5rem auto; text-align: center;">
+                    <img id="sim-plant-img" src="imagens/pagina-learn/Planta-inicial.png" alt="Fase de Crescimento da Planta" class="sim-plant-img">
+                    <div id="sim-plant-stage" style="margin-top: 1rem; font-weight: 700; color: var(--eco-primary); font-size: 1.2rem;">
+                        Fase 1: Semente no Solo
+                    </div>
+                </div>
 
-  <section class="container p-4">
-    <h2 class="text-center texto-ecopontos-learn">Crescimento da Planta com Lixo Biodegradável 🌱</h2>
-    <p class="text-center">(Mete o lixo organico no contentor de lixo biodegradavel)</p>
-    <div class="game-container">
-      <div class="items">
-        <img src="imagens/pagina-learn/casca-banana.png" alt="Cascas de Banana" class="item draggable">
-        <img src="imagens/pagina-learn/macacomida.png" alt="macacomida" class="item draggable">
-      </div>
-      <div class="contentor-biodegradavel">
-        <img src="imagens/ecopontos/composteira.png" alt="Contentor Biodegradável">
-      </div>
-      <div class="planta-container">
-        <img src="imagens/pagina-learn/Planta-inicial.png" alt="Planta Inicial" class="planta" id="planta">
-      </div>
-    </div>
-    <p id="mensagem" class="text-center mt-3"></p>
-    <!-- Este texto vai ser atualizado pelo JavaScript -->
-  </section>
+                <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+                    <button class="eco-btn eco-btn-accent" id="btn-feed-compost">
+                        🍎 Adicionar Composto Natural (+1)
+                    </button>
+                    <button class="eco-btn eco-btn-secondary" id="btn-reset-compost">
+                        🔄 Reiniciar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
 
-  <div class="section-divider mt-5 mb-5"></div>
+    <!-- Rodapé -->
+    <footer class="eco-footer">
+        <div class="footer-wave-container">
+            <svg class="footer-wave-svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M0,0 C150,90 350,-40 500,45 C650,130 900,10 1200,40 L1200,120 L0,120 Z" fill="#1B4D43"></path>
+            </svg>
+        </div>
+        <div class="footer-content">
+            <div class="footer-logo">🌱 Eco Heróis</div>
+            <nav class="footer-nav">
+                <a href="index.html">Início</a>
+                <a href="index.html#missoes">Missões</a>
+                <a href="tutorial.html">Tutorial</a>
+                <a href="learn.html">Aprende a Reciclar</a>
+                <a href="sobrenos.html">Sobre Nós</a>
+            </nav>
+            <p class="footer-copy">
+                Projeto educativo de sensibilização ambiental e sustentabilidade (ODS 12 — Agenda 2030).
+            </p>
+        </div>
+    </footer>
 
-
-  <!-- Secção de Desperdício de Água -->
-
-  <div id="desperdicio-agua">
-  <section class="container p-5" id="secao-agua">
-    <h2 class="mb-3 text-center texto-ecopontos-learn" id="texto-agua">
-      💧 Combate ao Desperdício de Água
-    </h2>
-    <div class="row">
-    <div class="caixa-texto-informativo col-6 text-start">
-      <p>
-        A água é essencial, mas não é infinita. <br>
-        Pequenas mudanças fazem uma grande diferença! Fecha a torneira <br>
-        enquanto escovas os dentes, aproveita a água da chuva para regar <br>
-        as plantas e verifica fugas nos encanamentos.<br>
-        <br>
-        Sabias que uma torneira a pingar pode desperdiçar até 5 litros <br>
-        de água por dia? Pequenas atitudes fazem grandes diferenças!<br>
-      </p>
-    </div>
-    </div>
-  </section>
-  </div>
-
-  <!-- Secção de Desperdício de Água o que podes fazer -->
-
-  <section class="container p-4">
-    <h2 class="text-center texto-ecopontos-learn">Clica nas torneiras para fechá-las antes que a água acabe! ⏳</h2>
-    <div class="d-flex justify-content-center mt-5 gap-4">
-      <button id="botao-comecar-agua" class="btn btn-comecar mb-4">Começar o Jogo</button>
-    </div>
-
-    <div id="jogo-torneiras" class="jogo-torneiras">
-      <!-- As torneiras serão adicionadas dinamicamente -->
-    </div>
-
-    <div id="progresso">
-      <div id="desperdicio"></div>
-    </div>
-
-    <p id="resultado" class="mt-3 text-center"><!-- Este texto vai ser atualizado pelo JavaScript --></p>
-  </section>
-
-  <div class="section-divider mt-5 mb-5"></div>
-
-  <!-- Secção de Desperdício de Luz -->
-  <div id="luz">
-  <section class="container p-5" id="secao-luz">
-    <h2 class="mb-3 text-center" >
-      💡 Redução do Desperdício de Luz
-    </h2>
-    <div class="row">
-    <div class="caixa-texto-informativo col-6 text-start">
-      <p>
-        Apagar as luzes ao sair do quarto e desligar aparelhos economiza <br>
-        energia e dinheiro. Isso ajuda a natureza, porque menos energia <br>
-        precisa ser gerada. Durante o dia aproveita a luz solar, é de <br>
-        graça e não polui!
-      </p>
-    </div>
-    </div>
-  </section>
-  </div>
-
-  <!-- Secção de Desperdício de Luz o que podes fazer -->
-
-  <section class="container p-4">
-    <h2 class="text-center texto-ecopontos-learn">Evita o desperdício de energia!</h2>
-    <div class="d-flex justify-content-center mb-4">
-      <img id="lampada" src="imagens/pagina-learn/luz-desligada.png" alt="Lâmpada apagada" class="img-fluid">
-    </div>
-    <p id="contador" class="text-center">Energia desperdiçada: <span id="energia">0</span> segundos</p>
-  </section>
-
-  <!-- Secção de desperdício de Luz o que podes fazer -->
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-
-</main>
-
-<footer class="mt-4">
-  <div>
-    <div class="onda" id="onda1"></div>
-    <div class="onda" id="onda2"></div>
-    <div class="onda" id="onda3"></div>
-  </div>
-  <ul class="social_icon">
-    <li><a href="#"><ion-icon name="logo-instagram"></ion-icon></a></li>
-    <li><a href="#"><ion-icon name="logo-youtube"></ion-icon></a></li>
-    <li><a href="#"><ion-icon name="logo-twitter"></ion-icon></a></li>
-    <li><a href="#"><ion-icon name="logo-tiktok"></ion-icon></a></li>
-  </ul>
-  <ul class="menu">
-    <li><a href="index.html">Jogo</a></li>
-    <li><a href="tutorial.html">Tutorial</a></li>
-    <li><a href="learn.html">Aprende a Reciclar</a></li>
-    <li><a href="sobrenos.html">Sobre Nós</a></li>
-  </ul>
-  <p>© 2025 Copyright: Eco Heróis.</p>
-</footer>
-
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-
-<!-- Ionicons -->
-<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-<script src="learn.js"></script>
-
-
-
+    <script src="js/audio-manager.js"></script>
+    <script src="learn.js"></script>
 </body>
 </html>

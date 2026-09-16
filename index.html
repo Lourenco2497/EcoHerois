@@ -3,109 +3,214 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Eco Heróis</title>
+    <title>Eco Heróis — Aprende a Salvar o Planeta a Jogar</title>
+    <meta name="description" content="Jogo educativo interativo de sustentabilidade para crianças. Aprende a reciclar, poupar água e energia em 5 missões divertidas com o EcoFox.">
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- Estilos CSS -->
+    <!-- Estilos Globais Remasterizados -->
     <link href="estilos.css" rel="stylesheet">
-
-    <!-- Fonte títulos -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Oswald:wght@500&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Work+Sans&display=swap" rel="stylesheet">
-
-    <!-- Fonte textos -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Boogaloo&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Oswald:wght@500&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Work+Sans&display=swap" rel="stylesheet">
 </head>
 
 <body>
-    <header>
-        <div class="header-container">
-            <a href="index.html"><h2>ECO HERÓIS</h2></a>
+    <!-- Cabeçalho -->
+    <header class="eco-header">
+        <div class="eco-header-container">
+            <a href="index.html" class="eco-logo">
+                🌱 ECO HERÓIS
+                <span class="eco-logo-badge">Jogo Educativo</span>
+            </a>
+            <button class="eco-nav-toggle" id="nav-toggle" aria-label="Abrir Menu de Navegação">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
             <nav>
-                <ul class="nav-list">
-                    <li><a href="index.html">Jogo</a></li>
+                <ul class="eco-nav-list" id="nav-list">
+                    <li><a href="index.html" class="active">Início</a></li>
+                    <li><a href="#missoes">Missões</a></li>
                     <li><a href="tutorial.html">Tutorial</a></li>
                     <li><a href="learn.html">Aprende a Reciclar</a></li>
                     <li><a href="sobrenos.html">Sobre Nós</a></li>
                 </ul>
             </nav>
         </div>
-</header>
+    </header>
 
     <main>
-        <div id="fundo-gradiente">
-            <div class="align-items-start justify-content-center">
-                <div class="container">
-                    <div class="row align-items-center">
-                        <!-- Mascote -->
-                        <div class="col-md-6 d-flex justify-content-center">
-                            <img id="mascote" src="imagens/BONECO.png" class="img-fluid" alt="mascote">
-                        </div>
-                        <!-- Caixa de diálogo -->
-                        <div class="col-md-6 position-relative">
-                            <img id="caixa-dialogo" src="imagens/caixa.png" class="img-fluid" alt="Caixa de diálogo">
-                            <div id="texto-caixa-dialogo" class="position-absolute">
-                                <h1>Olá, Eco Herói!</h1>
-                                <p>
-                                    Eu sou o <strong>EcoFox</strong>, defensor da natureza!<br>
-                                    Juntos, podemos salvar o meio ambiente<br>
-                                    através de missões divertidas. Neste jogo,<br>
-                                    vais aprender a <strong>reciclar</strong>, <strong>reduzir o lixo</strong> e a<br>
-                                    cuidar melhor do nosso planeta.<br>
-                                    <strong>Estás pronto para embarcar nesta aventura?</strong>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+        <!-- Hero Section com a Mascote EcoFox -->
+        <section class="eco-hero-stage">
+            <div class="eco-dialog-wrapper">
+                <div class="eco-mascot-box">
+                    <img src="imagens/mascote_final_fixe.png" alt="Mascote EcoFox" class="eco-mascot-img">
                 </div>
-                <div class="container text-center">
-                    <div class="row justify-content-center">
-                        <!-- Botão Começar -->
-                        <div class="col-12 mb-4">
-                            <a href="nivel1.html"><button class="btn btn-comecar p-3 px-5" id="btn-comecar">Começar</button></a>
-                        </div>
-                        <!-- Botão Tutorial -->
-                        <div class="col-12">
-                            <a href="tutorial.html"><button class="btn btn-tutorial p-2 px-4">Tutorial</button></a>
-                        </div>
+                <div class="eco-speech-bubble">
+                    <h1>Olá, Eco Herói!</h1>
+                    <p>
+                        Eu sou o <strong>EcoFox</strong>, o teu companheiro na defesa da natureza! O nosso planeta precisa da tua ajuda para combater o lixo e o desperdício.
+                    </p>
+                    <p>
+                        Ao longo de <strong>5 missões divertidas</strong>, vais aprender a separar os resíduos nos ecopontos certos, a reciclar pilhas e eletrónicos, a fazer compostagem no jardim e a fechar torneiras e apagar luzes a tempo!
+                    </p>
+                    <div class="eco-bubble-actions">
+                        <a href="nivel1.html" class="eco-btn eco-btn-primary eco-btn-lg" id="btn-jogar-agora">
+                            🎮 Começar Missão 1
+                        </a>
+                        <a href="#missoes" class="eco-btn eco-btn-secondary eco-btn-lg">
+                            🗺️ Ver Todas as Missões
+                        </a>
+                        <a href="tutorial.html" class="eco-btn eco-btn-accent">
+                            📖 Como Jogar
+                        </a>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
+
+        <!-- Seletor de Missões (Level Hub) -->
+        <section class="eco-missions-section" id="missoes">
+            <h2 class="eco-section-title">Mapa de Missões</h2>
+            <p class="eco-section-sub">
+                Avança pelos 5 desafios ecológicos, ganha estrelas de sustentabilidade e torna-te um Guardião da Terra!
+            </p>
+
+            <div class="eco-levels-grid" id="levels-grid">
+                <!-- Nível 1 -->
+                <div class="eco-level-card" id="card-lvl-1">
+                    <div>
+                        <div class="eco-level-num">01</div>
+                        <div class="eco-level-name">Parque da Cidade</div>
+                        <div class="eco-level-desc">Separa o papel, plástico e vidro nos ecopontos oficiais antes que o tempo termine.</div>
+                    </div>
+                    <div>
+                        <div class="eco-level-stars" id="stars-lvl-1">⭐⭐⭐</div>
+                        <a href="nivel1.html" class="eco-btn eco-btn-primary eco-btn-sm" style="width: 100%;">Jogar Nível 1</a>
+                    </div>
+                </div>
+
+                <!-- Nível 2 -->
+                <div class="eco-level-card" id="card-lvl-2">
+                    <div>
+                        <div class="eco-level-num">02</div>
+                        <div class="eco-level-name">Quarto Tecnológico</div>
+                        <div class="eco-level-desc">Pilhas gastas e tecnologia avariada exigem tratamento especial. Guarda-os nos sítios certos!</div>
+                    </div>
+                    <div>
+                        <div class="eco-level-stars" id="stars-lvl-2">⭐⭐⭐</div>
+                        <a href="nivel2.html" class="eco-btn eco-btn-secondary eco-btn-sm" style="width: 100%;">Jogar Nível 2</a>
+                    </div>
+                </div>
+
+                <!-- Nível 3 -->
+                <div class="eco-level-card" id="card-lvl-3">
+                    <div>
+                        <div class="eco-level-num">03</div>
+                        <div class="eco-level-name">Jardim Sustentável</div>
+                        <div class="eco-level-desc">Aprende a transformar restos de fruta e legumes em adubo orgânico com a composteira.</div>
+                    </div>
+                    <div>
+                        <div class="eco-level-stars" id="stars-lvl-3">⭐⭐⭐</div>
+                        <a href="nivel3.html" class="eco-btn eco-btn-secondary eco-btn-sm" style="width: 100%;">Jogar Nível 3</a>
+                    </div>
+                </div>
+
+                <!-- Nível 4 -->
+                <div class="eco-level-card" id="card-lvl-4">
+                    <div>
+                        <div class="eco-level-num">04</div>
+                        <div class="eco-level-name">Casa de Banho</div>
+                        <div class="eco-level-desc">Cada gota conta! Fecha as torneiras a pingar antes que a água preciosa se perca.</div>
+                    </div>
+                    <div>
+                        <div class="eco-level-stars" id="stars-lvl-4">⭐⭐⭐</div>
+                        <a href="nivel4.html" class="eco-btn eco-btn-secondary eco-btn-sm" style="width: 100%;">Jogar Nível 4</a>
+                    </div>
+                </div>
+
+                <!-- Nível 5 -->
+                <div class="eco-level-card" id="card-lvl-5">
+                    <div>
+                        <div class="eco-level-num">05</div>
+                        <div class="eco-level-name">Sala Inteligente</div>
+                        <div class="eco-level-desc">Poupa energia elétrica! Apaga as luzes acesas desnecessariamente para salvar o planeta.</div>
+                    </div>
+                    <div>
+                        <div class="eco-level-stars" id="stars-lvl-5">⭐⭐⭐</div>
+                        <a href="nivel5.html" class="eco-btn eco-btn-secondary eco-btn-sm" style="width: 100%;">Jogar Nível 5</a>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
 
-    <footer class="mt-4">
-        <div>
-            <div class="onda" id="onda1"></div>
-            <div class="onda" id="onda2"></div>
-            <div class="onda" id="onda3"></div>
+    <!-- Rodapé -->
+    <footer class="eco-footer">
+        <div class="footer-wave-container">
+            <svg class="footer-wave-svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M0,0 C150,90 350,-40 500,45 C650,130 900,10 1200,40 L1200,120 L0,120 Z" fill="#1B4D43"></path>
+            </svg>
         </div>
-    <ul class="social_icon">
-        <li><a href="#"><ion-icon name="logo-instagram"></ion-icon></a></li>
-        <li><a href="#"><ion-icon name="logo-youtube"></ion-icon></a></li>
-        <li><a href="#"><ion-icon name="logo-twitter"></ion-icon></a></li>
-        <li><a href="#"><ion-icon name="logo-tiktok"></ion-icon></a></li>
-    </ul>
-        <ul class="menu">
-            <li><a href="index.html">Jogo</a></li>
-            <li><a href="tutorial.html">Tutorial</a></li>
-            <li><a href="learn.html">Aprende a Reciclar</a></li>
-            <li><a href="sobrenos.html">Sobre Nós</a></li>
-        </ul>
-        <p>© 2025 Copyright: Eco Heróis.</p>
+        <div class="footer-content">
+            <div class="footer-logo">🌱 Eco Heróis</div>
+            <nav class="footer-nav">
+                <a href="index.html">Jogo</a>
+                <a href="tutorial.html">Tutorial</a>
+                <a href="learn.html">Aprende a Reciclar</a>
+                <a href="sobrenos.html">Sobre Nós</a>
+            </nav>
+            <p class="footer-copy">
+                Projeto educativo de sensibilização ambiental e sustentabilidade (ODS 12 — Agenda 2030).
+            </p>
+        </div>
     </footer>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Scripts Modulares -->
+    <script src="js/audio-manager.js"></script>
+    <script src="js/storage-manager.js"></script>
+    <script>
+        // Menu Móvel
+        const toggleBtn = document.getElementById('nav-toggle');
+        const navList = document.getElementById('nav-list');
+        if (toggleBtn && navList) {
+            toggleBtn.addEventListener('click', () => {
+                navList.classList.toggle('is-open');
+            });
+        }
 
-    <!-- Ionicons -->
-    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+        // Atualizar estrelas e estado dos níveis a partir do StorageManager
+        window.addEventListener('DOMContentLoaded', () => {
+            if (!window.storageManager) return;
 
+            for (let i = 1; i <= 5; i++) {
+                const data = window.storageManager.getLevelData(i);
+                const isUnlocked = window.storageManager.isLevelUnlocked(i);
+                const starsElem = document.getElementById(`stars-lvl-${i}`);
+                const cardElem = document.getElementById(`card-lvl-${i}`);
+
+                if (starsElem) {
+                    const stars = data.stars || 0;
+                    starsElem.innerHTML = `
+                        <span class="${stars >= 1 ? '' : 'star-empty'}">⭐</span>
+                        <span class="${stars >= 2 ? '' : 'star-empty'}">⭐</span>
+                        <span class="${stars >= 3 ? '' : 'star-empty'}">⭐</span>
+                    `;
+                }
+
+                if (cardElem && !isUnlocked) {
+                    cardElem.style.opacity = '0.7';
+                    const btn = cardElem.querySelector('a');
+                    if (btn) {
+                        btn.classList.remove('eco-btn-primary');
+                        btn.classList.add('eco-btn-secondary');
+                    }
+                }
+            }
+        });
+    </script>
 </body>
 </html>

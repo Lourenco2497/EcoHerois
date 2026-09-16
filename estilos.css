@@ -1,1077 +1,1239 @@
-h1, h2, h3, h4, h5, h6 {
-    font-family: 'Montserrat', sans-serif;
-    font-optical-sizing: auto;
-    font-weight: 500;
-    font-style: normal;
+/* ==========================================================================
+   Eco Heróis — Design System & Folha de Estilos Principal
+   Remasterizado com foco em estética ecológica autêntica, robustez e acessibilidade.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Design Tokens & Variáveis Globais
+   -------------------------------------------------------------------------- */
+:root {
+    /* Cores Principais (Tema Ecológico Terroso & Florestal) */
+    --eco-primary: #1B4D43;
+    --eco-primary-dark: #12352E;
+    --eco-primary-light: #2A6E61;
+    --eco-primary-rgb: 27, 77, 67;
+
+    --eco-leaf: #3AA76D;
+    --eco-leaf-light: #52C288;
+    --eco-leaf-soft: #EAF7EF;
+
+    --eco-amber: #E29924;
+    --eco-amber-light: #F4BA57;
+    --eco-amber-soft: #FEF7EA;
+
+    --eco-danger: #C23934;
+    --eco-danger-soft: #FDF0EF;
+
+    /* Contentores / Ecopontos Oficiais */
+    --bin-papel: #1A6298;
+    --bin-plastico: #E2A110;
+    --bin-vidro: #2A7B44;
+    --bin-pilhas: #BF2D27;
+    --bin-bio: #7D5130;
+
+    /* Superfícies e Fundos */
+    --eco-bg: #F4F7F1;
+    --eco-bg-alt: #EBF1E6;
+    --eco-surface: #FFFFFF;
+    --eco-surface-card: #FDFEFC;
+    --eco-border: #D8E4D3;
+    --eco-border-light: #E7EFE3;
+
+    /* Tipografia e Textos */
+    --eco-text: #1F2E2B;
+    --eco-text-muted: #566864;
+    --eco-text-inverse: #FFFFFF;
+
+    --font-title: 'Boogaloo', cursive, sans-serif;
+    --font-sans: 'Montserrat', system-ui, -apple-system, sans-serif;
+
+    /* Sombras e Elevação */
+    --eco-shadow-sm: 0 2px 4px rgba(27, 77, 67, 0.08);
+    --eco-shadow-md: 0 6px 16px rgba(27, 77, 67, 0.12);
+    --eco-shadow-lg: 0 12px 32px rgba(27, 77, 67, 0.18);
+    --eco-shadow-pop: 0 8px 0 rgba(18, 53, 46, 0.25);
+
+    /* Raios de Borda */
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 22px;
+    --radius-pill: 9999px;
+
+    /* Transições */
+    --transition-fast: 0.18s ease;
+    --transition-base: 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-
-body {
-    font-family: 'Montserrat', sans-serif;
-    font-optical-sizing: auto;
-    font-weight: 500;
-    font-style: normal;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    overflow-x: hidden;
+/* --------------------------------------------------------------------------
+   2. Reset e Base
+   -------------------------------------------------------------------------- */
+*, *::before, *::after {
+    box-sizing: border-box;
 }
 
 html {
+    scroll-behavior: smooth;
     overflow-x: hidden;
 }
 
-header {
-    background-color: #ffffff;
-    padding: 15px 0;
-}
-
-.header-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1200px;
-    margin: auto;
-}
-
-h2 {
-    font-family: 'Boogaloo';
-    font-size: 36px;
-    color: #386B6B;
-    margin: 0;
-}
-
-h1 {
-    font-family: 'Boogaloo';
-    color: #386B6B;
-}
-
-nav .nav-list {
-    list-style: none;
-    display: flex;
-    gap: 64px;
+body {
     margin: 0;
     padding: 0;
+    font-family: var(--font-sans);
+    color: var(--eco-text);
+    background-color: var(--eco-bg);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
 }
 
-nav .nav-list li {
-    font-size: 16px;
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-title);
+    color: var(--eco-primary);
+    line-height: 1.2;
+    margin: 0 0 0.5rem 0;
+    letter-spacing: 0.5px;
 }
+
+h1 { font-size: clamp(2rem, 4vw, 3.2rem); }
+h2 { font-size: clamp(1.7rem, 3vw, 2.4rem); }
+h3 { font-size: clamp(1.4rem, 2.5vw, 1.9rem); }
 
 a {
+    color: var(--eco-primary);
     text-decoration: none;
+    transition: color var(--transition-fast);
 }
 
-nav .nav-list a {
-    text-decoration: none;
-    font-family: 'Montserrat', sans-serif;
-    color: #363636;
-    font-size: 16px;
-    font-weight: 400;
-    transition: color 0.3s ease;
+a:hover {
+    color: var(--eco-leaf);
 }
 
-nav .nav-list a:hover {
-    color: #386B6B;
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    user-select: none;
+    -webkit-user-drag: none;
 }
 
-li {
-    position: relative;
+/* Foco Acessível */
+:focus-visible {
+    outline: 3px solid var(--eco-amber);
+    outline-offset: 3px;
+    border-radius: var(--radius-sm);
 }
 
-li::after {
-    content: '';
-    transition: all 0.5s ease;
-    opacity: 0;
-    height: 2px;
-    width: 0;
-    background-color: #386B6B;
-    position: absolute;
-    bottom: -8px;
-    left: 0;
+/* --------------------------------------------------------------------------
+   3. Header e Navegação
+   -------------------------------------------------------------------------- */
+.eco-header {
+    background-color: var(--eco-surface);
+    border-bottom: 2px solid var(--eco-border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: 0.75rem 1.5rem;
+    box-shadow: var(--eco-shadow-sm);
 }
 
-li:hover::after {
-    opacity: 1;
-    width: 100%;
-}
-
-#fundo-gradiente {
-    background-image: url("imagens/fundos/JOGO.png");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    height: 130vh;
+.eco-header-container {
+    max-width: 1200px;
+    margin: 0 auto;
     display: flex;
-    justify-content: center;
-}
-
-/* Página Inicial */
-
-#mascote {
-    transform: translateX(7%);
-}
-
-#caixa-dialogo {
-    transform: translateX(-20%);
-}
-
-#texto-caixa-dialogo {
-    top: 20%;
-    left: 20%;
-    transform: translate(-26%, -12%);
-    color: #2D5A5A;
-    font-family: 'Montserrat', sans-serif;
-    text-align: left;
-    max-width: 80%;
-}
-
-#texto-caixa-dialogo h1 {
-    margin-bottom: 15px;
-    color: #386B6B;
-}
-
-#texto-caixa-dialogo p {
-    font-size: 1rem;
-    line-height: 1.5;
-    margin-bottom: 10px;
-}
-
-.btn-comecar {
-    background-color: #386B6B;
-    color: #ffffff;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 1.2rem;
-    font-weight: bold;
-    border: #DCEACF solid 3px;
-    border-radius: 16px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.btn-comecar:hover {
-    background-color: #2D5A5A;
-    transform: scale(1.05);
-    color: #ffffff;
-}
-
-
-.btn-tutorial {
-    background-color: #b5e3e3;
-    color: #386B6B;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 1rem;
-    font-weight: bold;
-    border: white solid 3px;
-    border-radius: 12px;
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.btn-eco-tutorial {
-    background-color: #b5e3e3;
-    color: #386B6B;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 1.2rem;
-    font-weight: bold;
-    border: none;
-    border-radius: 8px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.btn-tutorial:hover {
-    background-color: #a0d8d8;
-    color: #386B6B;
-    transform: scale(1.05);
-}
-
-/* Aprende a reciclar */
-
-#texto-titulo-informativo {
-    text-align: center;
-    font-size: 3rem;
-}
-
-.caixa-texto-informativo {
-    background-color: white;
-    border-radius: 15px;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    width: auto;
-    margin: 20px auto;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 1rem;
-    color: #333;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
 }
 
-#caixa-texto-informativo-topo {
-    background-color: white;
-    border-radius: 15px;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    width: auto;
-    margin: 20px auto;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 1rem;
-    color: #333;
-    transform: translateX(10%);
+.eco-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: var(--font-title);
+    font-size: 1.9rem;
+    color: var(--eco-primary);
+    text-decoration: none;
+    line-height: 1;
 }
 
-#conteudo-texto-camiao {
+.eco-logo:hover {
+    color: var(--eco-primary-light);
+}
+
+.eco-logo-badge {
+    background-color: var(--eco-leaf-soft);
+    color: var(--eco-leaf);
+    padding: 0.3rem 0.6rem;
+    border-radius: var(--radius-pill);
+    font-size: 1rem;
+    font-family: var(--font-sans);
+    font-weight: 700;
+}
+
+.eco-nav-list {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 1.8rem;
+    margin: 0;
+    padding: 0;
+}
+
+.eco-nav-list li a {
+    font-size: 0.98rem;
+    font-weight: 600;
+    color: var(--eco-text);
+    padding: 0.4rem 0.75rem;
+    border-radius: var(--radius-pill);
+    transition: all var(--transition-fast);
+    position: relative;
+}
+
+.eco-nav-list li a:hover {
+    color: var(--eco-primary);
+    background-color: var(--eco-bg-alt);
+}
+
+.eco-nav-list li a.active {
+    color: var(--eco-surface);
+    background-color: var(--eco-primary);
+}
+
+/* Hamburger para ecrãs pequenos */
+.eco-nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    color: var(--eco-primary);
+}
+
+/* --------------------------------------------------------------------------
+   4. Botões e Ações
+   -------------------------------------------------------------------------- */
+.eco-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-size: 1.05rem;
+    padding: 0.85rem 1.8rem;
+    border-radius: var(--radius-md);
+    border: 2px solid transparent;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all var(--transition-base);
+    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.12);
+}
+
+.eco-btn:active {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.12);
+}
+
+.eco-btn-primary {
+    background-color: var(--eco-primary);
+    color: var(--eco-surface);
+    border-color: var(--eco-primary-dark);
+}
+
+.eco-btn-primary:hover {
+    background-color: var(--eco-primary-light);
+    color: var(--eco-surface);
+    box-shadow: 0 6px 12px rgba(27, 77, 67, 0.25);
+}
+
+.eco-btn-secondary {
+    background-color: var(--eco-surface);
+    color: var(--eco-primary);
+    border-color: var(--eco-border);
+}
+
+.eco-btn-secondary:hover {
+    background-color: var(--eco-bg-alt);
+    color: var(--eco-primary-dark);
+    border-color: var(--eco-primary);
+}
+
+.eco-btn-accent {
+    background-color: var(--eco-leaf);
+    color: var(--eco-surface);
+    border-color: #2E8A57;
+}
+
+.eco-btn-accent:hover {
+    background-color: var(--eco-leaf-light);
+    color: var(--eco-surface);
+}
+
+.eco-btn-danger {
+    background-color: var(--eco-danger);
+    color: var(--eco-surface);
+    border-color: #9E2B27;
+}
+
+.eco-btn-danger:hover {
+    background-color: #D64641;
+    color: var(--eco-surface);
+}
+
+.eco-btn-sm {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    border-radius: var(--radius-sm);
+}
+
+.eco-btn-lg {
+    padding: 1.1rem 2.4rem;
+    font-size: 1.25rem;
+    border-radius: var(--radius-lg);
+}
+
+/* --------------------------------------------------------------------------
+   5. Balão de Fala Dinâmico e Mascote EcoFox
+   -------------------------------------------------------------------------- */
+.eco-hero-stage {
+    min-height: calc(100vh - 180px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2.5rem 1.5rem;
+    background: radial-gradient(circle at top center, #FFFFFF 0%, #EDF3E8 100%);
+}
+
+.eco-dialog-wrapper {
+    max-width: 1040px;
+    width: 100%;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 2.5rem;
+    align-items: center;
+}
+
+.eco-mascot-box {
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+.eco-mascot-img {
+    max-height: 380px;
+    width: auto;
+    filter: drop-shadow(0 12px 20px rgba(27, 77, 67, 0.16));
+    animation: mascotFloat 4s ease-in-out infinite alternate;
+}
+
+@keyframes mascotFloat {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-10px); }
+}
+
+.eco-speech-bubble {
+    background: var(--eco-surface);
+    border: 3px solid var(--eco-border);
+    border-radius: var(--radius-lg);
+    padding: 2.2rem 2.5rem;
+    position: relative;
+    box-shadow: var(--eco-shadow-md);
+}
+
+/* Triângulo do balão a apontar para a mascote */
+.eco-speech-bubble::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -20px;
+    transform: translateY(-50%);
+    border-width: 10px 20px 10px 0;
+    border-style: solid;
+    border-color: transparent var(--eco-border) transparent transparent;
+}
+
+.eco-speech-bubble::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -16px;
+    transform: translateY(-50%);
+    border-width: 8px 16px 8px 0;
+    border-style: solid;
+    border-color: transparent var(--eco-surface) transparent transparent;
+}
+
+.eco-speech-bubble h1 {
+    font-size: 2.3rem;
+    margin-bottom: 0.8rem;
+}
+
+.eco-speech-bubble p {
+    font-size: 1.08rem;
+    color: var(--eco-text-muted);
+    margin-bottom: 1.2rem;
+    line-height: 1.6;
+}
+
+.eco-speech-bubble p strong {
+    color: var(--eco-primary);
+}
+
+.eco-bubble-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+}
+
+/* --------------------------------------------------------------------------
+   6. Mapa de Missões (Seletor de Níveis no Index)
+   -------------------------------------------------------------------------- */
+.eco-missions-section {
+    padding: 3.5rem 1.5rem;
+    background-color: var(--eco-surface);
+    border-top: 2px solid var(--eco-border);
+}
+
+.eco-section-title {
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+.eco-section-sub {
+    text-align: center;
+    color: var(--eco-text-muted);
+    max-width: 600px;
+    margin: 0 auto 2.5rem auto;
+    font-size: 1.05rem;
+}
+
+.eco-levels-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    max-width: 1150px;
+    margin: 0 auto;
+}
+
+.eco-level-card {
+    background: var(--eco-bg);
+    border: 2px solid var(--eco-border);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    text-align: center;
+    transition: all var(--transition-base);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+}
+
+.eco-level-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--eco-leaf);
+    box-shadow: var(--eco-shadow-md);
+}
+
+.eco-level-num {
+    font-family: var(--font-title);
+    font-size: 2.2rem;
+    color: var(--eco-primary);
+    line-height: 1;
+    margin-bottom: 0.3rem;
+}
+
+.eco-level-name {
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--eco-text);
+    margin-bottom: 0.4rem;
+}
+
+.eco-level-desc {
+    font-size: 0.88rem;
+    color: var(--eco-text-muted);
+    margin-bottom: 1rem;
+    flex-grow: 1;
+}
+
+.eco-level-stars {
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+}
+
+.eco-level-stars .star-empty {
+    opacity: 0.3;
+    filter: grayscale(1);
+}
+
+/* --------------------------------------------------------------------------
+   7. Game HUD (Barra Superior Integrada em Todos os Níveis)
+   -------------------------------------------------------------------------- */
+.eco-game-hud {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 72px;
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 2px solid var(--eco-border);
+    z-index: 900;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 20px;
-    transform: translateX(-10%);
-
+    padding: 0 1.5rem;
+    box-shadow: var(--eco-shadow-sm);
 }
 
-#background-pagina-informativa > * {
-    margin: 0;
-}
-
-#camiao {
-    width: 7%;
-    height: auto;
-    transform: scale(2.4) translateX(-100%);
-}
-
-strong {
-    color: #386B6B;
-}
-
-#background-pagina-informativa {
-    background: linear-gradient(180deg, #98EAEA 0%, #ffffff 100%);
-    padding: 0;
-    max-width: 100%;
-}
-
-
-#titulo-reciclagem-learn {
-    color: #386B6B;
-    font-family: 'Boogaloo';
-}
-
-#subtitulo-reciclagem-learn {
-    color: #F7FCF3;
-    font-family: 'Boogaloo';
-    -webkit-text-stroke: 1px #386B6B;
-    font-size: 2rem;
-}
-
-/* Atividade Interativa bio */
-
-.game-container {
+.hud-left, .hud-center, .hud-right {
     display: flex;
-    justify-content: space-around;
     align-items: center;
+    gap: 0.8rem;
 }
 
-.items {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.item {
-    width: 80px;
-    cursor: grab;
-}
-
-.contentor-biodegradavel img {
-    width: 170px;
-}
-
-.planta-container {
-    display: flex;
+.hud-btn {
+    background: var(--eco-bg);
+    border: 2px solid var(--eco-border);
+    color: var(--eco-primary);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    font-family: var(--font-sans);
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
     justify-content: center;
-    align-items: center;
+    transition: all var(--transition-fast);
 }
 
-.planta {
-    width: 110px;
-    transition: transform 0.5s ease, opacity 0.5s ease;
-}
-
-#mensagem {
+.hud-btn-icon {
+    width: 44px;
+    height: 44px;
     font-size: 1.2rem;
-    color: green;
 }
 
-/* Atividade interativa bio */
+.hud-btn:hover {
+    background: var(--eco-bg-alt);
+    border-color: var(--eco-primary);
+    transform: scale(1.05);
+}
 
-/* Atividade interativa água */
-
-.jogo-torneiras {
+.hud-level-badge {
     display: flex;
-    justify-content: space-around;
-    margin: 20px 0;
-    position: relative;
-}
-
-
-.torneira {
-    width: 50px;
-    cursor: pointer;
-    animation: pingar 1.5s infinite ease-in-out;
-}
-
-
-#progresso {
-    width: 80%;
-    height: 20px;
-    background: #ddd;
-    border-radius: 10px;
-    margin: 20px auto;
-    position: relative;
-    overflow: hidden;
-}
-
-#desperdicio {
-    height: 100%;
-    width: 0%;
-    background: red;
-    transition: width 0.3s ease;
-    border-radius: 10px;
-}
-
-
-/* Atividade interativa água */
-
-/* Atividade interativa luz */
-
-
-
-
-#lampada {
-    width: 100px;
-    cursor: pointer;
-}
-
-.texto-ecopontos-learn {
-    color: #555;
-}
-
-.imagens-ecopontos-learn {
-    width: 150px;
-    height: auto;
-}
-
-.imagens-ecopontos-learn-eletronico {
-    width: 150px;
-    height: auto;
-    cursor: pointer;
-    transition: opacity 0.5s ease, transform 0.5s ease;
-}
-
-.imagens-ecopontos-learn-eletronico.abrir {
-    opacity: 1;
-    transform: rotateX(0deg);
-}
-
-.imagens-ecopontos-learn-eletronico.fechando {
-    opacity: 0.5;
-    transform: rotateX(90deg);
-}
-
-
-.imagem-compostagem {
-    width: 500px;
-    height: auto;
-}
-
-.ecoponto-off {
-    opacity: 0.5;
-}
-
-.custom-btn-learn {
-    width: 50px;
-    height: 50px;
-    background-color: #386B6B;
-    border: none;
-    border-radius: 25%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    cursor: pointer;
-    margin-top: 50px;
-}
-
-.esquerda-arrow-learn::before {
-    content: '<';
-    color: white;
-    font-size: 24px;
-    font-weight: bold;
-    display: block;
-}
-
-.direita-arrow-learn::before {
-    content: '>';
-    color: white;
-    font-size: 24px;
-    font-weight: bold;
-    display: block;
-}
-
-.custom-btn-learn:hover {
-    background-color: #2D5555;
-}
-
-section p {
-    margin-bottom: 0;
-}
-
-#porque-reciclar {
-    background: linear-gradient(180deg, #DCEACF, #F7FCF3);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    padding: 20px;
-    margin: 20px auto;
-    max-width: 90%;
-
-}
-
-#texto-eletronico {
-    color: #DCEACF;
-}
-
-#reciclar-eletronico {
-    background: linear-gradient(180deg, #386B6B, #8AB5AC);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    padding: 20px;
-    margin: 20px auto;
-    max-width: 90%;
-}
-
-.section-divider {
-    height: 2px;
-    background: #386B6B;
-    margin: 30px auto;
-    width: 50%;
-    border-radius: 5px;
-}
-
-#reciclar-bio {
-    background: linear-gradient(180deg, #DCEACF, #F7FCF3);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    padding: 20px;
-    margin: 20px auto;
-    max-width: 90%;
-}
-
-#desperdicio-agua {
-    background: linear-gradient(180deg, #386B6B, #8AB5AC);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    padding: 20px;
-    margin: 20px auto;
-    max-width: 90%;
-}
-
-#texto-agua {
-    color: #DCEACF;
-}
-
-#luz {
-    background: linear-gradient(180deg, #DCEACF, #F7FCF3);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 10px;
-    padding: 20px;
-    margin: 20px auto;
-    max-width: 90%;
-}
-
-/* Footer */
-
-footer {
-    position: relative;
-    width: 100%;
-    background-color: #386B6B;
-    min-height: 100px;
-    padding: 20px 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     flex-direction: column;
+    line-height: 1.15;
 }
 
-.social_icon, .menu {
-    position: relative;
+.hud-badge-tag {
+    font-family: var(--font-title);
+    font-size: 1.35rem;
+    color: var(--eco-primary);
+}
+
+.hud-badge-sub {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--eco-text-muted);
+}
+
+.hud-counter-card, .hud-timer-card {
+    background: var(--eco-bg);
+    border: 2px solid var(--eco-border);
+    border-radius: var(--radius-pill);
+    padding: 0.4rem 1rem;
     display: flex;
-    justify-content: center;
     align-items: center;
-    margin: 10px 0;
+    gap: 0.5rem;
+    font-weight: 700;
+    font-size: 1.15rem;
+    color: var(--eco-primary);
 }
 
-.social_icon li, .menu li {
-    list-style: none;
+.hud-timer-card.timer-warning {
+    background: var(--eco-danger-soft);
+    border-color: var(--eco-danger);
+    color: var(--eco-danger);
+    animation: timerPulse 0.9s infinite alternate;
 }
 
-.social_icon li a{
-    font-size: 2em;
-    color: white;
-    margin: 0 10px;
-    display: inline-block;
-    transition: 0.5s;
+@keyframes timerPulse {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.07); }
 }
 
-.social_icon li a:hover {
-    transform: translateY(-10px);
+.counter-bump {
+    animation: counterBump 0.25s ease;
 }
 
-.menu li a {
-    font-size: 1em;
-    color: white;
-    margin: 0 10px;
-    display: inline-block;
-    text-decoration: none;
-    opacity: 0.75;
+@keyframes counterBump {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
 }
 
-.menu li a:hover {
-    opacity: 1;
-}
-
-footer p {
-    color: white;
-    text-align: center;
-    margin-top: 15px;
-    margin-bottom: 10px;
-    font-size: 0.7em;
-}
-
-.onda {
-    position: absolute;
-    top: -100px;
-    left: 0;
-    width: 100%;
-    height: 100px;
-    background: url("imagens/Footer/onda.png");
-    background-size: 1000px 100px;
-}
-
-#onda1 {
-    z-index: 1000;
-    opacity: 1;
-    bottom: 0;
-    animation: animateWave1 4s linear infinite;
-}
-
-#onda2 {
-    z-index: 999;
-    opacity: 0.5;
-    bottom: 10px;
-    animation: animateWave2 4s linear infinite;
-}
-
-@keyframes animateWave1 {
-    0% {
-        background-position-x: 1000px;
-    }
-    100% {
-        background-position-x: 0;
-    }
-    
-}
-
-@keyframes animateWave2 {
-    0% {
-        background-position-x: 0;
-    }
-    100% {
-        background-position-x: 1000px;
-    }
-
-}
-
-/* Nível 1 */
-
-
-.titulo-niveis {
-    font-family: 'Boogaloo';
-    font-size: 36px;
-    color: #DCEACF;
-    -webkit-text-stroke: 1.7px #386B6B;
-    margin: 0;
+/* --------------------------------------------------------------------------
+   8. Ecrã de Introdução e Game Stage dos Níveis
+   -------------------------------------------------------------------------- */
+.level-intro-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 500;
+    display: flex;
+    align-items: center;
     justify-content: center;
-}
-
-#nivel1-fundo {
-    background-image: url("imagens/fundos/46232.jpg");
-    background-repeat: no-repeat;
+    padding: 1.5rem;
     background-size: cover;
     background-position: center;
-    height: 100vh;
-    position: relative;
+}
+
+.level-intro-card {
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(10px);
+    border: 3px solid var(--eco-border);
+    border-radius: var(--radius-lg);
+    padding: 2.5rem 3rem;
+    max-width: 580px;
+    width: 100%;
+    text-align: center;
+    box-shadow: var(--eco-shadow-lg);
+}
+
+.level-intro-card h2 {
+    font-size: 2.6rem;
+    margin-bottom: 0.5rem;
+}
+
+.level-intro-card p {
+    color: var(--eco-text-muted);
+    font-size: 1.05rem;
+    margin-bottom: 1.5rem;
+}
+
+.level-intro-card p strong {
+    color: var(--eco-primary);
+}
+
+/* Container do Jogo (Stage Responsivo com proporção mantida) */
+.eco-game-container {
+    position: fixed;
+    top: 72px;
+    bottom: 0;
+    left: 0;
+    right: 0;
     overflow: hidden;
-    display: none;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
+.eco-game-stage {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    overflow: hidden;
+    user-select: none;
+    touch-action: none;
+}
+
+/* --------------------------------------------------------------------------
+   9. Resíduos Arrastáveis e Contentores (Ecopontos)
+   -------------------------------------------------------------------------- */
 .lixo-drag {
     position: absolute;
-    width: 100px;
-    z-index: 2;
-}
-
-.ecoponto-drop {
-    cursor: pointer;
-}
-
-.lixo-drag {
     cursor: grab;
+    user-select: none;
+    touch-action: none;
+    z-index: 10;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.22));
+    transition: transform 0.15s ease, filter 0.15s ease;
 }
 
-.lixo-drag:active {
+.lixo-drag:hover {
+    transform: scale(1.08);
+    filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.3));
+}
+
+.lixo-drag.is-dragging {
     cursor: grabbing;
+    transform: scale(1.15) rotate(4deg);
+    filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.4));
+    z-index: 1000 !important;
 }
 
-
-#lixo-3, #lixo-8, #lixo-10, #lixo-12, #lixo-14 {
-    width: 50px;
+.lixo-drag.is-selected {
+    outline: 4px solid var(--eco-amber);
+    outline-offset: 4px;
+    border-radius: var(--radius-sm);
+    animation: selectedPulse 1s infinite alternate;
 }
 
-#lixo-9 {
-    width: 35px;
+@keyframes selectedPulse {
+    0% { transform: scale(1.05); }
+    100% { transform: scale(1.12); }
 }
 
-#ecoponto-1, #ecoponto-2, #ecoponto-3 {
-    width: 150px;
+.shake-error {
+    animation: shakeAnim 0.35s ease-in-out;
 }
 
-.ecopontos {
+@keyframes shakeAnim {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-8px); }
+    40%, 80% { transform: translateX(8px); }
+}
+
+/* Ecopontos e Zonas de Drop */
+.ecopontos-dock {
     position: absolute;
+    bottom: 1.5rem;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
-    bottom: 0;
-}
-
-.texto-nivel1 {
-    position: relative;
-    line-height: 0.4rem;
-    font-size: 1rem;
-    left: 50%;
-    transform: translateY(-170%) translateX(-34%);
-}
-
-.fundo-parque {
-    background-image: url("imagens/fundos/nivel 1 blur.png");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    height: 100vh;
-    display: flex;
-    align-items: center;
+    gap: 1.8rem;
     justify-content: center;
-    flex-direction: column;
+    align-items: flex-end;
+    z-index: 5;
+    padding: 0 1rem;
+    width: auto;
 }
 
-
-.caixa-dialogo-1 {
-    transform: translateX(-6%) translateY(20%);
-}
-
-#nivel1-fim {
-    background-image: url("imagens/fundos/46232.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    height: 100vh;
-    position: relative;
-    overflow: hidden;
-    display: none;
-}
-
-#ganhar-nivel1 {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 3;
-    flex-direction: column;
-}
-
-#btn-proximo {
-    font-size: 0.9rem;
-}
-
-#texto-perder-1 {
-    transform: translateY(-146%) translateX(-35%);
-}
-
-#nivel1-perder {
-    display: none;
-}
-
-
-/* Nível 2 */
-
-#nivel2-fundo {
-    background-image: url("imagens/fundos/nivel2background.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    height: 100vh;
-    min-height: 100%;
-    position: relative;
-    overflow: hidden;
-    display: none;
-}
-
-#lixo-15, #lixo-16, #lixo-24 {
-    width: 50px;
-}
-
-#lixo-17, #lixo-21, #lixo-22 {
-    width: 70px;
-}
-
-#lixo-19 {
-    width: 120px;
-}
-
-#lixo-20 {
-    width: 220px;
-}
-
-#caixa-eletronicos {
-    width: 13%;
-    height: auto;
-    object-fit: contain;
-    position: absolute;
-    transform: translateY(60%) translateX(-20%);
-}
-
-#ecoponto-4 {
-    width: 210px;
-    object-fit: contain;
-    position: absolute;
-    transform: translateY(100%) translateX(80%);
-}
-
-
-.fundo-quarto {
-    background-image: url("imagens/fundos/nivel 2 blur.png");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    height: 100vh;
+.ecoponto-drop-wrapper {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-}
-
-#texto-nivel2 {
-    position: relative;
-    line-height: 0.4rem;
-    font-size: 1rem;
-    left: 50%;
-    transform: translateY(-170%) translateX(-35%);
-}
-
-#nivel2-fim {
-    background-image: url("imagens/fundos/nivel2background.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    height: 100vh;
-    position: relative;
-    overflow: hidden;
-    display: none;
-}
-
-#ganhar-nivel2 {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 3;
-    flex-direction: column;
-}
-
-#texto-perder-2 {
-    transform: translateY(-147%) translateX(-32%);
-}
-
-#nivel2-perder {
-    display: none;
-}
-
-/* Nível 3 */
-
-#nivel3-fundo {
-    background-image: url("imagens/fundos/fundonivel3.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    height: 100vh;
-    position: relative;
-    overflow: hidden;
-    display: none;
-}
-
-#ecoponto-5 {
-    width: 230px;
-    object-fit: contain;
-    position: absolute;
-    transform: translateY(60%);
-}
-
-.fundo-jardim {
-    background-image: url("imagens/fundos/nivel 3 blur.png");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-}
-
-#texto-nivel3 {
-    position: relative;
-    line-height: 0.4rem;
-    font-size: 1rem;
-    left: 50%;
-    transform: translateY(-170%) translateX(-34%);
-}
-
-#lixo-25 {
-    width: 45px;
-}
-
-#lixo-27, #lixo-28 {
-    width: 200px;
-}
-
-#lixo-32 {
-    width: 50px;
-}
-
-#lixo-33 {
-    width: 70px;
-}
-
-#lixo-36 {
-    width: 150px;
-}
-
-#nivel3-flores {
-    background-image: url("imagens/fundos/fundonivel3.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    height: 100vh;
-    position: relative;
-    overflow: hidden;
-    display: none;
-}
-
-#flor1 {
-    width: 500px;
-    position: absolute;
-    transform: translateY(120%);
-    z-index: 2;
-
-}
-
-#flor2 {
-    width: 600px;
-    position: absolute;
-    transform: translateY(110%) translateX(70%);
-}
-
-#ganhar-nivel3 {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 3;
-    flex-direction: column;
-}
-
-#nivel3-perder {
-    display: none;
-}
-
-/* Nível 4 */
-
-.fundo-casadebanho {
-    background-image: url("imagens/fundos/nivel 4 blur.png");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-}
-
-#nivel4-fundo {
-    background-image:url("imagens/fundos/nivel4background.jpg");
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    position: relative;
-    height: 100vh;
-    width: 100%;
-    overflow: hidden;
-}
-
-#texto-nivel4 {
-    position: relative;
-    line-height: 0.4rem;
-    font-size: 1rem;
-    left: 50%;
-    transform: translateY(-170%) translateX(-31%);
-}
-
-#texto-perder-4 {
-    position: relative;
-    line-height: 0.4rem;
-    font-size: 1rem;
-    left: 50%;
-    transform: translateY(-170%) translateX(-36%);
-}
-
-#nivel4-ganhar{
-    background-image:url("imagens/fundos/nivel4background.jpg");
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    position: relative;
-    height: 100vh;
-    width: 100%;
-    overflow: hidden;
-}
-
-/* Nível 5 */
-
-.nivel5-fundo {
-    background-image:url("imagens/fundos/nivel5background.jpg");
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    height: 100vh;
-}
-
-.fundo-sala {
-    background-image: url("imagens/fundos/nivel 5 blur.png");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-}
-
-#nivel5-fundo {
-    position: relative;
-    height: 100vh;
-    width: 100%;
-    overflow: hidden;
-}
-
-#texto-perder-5 {
-    position: relative;
-    line-height: 0.4rem;
-    font-size: 1rem;
-    left: 50%;
-    transform: translateY(-170%) translateX(-36%);
-}
-
-#texto-nivel-5 {
-    position: relative;
-    line-height: 0.4rem;
-    font-size: 1rem;
-    left: 50%;
-    transform: translateY(-170%) translateX(-34%);
-}
-
-#texto-ganhar-5 {
-    position: relative;
-    line-height: 0.4rem;
-    font-size: 1rem;
-    left: 50%;
-    transform: translateY(-160%) translateX(-36%);
-}
-
-/* Tutorial */
-
-#texto-caixa-dialogo-2 {
-    top: 20%;
-    left: 20%;
-    transform: translate(-26%, -20%);
-    color: #2D5A5A;
-    font-family: 'Montserrat', sans-serif;
-    text-align: left;
-    max-width: 80%;
-}
-
-#btn-comecartut {
-    transform: translateX(50%);
-}
-
-.fundo-tutorial {
-    background-image: url("imagens/fundos/JOGO.png");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    height: 130vh;
-    display: flex;
-    justify-content: center;
-    display: none;
-}
-
-video {
-    width: 70%;
-    object-fit: contain;
-}
-
-.video {
     flex-direction: column;
     align-items: center;
-}
-
-#fundo-sobrenos {
-    background-image: url('imagens/fundos/JOGO.png');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    height: 170vh;
-    justify-content: center;
-}
-
-.imgcard {
-    width: 80%;
-    top: -80px;
     position: relative;
-    object-fit: cover;
-    margin: auto;
-}
-
-.equipa {
-    background-color: #386B6B;
-    color: #fff;
     cursor: pointer;
-    margin-top: 100px;
 }
 
-.equipa:hover {
-    box-shadow: #635e5e 0px 3px 8px;
+.ecoponto-drop {
+    height: 180px;
+    width: auto;
+    object-fit: contain;
+    transition: transform var(--transition-bounce), filter var(--transition-fast);
+    filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.25));
 }
 
-.crdbd {
-    margin-top: -50px;
+.ecoponto-drop.drop-hover {
+    transform: scale(1.1) translateY(-10px);
+    filter: drop-shadow(0 14px 22px rgba(58, 167, 109, 0.6)) brightness(1.1);
+}
+
+.drop-success-pulse {
+    animation: successPulse 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes successPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.22) translateY(-14px); }
+    100% { transform: scale(1); }
+}
+
+.ecoponto-label {
+    margin-top: 0.4rem;
+    font-weight: 700;
+    font-size: 0.85rem;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 0.2rem 0.6rem;
+    border-radius: var(--radius-pill);
+    box-shadow: var(--eco-shadow-sm);
+    color: var(--eco-text);
+}
+
+/* --------------------------------------------------------------------------
+   10. Modais de Vitória e Derrota
+   -------------------------------------------------------------------------- */
+.eco-modal-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(18, 53, 46, 0.75);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+}
+
+.eco-modal-card {
+    background: var(--eco-surface);
+    border: 3px solid var(--eco-border);
+    border-radius: var(--radius-lg);
+    padding: 2.5rem 2.8rem;
+    max-width: 520px;
+    width: 100%;
+    text-align: center;
+    box-shadow: var(--eco-shadow-lg);
+    position: relative;
+}
+
+.eco-modal-mascot-header {
+    margin-top: -70px;
+    margin-bottom: 0.5rem;
+}
+
+.modal-mascot-img {
+    height: 110px;
+    width: auto;
+    margin: 0 auto;
+    filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.2));
+}
+
+.eco-modal-title {
+    font-size: 2.3rem;
+    margin-bottom: 0.5rem;
+}
+
+.defeat-title {
+    color: var(--eco-danger);
+}
+
+.victory-stars {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    font-size: 2.2rem;
+    margin-bottom: 1rem;
+}
+
+.victory-stars .star {
+    opacity: 0.25;
+    filter: grayscale(1);
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.victory-stars .star.active {
+    opacity: 1;
+    filter: grayscale(0);
+    transform: scale(1.15);
+}
+
+.eco-modal-body {
+    font-size: 1.05rem;
+    color: var(--eco-text-muted);
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+}
+
+.defeat-speech-bubble {
+    background: var(--eco-bg-alt);
+    border: 2px solid var(--eco-border);
+    border-radius: var(--radius-md);
+    padding: 1.2rem 1.4rem;
+    margin-bottom: 1.8rem;
+    text-align: left;
+    font-size: 0.98rem;
+    color: var(--eco-text);
+}
+
+.defeat-speech-bubble p {
+    margin: 0;
+    line-height: 1.5;
+}
+
+.eco-modal-stats {
+    display: flex;
+    justify-content: center;
+    gap: 1.2rem;
+    margin-bottom: 1.8rem;
+}
+
+.stat-pill {
+    background: var(--eco-bg);
+    border: 1px solid var(--eco-border);
+    border-radius: var(--radius-md);
+    padding: 0.6rem 1rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-label {
+    font-size: 0.78rem;
+    color: var(--eco-text-muted);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.stat-val {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--eco-primary);
+}
+
+.eco-modal-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* --------------------------------------------------------------------------
+   11. Estilos Específicos para Nível 4 (Água) e Nível 5 (Luz)
+   -------------------------------------------------------------------------- */
+/* Torneiras Interativas Nível 4 */
+.tap-node {
+    position: absolute;
+    cursor: pointer;
+    transition: transform var(--transition-fast);
+    z-index: 20;
+}
+
+.tap-node:hover {
+    transform: scale(1.1);
+}
+
+.tap-water-stream {
+    width: 18px;
+    background: linear-gradient(180deg, rgba(82, 194, 232, 0.85) 0%, rgba(33, 150, 243, 0.95) 100%);
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(33, 150, 243, 0.5);
+    animation: waterFlow 0.4s linear infinite alternate;
+}
+
+@keyframes waterFlow {
+    0% { height: 85px; opacity: 0.85; transform: scaleX(1); }
+    100% { height: 98px; opacity: 1; transform: scaleX(1.15); }
+}
+
+.tap-splash {
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 40px;
+    height: 15px;
+    background: radial-gradient(ellipse at center, rgba(129, 212, 250, 0.8) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: splashPulse 0.3s ease-in-out infinite alternate;
+}
+
+@keyframes splashPulse {
+    0% { transform: translateX(-50%) scale(0.8); }
+    100% { transform: translateX(-50%) scale(1.2); }
+}
+
+/* Lâmpadas Nível 5 */
+.lamp-node {
+    position: absolute;
+    cursor: pointer;
+    transition: all var(--transition-bounce);
+    z-index: 20;
+    filter: drop-shadow(0 0 16px rgba(255, 235, 59, 0.8));
+}
+
+.lamp-node:hover {
+    transform: scale(1.15);
+}
+
+.lamp-node.off {
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4)) grayscale(0.8) brightness(0.6);
+    opacity: 0.7;
+}
+
+/* --------------------------------------------------------------------------
+   12. Páginas Complementares: Aprende a Reciclar (learn.html)
+   -------------------------------------------------------------------------- */
+.learn-hero {
+    background: linear-gradient(180deg, #EBF5E9 0%, var(--eco-bg) 100%);
+    padding: 3.5rem 1.5rem 2rem;
+    text-align: center;
+}
+
+.learn-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.8rem;
+    max-width: 1150px;
+    margin: 2.5rem auto;
+    padding: 0 1.5rem;
+}
+
+.learn-card {
+    background: var(--eco-surface);
+    border: 2px solid var(--eco-border);
+    border-radius: var(--radius-md);
+    padding: 1.8rem;
+    box-shadow: var(--eco-shadow-sm);
+    transition: all var(--transition-base);
+}
+
+.learn-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--eco-shadow-md);
+    border-color: var(--eco-leaf);
+}
+
+.learn-card-icon {
+    font-size: 2.2rem;
+    margin-bottom: 0.8rem;
+}
+
+.learn-card h3 {
+    margin-bottom: 0.5rem;
+}
+
+.learn-card p {
+    color: var(--eco-text-muted);
+    font-size: 0.95rem;
+    margin: 0;
+}
+
+/* Simulador de Compostagem Interativo em learn.html */
+.compost-sim-container {
+    background: var(--eco-surface);
+    border: 3px solid var(--eco-border);
+    border-radius: var(--radius-lg);
+    padding: 2.2rem;
+    max-width: 900px;
+    margin: 3rem auto;
+    box-shadow: var(--eco-shadow-md);
+    text-align: center;
+}
+
+.compost-sim-grid {
+    display: grid;
+    grid-template-columns: 1fr 180px 1fr;
+    gap: 1.5rem;
+    align-items: center;
+    margin-top: 1.5rem;
+}
+
+.sim-plant-img {
+    height: 180px;
+    width: auto;
+    margin: 0 auto;
+    transition: all var(--transition-bounce);
+}
+
+/* --------------------------------------------------------------------------
+   13. Sobre Nós (sobrenos.html)
+   -------------------------------------------------------------------------- */
+.about-hero {
+    background: linear-gradient(180deg, #E6F0E9 0%, var(--eco-bg) 100%);
+    padding: 3.5rem 1.5rem 2rem;
+    text-align: center;
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 2rem;
+    max-width: 1100px;
+    margin: 2.5rem auto;
+    padding: 0 1.5rem;
+}
+
+.team-card {
+    background: var(--eco-surface);
+    border: 2px solid var(--eco-border);
+    border-radius: var(--radius-lg);
+    padding: 2rem 1.5rem;
+    text-align: center;
+    box-shadow: var(--eco-shadow-sm);
+    transition: all var(--transition-base);
+}
+
+.team-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--eco-primary);
+    box-shadow: var(--eco-shadow-md);
+}
+
+.team-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 auto 1.2rem auto;
+    border: 4px solid var(--eco-leaf-soft);
+}
+
+.team-name {
+    font-size: 1.35rem;
+    margin-bottom: 0.3rem;
+    color: var(--eco-primary);
+}
+
+.team-role {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--eco-leaf);
+    margin-bottom: 1rem;
+}
+
+/* --------------------------------------------------------------------------
+   14. Rodapé Responsivo (Footer)
+   -------------------------------------------------------------------------- */
+.eco-footer {
+    background-color: var(--eco-primary);
+    color: var(--eco-surface);
+    margin-top: auto;
+    position: relative;
+    padding: 3.5rem 1.5rem 2rem;
+}
+
+.footer-wave-container {
+    position: absolute;
+    top: -50px;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+}
+
+.footer-wave-svg {
+    position: relative;
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 50px;
+}
+
+.footer-content {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1.5rem;
+}
+
+.footer-logo {
+    font-family: var(--font-title);
+    font-size: 2.2rem;
+    color: var(--eco-surface);
+}
+
+.footer-nav {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.footer-nav a {
+    color: rgba(255, 255, 255, 0.85);
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+.footer-nav a:hover {
+    color: var(--eco-amber-light);
+}
+
+.footer-copy {
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 0.88rem;
+    margin: 0;
+}
+
+/* --------------------------------------------------------------------------
+   15. Animações e Utilitários
+   -------------------------------------------------------------------------- */
+.scale-in {
+    animation: scaleIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes scaleIn {
+    0% { transform: scale(0.85); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.fade-in {
+    animation: fadeIn 0.25s ease-out;
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+/* --------------------------------------------------------------------------
+   16. Media Queries (Responsividade Intencional)
+   -------------------------------------------------------------------------- */
+@media (max-width: 992px) {
+    .eco-dialog-wrapper {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 1.5rem;
+    }
+
+    .eco-speech-bubble::before,
+    .eco-speech-bubble::after {
+        display: none; /* Em ecrãs móveis, o balão não precisa de cauda lateral */
+    }
+
+    .eco-mascot-img {
+        max-height: 260px;
+    }
+
+    .eco-bubble-actions {
+        justify-content: center;
+    }
+
+    .ecoponto-drop {
+        height: 140px;
+    }
+
+    .ecopontos-dock {
+        gap: 1rem;
+        bottom: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .eco-nav-toggle {
+        display: block;
+    }
+
+    .eco-nav-list {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: var(--eco-surface);
+        flex-direction: column;
+        padding: 1.2rem;
+        border-bottom: 2px solid var(--eco-border);
+        box-shadow: var(--eco-shadow-md);
+        gap: 0.8rem;
+    }
+
+    .eco-nav-list.is-open {
+        display: flex;
+    }
+
+    .eco-game-hud {
+        padding: 0 0.8rem;
+        height: 64px;
+    }
+
+    .hud-badge-sub {
+        display: none;
+    }
+
+    .hud-counter-card, .hud-timer-card {
+        padding: 0.3rem 0.6rem;
+        font-size: 0.95rem;
+    }
+
+    .ecoponto-drop {
+        height: 110px;
+    }
 }

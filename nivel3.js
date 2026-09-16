@@ -1,215 +1,139 @@
-window.onload = function() {
+/**
+ * Eco Heróis — Nível 3: Jardim Sustentável
+ * Recolha de resíduos orgânicos para compostagem e produção de adubo biológico.
+ */
+document.addEventListener('DOMContentLoaded', () => {
+    const TOTAL_ITENS = 11;
+    const TEMPO_MAXIMO = 45;
+
+    const introScreen = document.getElementById('nivel3-intro');
+    const gameContainer = document.getElementById('nivel3-fundo');
+    const gameStage = document.getElementById('game-stage');
+    const btnIniciar = document.getElementById('btn-iniciar');
     const lixos = document.querySelectorAll('.lixo-drag');
-    const ecopontos = document.querySelectorAll('.ecoponto-drop');
-    let beingDragged;
 
-    let pontos = 0;
-    let tempoRestante = 20;
-    const timer = document.getElementById('timer');
+    // Inicializar HUD de jogo
+    const hud = new GameHUD({
+        levelNumber: 3,
+        levelTitle: 'Nível 3',
+        levelSubtitle: 'Jardim Sustentável',
+        totalPoints: TOTAL_ITENS,
+        maxTime: TEMPO_MAXIMO,
+        nextLevelUrl: 'nivel4.html',
+        onTimeout: () => {
+            hud.showDefeatModal(
+                'O tempo terminou! Quando a matéria orgânica vai parar a aterros comuns, decompõe-se sem oxigénio e gera gás metano. A compostagem é o caminho certo para nutrir o solo!'
+            );
+        }
+    });
 
-    const fundo = document.getElementById('nivel3-fundo');
-    const posicaoUsada = [];
+    // Distribuição realista e inteligente dos resíduos orgânicos pelo jardim e horta
+    function distribuirLixosSeguro() {
+        const stageWidth = gameStage.clientWidth || window.innerWidth;
+        const stageHeight = gameStage.clientHeight || window.innerHeight;
 
-    // Função para atualizar o timer
-    function atualizarTimer() {
-        const minutos = Math.floor(tempoRestante / 60);
-        const segundos = tempoRestante % 60;
+        // Zonas lógicas da horta: canteiro esquerdo, solo/horta direita e caminho central acima da composteira
+        const zones = [
+            // Canteiro e terra à esquerda (4 resíduos)
+            { minX: stageWidth * 0.06, maxX: stageWidth * 0.30, minY: stageHeight * 0.48, maxY: stageHeight * 0.82 },
+            { minX: stageWidth * 0.08, maxX: stageWidth * 0.28, minY: stageHeight * 0.50, maxY: stageHeight * 0.80 },
+            { minX: stageWidth * 0.05, maxX: stageWidth * 0.29, minY: stageHeight * 0.45, maxY: stageHeight * 0.76 },
+            { minX: stageWidth * 0.09, maxX: stageWidth * 0.32, minY: stageHeight * 0.52, maxY: stageHeight * 0.84 },
 
-        // Formata minutos e segundos para sempre terem 2 dígitos
-        timer.innerHTML =
-            (minutos < 10 ? "0" + minutos : minutos) + ":" +
-            (segundos < 10 ? "0" + segundos : segundos);
+            // Solo e relva à direita (4 resíduos)
+            { minX: stageWidth * 0.70, maxX: stageWidth * 0.94, minY: stageHeight * 0.48, maxY: stageHeight * 0.82 },
+            { minX: stageWidth * 0.72, maxX: stageWidth * 0.92, minY: stageHeight * 0.50, maxY: stageHeight * 0.80 },
+            { minX: stageWidth * 0.68, maxX: stageWidth * 0.90, minY: stageHeight * 0.45, maxY: stageHeight * 0.76 },
+            { minX: stageWidth * 0.71, maxX: stageWidth * 0.93, minY: stageHeight * 0.52, maxY: stageHeight * 0.84 },
+
+            // Área central da terra acima da composteira (3 resíduos)
+            { minX: stageWidth * 0.30, maxX: stageWidth * 0.48, minY: stageHeight * 0.44, maxY: stageHeight * 0.62 },
+            { minX: stageWidth * 0.52, maxX: stageWidth * 0.70, minY: stageHeight * 0.44, maxY: stageHeight * 0.62 },
+            { minX: stageWidth * 0.38, maxX: stageWidth * 0.62, minY: stageHeight * 0.46, maxY: stageHeight * 0.64 }
+        ];
+
+        const posicoesUsadas = [];
+
+        lixos.forEach((item, index) => {
+            const zone = zones[index % zones.length];
+            const itemW = item.offsetWidth || 85;
+            const itemH = item.offsetHeight || 85;
+
+            let posX, posY;
+            let tentativas = 0;
+            let sobreposto = true;
+
+            while (sobreposto && tentativas < 60) {
+                tentativas++;
+                const spanX = Math.max(10, zone.maxX - zone.minX - itemW);
+                const spanY = Math.max(10, zone.maxY - zone.minY - itemH);
+
+                posX = Math.floor(zone.minX + Math.random() * spanX);
+                posY = Math.floor(zone.minY + Math.random() * spanY);
+
+                sobreposto = posicoesUsadas.some(pos => {
+                    const dist = Math.hypot(pos.x - posX, pos.y - posY);
+                    return dist < 88;
+                });
+            }
+
+            if (sobreposto) {
+                posX = Math.floor(zone.minX + 20);
+                posY = Math.floor(zone.minY + 20);
+            }
+
+            posicoesUsadas.push({ x: posX, y: posY });
+
+            item.style.position = 'absolute';
+            item.style.left = `${posX}px`;
+            item.style.top = `${posY}px`;
+            item.dataset.originLeft = posX;
+            item.dataset.originTop = posY;
+        });
     }
 
-// Função para iniciar o temporizador
-    let timerInterval
+    // Motor de Drag and Drop
+    const dnd = new DragDropEngine({
+        container: gameStage,
+        draggableSelector: '.lixo-drag',
+        dropZoneSelector: '.ecoponto-drop',
+        onDrop: (draggedElem, dropTarget) => {
+            const tipoItem = draggedElem.dataset.tipo;
+            const tipoAceite = dropTarget.dataset.aceita;
 
-    function startTimer() {
-        timerInterval = setInterval(function () {
-            if (tempoRestante > 0) {
-                tempoRestante--;
-                atualizarTimer();
+            if (tipoItem === tipoAceite) {
+                if (window.audioManager) window.audioManager.play('certo');
+                dnd.consumeItem(draggedElem, dropTarget);
+                const currentPoints = hud.addPoints(1);
+
+                if (currentPoints >= TOTAL_ITENS) {
+                    setTimeout(() => {
+                        hud.showVictoryModal(
+                            'Excelente trabalho na horta! Todos os restos de comida foram para a composteira. Dentro de poucas semanas teremos um adubo orgânico fantástico para flores e vegetais!'
+                        );
+                    }, 500);
+                }
+                return true;
             } else {
-                clearInterval(timerInterval);
-                tempoAcaba();
+                if (window.audioManager) window.audioManager.play('errado');
+                return false;
             }
-        }, 1000);
-    }
-
-// Função chamada quando o tempo acaba
-    function tempoAcaba() {
-        const audioPerder = new Audio('sons/perder.wav');
-        audioPerder.play();
-        document.getElementById('nivel3-fundo').style.display = 'none';
-        document.getElementById('nivel3-perder').style.display = 'block';
-    }
-
-    document.getElementById('btn-voltar').onclick = function() {
-        window.location.href = 'nivel3.html';
-        console.log('voltar ao nível 3');
-    }
-
-
-    function posAleatoria() {
-        const fundoWidth = fundo.offsetWidth;
-        const fundoHeight = fundo.offsetHeight;
-        const imagemWidth = 100;
-        const imagemHeight = 100;
-
-        // Define os limites de posicionamento
-        const minY = fundoHeight * 0.70;
-        const maxY = fundoHeight - 10;
-
-        let randomX, randomY;
-        let overlapping;
-        let tentativas = 0;
-        const maxTentativas = 1000;
-
-        do {
-            // Posição aleatória dentro dos limites
-            randomX = Math.random() * (fundoWidth - imagemWidth);
-            randomY = minY + Math.random() * (maxY - minY - imagemHeight);
-
-            // Verificar sobreposição com outras posições de lixo
-            overlapping = posicaoUsada.some(pos => {
-                return (
-                    Math.abs(pos.x - randomX) < imagemWidth &&
-                    Math.abs(pos.y - randomY) < imagemHeight
-                );
-            });
-
-            tentativas++;
-            if (tentativas >= maxTentativas) {
-                console.warn('Não foi possível encontrar uma posição não sobreposta após ' + maxTentativas + ' tentativas.');
-                break;
-            }
-        } while (overlapping);
-
-        // Guardar a posição usada
-        posicaoUsada.push({ x: randomX, y: randomY });
-        return { x: randomX, y: randomY };
-
-    }
-
-    function resetLixos() {
-        for (let i = 0; i < lixos.length; i++) {
-            const imagem = lixos[i];
-            const posAleatoria1 = posAleatoria();
-            imagem.style.position = 'absolute';
-            imagem.style.left = posAleatoria1.x + 'px';
-            imagem.style.top = posAleatoria1.y + 'px';
         }
-    }
+    });
 
+    btnIniciar.addEventListener('click', () => {
+        introScreen.style.display = 'none';
+        gameContainer.style.display = 'flex';
 
-    document.getElementById('btn-iniciar').onclick = function() {
-    document.getElementById('nivel3-intro').style.display = 'none';
-    document.getElementById('nivel3-fundo').style.display = 'block';
+        setTimeout(() => {
+            distribuirLixosSeguro();
+            hud.startTimer();
+        }, 80);
+    });
 
-    resetLixos();
-    startTimer();
-}
-
-    // Drag and drop
-    for (let i = 0; i < lixos.length; i++) {
-        const lixo = lixos[i];
-        lixo.setAttribute('draggable', 'true');
-        lixo.addEventListener('dragstart', dragStart);
-        lixo.addEventListener('drag', dragging);
-    }
-
-    for (let j = 0; j < ecopontos.length; j++) {
-        const ecoponto = ecopontos[j];
-        ecoponto.addEventListener('dragover', dragOver);
-        ecoponto.addEventListener('dragenter', dragEnter);
-        ecoponto.addEventListener('dragleave', dragLeave);
-        ecoponto.addEventListener('drop', dragDrop);
-    }
-
-    function dragStart(e) {
-        beingDragged = e.target;
-        // Guardar a posição inicial do lixo
-        beingDragged.dataset.startX = beingDragged.offsetLeft;
-        beingDragged.dataset.startY = beingDragged.offsetTop;
-        console.log('drag iniciado no ' + beingDragged.id);
-    }
-
-    function dragging(e) {
-        console.log('dragging ' + beingDragged.id);
-    }
-
-    function dragOver(e) {
-        e.preventDefault();
-        console.log('dragging over ' + e.target.id);
-    }
-
-
-    function dragEnter(e) {
-        console.log('a entrar no' + e.target.id);
-    }
-
-    function dragLeave(e) {
-        console.log('a sair de' + e.target.id);
-    }
-
-    function dragDrop(e) {
-        e.preventDefault();
-        console.log('drop realizado no: ' + e.target.id);
-        verificarLixo(e);
-
-    }
-
-    function dragEnd(e) {
-        console.log('acabou no' + e.target.id);
-    }
-
-    function verificarLixo(e) {
-        const lixoClass = beingDragged.classList;
-
-        const audioCerto = new Audio('sons/certo.wav');
-        audioCerto.volume = 0.7;
-
-        if (lixoClass.contains('bio')) {
-            console.log('Lixo correto');
-            e.target.append(beingDragged);
-            pontos++;
-            document.getElementById('pontos').innerHTML = '<p class="m-0" id="pontos">' + pontos + '/11</p>';
-            audioCerto.play();
-        } else {
-            console.log('Lixo errado');
-            lixoPosInicial()
+    window.addEventListener('resize', () => {
+        if (gameContainer.style.display !== 'none' && !hud.isEnded) {
+            distribuirLixosSeguro();
         }
-
-        if (pontos === 11) {
-            floresNascem();
-        }
-
-    }
-
-    function floresNascem(){
-        clearInterval(timerInterval);
-        let audioGanhar = new Audio('sons/ganhar.wav');
-        audioGanhar.play();
-        document.getElementById('nivel3-fundo').style.display = 'none';
-        document.getElementById('nivel3-flores').style.display = 'block';
-        passarParaNivel4();
-    }
-
-}
-
-function passarParaNivel4() {
-    const audioGanhar = new Audio('sons/ganhar.wav');
-    audioGanhar.play();
-    document.getElementById('btn-proximo').onclick = function() {
-        window.location.href = 'nivel4.html';
-        console.log('passar para nível 4');
-    }
-}
-
-// Voltar à posição inicial
-function lixoPosInicial() {
-    beingDragged.style.left = beingDragged.dataset.startX + 'px';
-    beingDragged.style.top = beingDragged.dataset.startY + 'px';
-    console.log('Lixo voltou à posição inicial.');
-
-}
+    });
+});

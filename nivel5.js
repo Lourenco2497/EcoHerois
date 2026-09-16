@@ -1,143 +1,113 @@
-var fimjogotimer;
-var pontos = 0;
-var timer = document.getElementById('timer');
-var tempoRestante;
+/**
+ * Eco Heróis — Nível 5: Sala Inteligente
+ * Eficiência energética: encontrar e apagar 10 pontos de luz desnecessários na sala.
+ */
+document.addEventListener('DOMContentLoaded', () => {
+    const TOTAL_LAMPADAS = 10;
+    const TEMPO_MAXIMO = 25;
 
-document.getElementById('nivel5-fundo').style.display = 'none';
-document.getElementById('nivel5-ganhar').style.display = 'none';
-document.getElementById('nivel5-perder').style.display = 'none';
+    const introScreen = document.getElementById('nivel5-intro');
+    const gameContainer = document.getElementById('nivel5-fundo');
+    const gameStage = document.getElementById('game-stage');
+    const btnIniciar = document.getElementById('btn-iniciar');
 
+    // Inicializar HUD de jogo
+    const hud = new GameHUD({
+        levelNumber: 5,
+        levelTitle: 'Nível 5',
+        levelSubtitle: 'Eficiência Energética',
+        totalPoints: TOTAL_LAMPADAS,
+        maxTime: TEMPO_MAXIMO,
+        nextLevelUrl: 'index.html',
+        onTimeout: () => {
+            hud.showDefeatModal(
+                'O tempo terminou! Manter luzes acesas sem necessidade desperdiça eletricidade e sobrecarrega a rede energética. Lembra-te: ao sair de uma divisão, apaga sempre a luz!'
+            );
+        }
+    });
 
-document.getElementById('btn-iniciar').onclick = function() {
-    document.getElementById('nivel5-intro').style.display = 'none';
-    document.getElementById('nivel5-fundo').style.display = 'block';
+    // Criar e posicionar 10 lâmpadas de forma harmoniosa na sala
+    function instanciarLampadas() {
+        // Limpar qualquer lâmpada existente
+        const antigas = gameStage.querySelectorAll('.lamp-node');
+        antigas.forEach(l => l.remove());
 
-    carrega_elementos();
-    jogar();
-}
+        const stageWidth = gameStage.clientWidth || window.innerWidth;
+        const stageHeight = gameStage.clientHeight || window.innerHeight;
 
-function carrega_elementos() {
-    console.log("teste");
-    tempoRestante = 20;
-    for (var i = 1; i <= 10; i++) {
-        document.getElementById("nivel5-fundo").innerHTML += '<img src="imagens/desligar/lampada_1.png" id="img' + i + '" class="bordamain" alt="acesa">';
-    }
+        // 10 coordenadas percentuais bem distribuídas pelo cenário da sala com tamanhos aumentados
+        const layoutCoords = [
+            { x: 0.12, y: 0.18, size: 74 }, // Teto canto esquerdo
+            { x: 0.32, y: 0.15, size: 78 }, // Candeeiro de teto
+            { x: 0.50, y: 0.14, size: 84 }, // Lustre central
+            { x: 0.72, y: 0.16, size: 78 }, // Candeeiro suspenso direito
+            { x: 0.88, y: 0.20, size: 72 }, // Aplique teto lateral
+            { x: 0.18, y: 0.44, size: 70 }, // Candeeiro de mesa esquerda
+            { x: 0.42, y: 0.48, size: 68 }, // Luz ambiente móvel
+            { x: 0.65, y: 0.42, size: 70 }, // Abajur estante
+            { x: 0.84, y: 0.50, size: 76 }, // Candeeiro de chão
+            { x: 0.28, y: 0.68, size: 68 }  // Luz auxiliar perto do sofá
+        ];
 
-    var som = new Audio();
-    som.src = "sons/switch.mp3";
+        layoutCoords.forEach((coord, index) => {
+            const lamp = document.createElement('div');
+            lamp.className = 'lamp-node';
+            lamp.id = `lampada-${index + 1}`;
+            lamp.dataset.estado = 'acesa';
 
-    for (var a = 1; a <= 10; a++) {
-        document.getElementById("img" + a).onclick = function () {
-            som.play();
+            const leftPx = Math.floor(stageWidth * coord.x);
+            const topPx = Math.floor(stageHeight * coord.y);
 
-            if (this.alt === "acesa") {
-                this.alt = "apagada";
-                this.src = "imagens/desligar/lampada_0.png";
-                pontos++;
-                document.getElementById('pontos').innerHTML = '<p class="m-0" id="pontos">' + pontos + '/10</p>';
+            lamp.style.left = `${leftPx}px`;
+            lamp.style.top = `${topPx}px`;
 
-                if (pontos === 10) {
-                    fim_jogo();
+            const img = document.createElement('img');
+            img.src = 'imagens/desligar/lampada_1.png';
+            img.alt = `Lâmpada ${index + 1} acesa`;
+            img.style.width = `${coord.size}px`;
+            img.style.height = 'auto';
+
+            lamp.appendChild(img);
+            gameStage.appendChild(lamp);
+
+            // Evento de clique para apagar a lâmpada
+            lamp.addEventListener('click', () => {
+                if (lamp.dataset.estado !== 'acesa' || hud.isEnded) return;
+
+                lamp.dataset.estado = 'apagada';
+                lamp.classList.add('off');
+                img.src = 'imagens/desligar/lampada_0.png';
+                img.alt = `Lâmpada ${index + 1} apagada`;
+
+                // Efeito sonoro do interruptor
+                if (window.audioManager) window.audioManager.play('switch');
+
+                const currentPoints = hud.addPoints(1);
+
+                if (currentPoints >= TOTAL_LAMPADAS) {
+                    setTimeout(() => {
+                        hud.showVictoryModal(
+                            'Parabéns, Grande Eco Herói! Completaste todos os 5 desafios de sustentabilidade com sucesso. Graças a ti, o planeta é agora um lugar mais verde, limpo e consciente!'
+                        );
+                    }, 400);
                 }
-            }
-        }
+            });
+        });
     }
-}
 
-function jogar() {
-    posiciona_lampadas();
-    startTimer();
-}
+    btnIniciar.addEventListener('click', () => {
+        introScreen.style.display = 'none';
+        gameContainer.style.display = 'flex';
 
-// Função para atualizar o timer
-function updateTimer() {
-    const minutos = Math.floor(tempoRestante / 60);
-    const segundos = tempoRestante % 60;
+        setTimeout(() => {
+            instanciarLampadas();
+            hud.startTimer();
+        }, 80);
+    });
 
-    // Formata minutos e segundos para sempre terem 2 dígitos
-    const timerElement = document.getElementById('timer');
-    if (timerElement) {
-        timerElement.textContent =
-            (minutos < 10 ? "0" + minutos : minutos) + ":" +
-            (segundos < 10 ? "0" + segundos : segundos);
-    }
-}
-
-// Função para iniciar o temporizador
-let timerInterval;
-function startTimer() {
-    timerInterval = setInterval(function () {
-        if (tempoRestante > 0) {
-            tempoRestante--;
-            console.log("Tempo restante:", tempoRestante); // Verificar o valor
-            updateTimer();
-        } else {
-            clearInterval(timerInterval);
-            terminarNivel();
+    window.addEventListener('resize', () => {
+        if (gameContainer.style.display !== 'none' && !hud.isEnded) {
+            instanciarLampadas();
         }
-    }, 1000);
-}
-function posiciona_lampadas() {
-    var fundo = document.getElementById("nivel5-fundo");
-    var larguraFundo = fundo.clientWidth;
-    var alturaFundo = fundo.clientHeight;
-
-    // Limitar a altura a 1/3 da altura total da imagem
-    var alturaMaxima = Math.floor(alturaFundo / 9);
-
-    // Array para armazenar as posições das lâmpadas
-    var lampadasPosicoes = [];
-
-    for (var i = 1; i <= 10; i++) {
-        var largura, altura;
-        var overlap = true;
-
-        // Garantir que a lâmpada não sobreponha outra
-        while (overlap) {
-            largura = Math.floor(Math.random() * (larguraFundo - 200)) + 100; // Largura limitada entre 100 e larguraFundo-100
-            altura = Math.floor(Math.random() * alturaMaxima); // Altura limitada a 1/3
-
-            overlap = false;
-
-            // Verificar se a nova lâmpada não está muito perto de outras
-            for (var j = 0; j < lampadasPosicoes.length; j++) {
-                var lampadaExistente = lampadasPosicoes[j];
-
-                // Verificar se a nova posição está muito perto de alguma lâmpada existente
-                if (Math.abs(largura - lampadaExistente.largura) < 100 && Math.abs(altura - lampadaExistente.altura) < 100) {
-                    overlap = true; // Se houver sobreposição, gerar nova posição
-                    break;
-                }
-            }
-        }
-
-        // Armazenar a posição da lâmpada gerada
-        lampadasPosicoes.push({ largura: largura, altura: altura });
-
-        var lampada = document.getElementById("img" + i);
-        lampada.style.position = 'absolute';
-        lampada.style.top = altura + 'px';
-        lampada.style.left = largura + 'px';
-
-        lampada.alt = "acesa";
-        lampada.src = "imagens/desligar/lampada_1.png";
-    }
-}
-
-function fim_jogo(){
-    clearInterval(timerInterval);
-
-    document.getElementById('nivel5-ganhar').style.display = 'block';
-    document.getElementById('nivel5-fundo').style.display = 'none';
-}
-
-function terminarNivel(){
-    const audioPerder = new Audio('sons/perder.wav');
-    audioPerder.play();
-    document.getElementById('nivel5-perder').style.display = 'block';
-    document.getElementById('nivel5-fundo').style.display = 'none';
-}
-
-document.getElementById('btn-voltar').onclick = function () {
-    location.reload();
-};
+    });
+});

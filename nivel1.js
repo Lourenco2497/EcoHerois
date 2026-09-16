@@ -1,287 +1,150 @@
-window.onload = function() {
+/**
+ * Eco Heróis — Nível 1: Parque da Cidade
+ * Separação de resíduos nos ecopontos Azul (papel), Amarelo (plástico/metal) e Verde (vidro).
+ */
+document.addEventListener('DOMContentLoaded', () => {
+    const TOTAL_LIXOS = 14;
+    const TEMPO_MAXIMO = 50;
+
+    const introScreen = document.getElementById('nivel1-intro');
+    const gameContainer = document.getElementById('nivel1-fundo');
+    const gameStage = document.getElementById('game-stage');
+    const btnIniciar = document.getElementById('btn-iniciar');
     const lixos = document.querySelectorAll('.lixo-drag');
-    const ecopontos = document.querySelectorAll('.ecoponto-drop');
-    let beingDragged;
 
-    let pontos = 0;
-    let tempoRestante = 50;
-    const timer = document.getElementById('timer');
-
-    const fundo = document.getElementById('nivel1-fundo');
-    const posicaoUsada = [];
-
-    // Função para atualizar o timer
-    function atualizarTimer() {
-        const minutos = Math.floor(tempoRestante / 60);
-        const segundos = tempoRestante % 60;
-
-        // Formata minutos e segundos para sempre terem 2 dígitos
-        timer.innerHTML =
-            (minutos < 10 ? "0" + minutos : minutos) + ":" +
-            (segundos < 10 ? "0" + segundos : segundos);
-    }
-
-// Função para iniciar o temporizador
-    let timerInterval
-    function startTimer() {
-        timerInterval = setInterval(function () {
-            if (tempoRestante > 0) {
-                tempoRestante--;
-                atualizarTimer();
-            } else {
-                clearInterval(timerInterval);
-                tempoAcaba();
-            }
-        }, 1000);
-    }
-
-// Função chamada quando o tempo acaba
-    function tempoAcaba() {
-        const audioPerder = new Audio('sons/perder.wav');
-        audioPerder.play();
-        document.getElementById('nivel1-fundo').style.display = 'none';
-        document.getElementById('nivel1-perder').style.display = 'block';
+    // Inicializar HUD de jogo
+    const hud = new GameHUD({
+        levelNumber: 1,
+        levelTitle: 'Nível 1',
+        levelSubtitle: 'Parque da Cidade',
+        totalPoints: TOTAL_LIXOS,
+        maxTime: TEMPO_MAXIMO,
+        nextLevelUrl: 'nivel2.html',
+        onTimeout: () => {
+            hud.showDefeatModal(
+                'O tempo esgotou-se! O vidro abandonado causa riscos de incêndio, e o plástico prejudica os animais do parque. Tenta novamente e limpa o parque a tempo!'
+            );
         }
-
-        document.getElementById('btn-voltar').onclick = function() {
-            window.location.href = 'nivel1.html';
-            console.log('voltar ao nível 1');
-    }
-
-
-    function posAleatoria() {
-        const fundoWidth = fundo.offsetWidth;
-        const fundoHeight = fundo.offsetHeight;
-        const imagemWidth = 100;
-        const imagemHeight = 100;
-
-        // Define os limites de posicionamento
-        const minY = fundoHeight * 0.50;
-        const maxY = fundoHeight - 140;
-
-        let randomX, randomY;
-        let overlapping;
-
-        do {
-            // Posição aleatória dentro dos limites
-            randomX = Math.random() * (fundoWidth - imagemWidth);
-            randomY = minY + Math.random() * (maxY - minY - imagemHeight);
-
-            // Verificar sobreposição com outras posições de lixo
-            overlapping = posicaoUsada.some(pos => {
-                return (
-                    Math.abs(pos.x - randomX) < imagemWidth &&
-                    Math.abs(pos.y - randomY) < imagemHeight
-                );
-            });
-        } while (overlapping);
-
-        // Guardar a posição usada
-        posicaoUsada.push({ x: randomX, y: randomY });
-        return { x: randomX, y: randomY };
-    }
-
-    function resetLixos() {
-        for (let i = 0; i < lixos.length; i++) {
-            const imagem = lixos[i];
-            const posAleatoria1 = posAleatoria();
-            imagem.style.position = 'absolute';
-            imagem.style.left = posAleatoria1.x + 'px';
-            imagem.style.top = posAleatoria1.y + 'px';
-        }
-    }
-
-    document.getElementById('btn-iniciar').onclick = function() {
-        document.getElementById('nivel1-intro').style.display = 'none';
-        document.getElementById('nivel1-fundo').style.display = 'block';
-
-        resetLixos();
-        startTimer();
-    }
-
-    // Drag and drop
-    for (let i = 0; i < lixos.length; i++) {
-        const lixo = lixos[i];
-        lixo.setAttribute('draggable', 'true');
-        lixo.addEventListener('dragstart', dragStart);
-        lixo.addEventListener('drag', dragging);
-    }
-
-    for (let j = 0; j < ecopontos.length; j++) {
-        const ecoponto = ecopontos[j];
-        ecoponto.addEventListener('dragover', dragOver);
-        ecoponto.addEventListener('dragenter', dragEnter);
-        ecoponto.addEventListener('dragleave', dragLeave);
-        ecoponto.addEventListener('drop', dragDrop);
-    }
-
-    function dragStart(e) {
-        beingDragged = e.target;
-        // Guardar a posição inicial do lixo
-        beingDragged.dataset.startX = beingDragged.offsetLeft;
-        beingDragged.dataset.startY = beingDragged.offsetTop;
-        console.log('drag iniciado no ' + beingDragged.id);
-    }
-
-    function dragging(e) {
-        console.log('dragging ' + beingDragged.id);
-    }
-
-    function dragOver(e) {
-        e.preventDefault();
-        console.log('dragging over ' + e.target.id);
-    }
-
-
-    function dragEnter(e) {
-        console.log('a entrar no' + e.target.id);
-    }
-
-    function dragLeave(e) {
-        console.log('a sair de' + e.target.id);
-    }
-
-    function dragDrop(e) {
-        e.preventDefault();
-        console.log('drop realizado no: ' + e.target.id);
-        verificarLixo(e);
-    }
-
-    function dragEnd(e) {
-        console.log('acabou no' + e.target.id);
-    }
-
-
-// Verificar se o lixo é o correto para o ecoponto
-    function verificarLixo(e){
-        const lixoClass = beingDragged.classList;
-        const ecopontoId = e.target.id;
-
-        const audioCerto = new Audio('sons/certo.wav');
-        audioCerto.volume = 0.7;
-        const audioErrado = new Audio('sons/errado.mp3');
-
-
-        switch (ecopontoId){
-            case 'ecoponto-1':
-                if (lixoClass.contains('papel')) {
-                    console.log('Lixo correto');
-                    e.target.append(beingDragged);
-                    pontos = pontos + 1;
-                    document.getElementById('pontos').innerHTML = '<p class="m-0" id="pontos">' + pontos + '/14</p>';
-                    audioCerto.play();
-                } else {
-                    console.log('Lixo errado');
-                    lixoPosInicial();
-                    audioErrado.play();
-                }
-                break;
-            case 'ecoponto-2':
-                if (lixoClass.contains('plastico')) {
-                    console.log('Lixo correto');
-                    e.target.append(beingDragged);
-                    pontos = pontos + 1;
-                    document.getElementById('pontos').innerHTML = '<p class="m-0" id="pontos">' + pontos + '/14</p>';
-                    audioCerto.play();
-                }
-                else {
-                    console.log('Lixo errado');
-                    lixoPosInicial();
-                    audioErrado.play();
-                }
-                break;
-            case 'ecoponto-3':
-                if (lixoClass.contains('vidro')) {
-                    console.log('Lixo correto');
-                    e.target.append(beingDragged);
-                    pontos = pontos + 1;
-                    document.getElementById('pontos').innerHTML = '<p class="m-0" id="pontos">' + pontos + '/14</p>';
-                    audioCerto.play();
-                }
-                else {
-                    console.log('Lixo errado');
-                    lixoPosInicial();
-                    audioErrado.play();
-                }
-                break;
-
-            default:
-                console.log('Não é um ecoponto válido');
-                lixoPosInicial();
-        }
-
-        if (pontos === 14) {
-            fimNivel1();
-        }
-    }
-
-    function fimNivel1() {
-        clearInterval(timerInterval);
-        document.getElementById('nivel1-fundo').style.display = 'none';
-        document.getElementById('nivel1-fim').style.display = 'block';
-        passarParaNivel2();
-    }
-
-    function passarParaNivel2() {
-        const audioGanhar = new Audio('sons/ganhar.wav');
-        audioGanhar.play();
-        document.getElementById('btn-proximo').onclick = function() {
-            window.location.href = 'nivel2.html';
-            console.log('passar para nível 2');
-        }
-    }
-
-// Voltar à posição inicial
-    function lixoPosInicial() {
-        beingDragged.style.left = beingDragged.dataset.startX + 'px';
-        beingDragged.style.top = beingDragged.dataset.startY + 'px';
-        console.log('Lixo voltou à posição inicial.');
-    }
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* lixos.forEach((lixo) => {
-    // Desativa o comportamento padrão de arrastar imagens
-    lixo.setAttribute('draggable', false);
-
-    lixo.addEventListener('mousedown', (e) => {
-        const offsetX = e.offsetX; // Posição inicial relativa ao clique
-        const offsetY = e.offsetY;
-
-        const moveLixo = (event) => {
-            lixo.style.left = `${event.pageX - offsetX}px`;
-            lixo.style.top = `${event.pageY - offsetY}px`;
-        };
-
-        const stopMove = () => {
-            window.removeEventListener('mousemove', moveLixo); // Para o movimento
-            window.removeEventListener('mouseup', stopMove);  // Remove o listener
-            lixo.style.cursor = 'grab'; // Voltar ao cursor padrão
-        };
-
-        window.addEventListener('mousemove', moveLixo); // Adiciona o movimento
-        window.addEventListener('mouseup', stopMove);   // Remove no final
-        lixo.style.cursor = 'grabbing'; // Atualiza o cursor
     });
 
-}); */
+    // Distribuição realista e inteligente dos resíduos no relvado e caminhos do parque
+    function distribuirLixosSeguro() {
+        const stageWidth = gameStage.clientWidth || window.innerWidth;
+        const stageHeight = gameStage.clientHeight || window.innerHeight;
+
+        // Definir zonas lógicas do terreno do parque (chão, relvado esquerdo, caminho central superior, relvado direito)
+        // Desta forma, o lixo nunca flutua no céu/copas das árvores nem colide com os ecopontos em baixo.
+        const zones = [
+            // Zona 1: Relvado à esquerda (4 resíduos)
+            { minX: stageWidth * 0.05, maxX: stageWidth * 0.28, minY: stageHeight * 0.48, maxY: stageHeight * 0.82 },
+            { minX: stageWidth * 0.06, maxX: stageWidth * 0.29, minY: stageHeight * 0.50, maxY: stageHeight * 0.82 },
+            { minX: stageWidth * 0.04, maxX: stageWidth * 0.27, minY: stageHeight * 0.46, maxY: stageHeight * 0.80 },
+            { minX: stageWidth * 0.08, maxX: stageWidth * 0.30, minY: stageHeight * 0.52, maxY: stageHeight * 0.84 },
+
+            // Zona 2: Relvado à direita (4 resíduos)
+            { minX: stageWidth * 0.72, maxX: stageWidth * 0.94, minY: stageHeight * 0.48, maxY: stageHeight * 0.82 },
+            { minX: stageWidth * 0.70, maxX: stageWidth * 0.93, minY: stageHeight * 0.50, maxY: stageHeight * 0.82 },
+            { minX: stageWidth * 0.73, maxX: stageWidth * 0.95, minY: stageHeight * 0.46, maxY: stageHeight * 0.80 },
+            { minX: stageWidth * 0.69, maxX: stageWidth * 0.92, minY: stageHeight * 0.52, maxY: stageHeight * 0.84 },
+
+            // Zona 3: Caminho e relvado central acima dos ecopontos (6 resíduos)
+            { minX: stageWidth * 0.28, maxX: stageWidth * 0.48, minY: stageHeight * 0.44, maxY: stageHeight * 0.62 },
+            { minX: stageWidth * 0.48, maxX: stageWidth * 0.68, minY: stageHeight * 0.44, maxY: stageHeight * 0.62 },
+            { minX: stageWidth * 0.32, maxX: stageWidth * 0.52, minY: stageHeight * 0.45, maxY: stageHeight * 0.63 },
+            { minX: stageWidth * 0.45, maxX: stageWidth * 0.65, minY: stageHeight * 0.46, maxY: stageHeight * 0.64 },
+            { minX: stageWidth * 0.22, maxX: stageWidth * 0.42, minY: stageHeight * 0.48, maxY: stageHeight * 0.65 },
+            { minX: stageWidth * 0.55, maxX: stageWidth * 0.74, minY: stageHeight * 0.48, maxY: stageHeight * 0.65 }
+        ];
+
+        const posicoesUsadas = [];
+
+        lixos.forEach((item, index) => {
+            const zone = zones[index % zones.length];
+            const itemW = item.offsetWidth || 85;
+            const itemH = item.offsetHeight || 85;
+
+            let posX, posY;
+            let tentativas = 0;
+            let sobreposto = true;
+
+            while (sobreposto && tentativas < 60) {
+                tentativas++;
+                const spanX = Math.max(10, zone.maxX - zone.minX - itemW);
+                const spanY = Math.max(10, zone.maxY - zone.minY - itemH);
+
+                posX = Math.floor(zone.minX + Math.random() * spanX);
+                posY = Math.floor(zone.minY + Math.random() * spanY);
+
+                // Garantir distância mínima entre itens para não se taparem
+                sobreposto = posicoesUsadas.some(pos => {
+                    const dist = Math.hypot(pos.x - posX, pos.y - posY);
+                    return dist < 82;
+                });
+            }
+
+            if (sobreposto) {
+                // Posição determinística segura dentro da zona
+                posX = Math.floor(zone.minX + 20);
+                posY = Math.floor(zone.minY + 20);
+            }
+
+            posicoesUsadas.push({ x: posX, y: posY });
+
+            item.style.position = 'absolute';
+            item.style.left = `${posX}px`;
+            item.style.top = `${posY}px`;
+            item.dataset.originLeft = posX;
+            item.dataset.originTop = posY;
+        });
+    }
+
+    // Inicializar motor de Drag and Drop
+    const dnd = new DragDropEngine({
+        container: gameStage,
+        draggableSelector: '.lixo-drag',
+        dropZoneSelector: '.ecoponto-drop',
+        onDrop: (draggedElem, dropTarget) => {
+            const tipoItem = draggedElem.dataset.tipo;
+            const tipoAceite = dropTarget.dataset.aceita;
+
+            if (tipoItem === tipoAceite) {
+                // Acerto!
+                if (window.audioManager) window.audioManager.play('certo');
+                dnd.consumeItem(draggedElem, dropTarget);
+                const currentPoints = hud.addPoints(1);
+
+                if (currentPoints >= TOTAL_LIXOS) {
+                    setTimeout(() => {
+                        hud.showVictoryModal(
+                            'Parabéns, Eco Herói! Separaste todo o lixo do parque nos ecopontos certos. O parque da cidade está limpo e seguro para todos!'
+                        );
+                    }, 500);
+                }
+                return true;
+            } else {
+                // Erro! Ecoponto errado
+                if (window.audioManager) window.audioManager.play('errado');
+                return false;
+            }
+        }
+    });
+
+    // Iniciar Missão ao clicar no botão
+    btnIniciar.addEventListener('click', () => {
+        introScreen.style.display = 'none';
+        gameContainer.style.display = 'flex';
+
+        // Pequeno delay para garantir que as dimensões do gameStage estão calculadas
+        setTimeout(() => {
+            distribuirLixosSeguro();
+            hud.startTimer();
+        }, 80);
+    });
+
+    // Redimensionamento de janela
+    window.addEventListener('resize', () => {
+        if (gameContainer.style.display !== 'none' && !hud.isEnded) {
+            distribuirLixosSeguro();
+        }
+    });
+});
