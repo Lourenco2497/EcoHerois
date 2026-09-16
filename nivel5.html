@@ -37,11 +37,9 @@
     <!-- Contentor de Jogo -->
     <main id="nivel5-fundo" class="eco-game-container" style="background-image: url('imagens/fundos/nivel5background.jpg'); display: none;">
         <div class="eco-game-stage" id="game-stage">
-            <!-- Instrução Superior -->
-            <div style="position: absolute; top: 1.5rem; left: 50%; transform: translateX(-50%); z-index: 100; text-align: center; background: rgba(255, 255, 255, 0.92); backdrop-filter: blur(6px); padding: 0.6rem 1.4rem; border-radius: var(--radius-pill); border: 2px solid var(--eco-border); box-shadow: var(--eco-shadow-md);">
-                <span style="font-weight: 700; color: var(--eco-primary); font-size: 1rem;">
-                    💡 Clica em todas as lâmpadas acesas para poupar energia!
-                </span>
+            <!-- Instrução na base do ecrã para nunca sobrepor o teto nem as lâmpadas -->
+            <div class="level-instruction-pill level-instruction-bottom">
+                <span>💡 Clica em todas as lâmpadas acesas para poupar energia!</span>
             </div>
 
             <!-- As 10 Lâmpadas serão criadas dinamicamente de forma segura no game-stage -->

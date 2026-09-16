@@ -40,22 +40,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 10 coordenadas percentuais bem distribuídas pelo cenário da sala
         const layoutCoords = isMobilePortrait ? [
-            { x: 0.18, y: 0.10, size: 56 }, // Teto canto esquerdo
-            { x: 0.50, y: 0.08, size: 62 }, // Lustre central teto
-            { x: 0.82, y: 0.11, size: 56 }, // Teto canto direito
-            { x: 0.22, y: 0.24, size: 54 }, // Aplique parede esquerda
-            { x: 0.78, y: 0.22, size: 54 }, // Aplique parede direita
-            { x: 0.16, y: 0.38, size: 58 }, // Candeeiro secretária esquerda
-            { x: 0.52, y: 0.40, size: 56 }, // Luz ambiente centro
-            { x: 0.82, y: 0.36, size: 56 }, // Abajur estante direita
-            { x: 0.30, y: 0.56, size: 58 }, // Luz mesa de apoio
-            { x: 0.72, y: 0.54, size: 60 }  // Candeeiro de pé sofá
+            { x: 0.18, y: 0.10, size: 54 }, // Teto canto esquerdo
+            { x: 0.82, y: 0.10, size: 54 }, // Teto canto direito
+            { x: 0.50, y: 0.18, size: 62 }, // Lustre central suspenso
+            { x: 0.22, y: 0.28, size: 54 }, // Aplique parede esquerda
+            { x: 0.78, y: 0.26, size: 54 }, // Aplique parede direita
+            { x: 0.16, y: 0.42, size: 56 }, // Candeeiro secretária esquerda
+            { x: 0.52, y: 0.44, size: 56 }, // Luz ambiente centro
+            { x: 0.82, y: 0.40, size: 56 }, // Abajur estante direita
+            { x: 0.28, y: 0.60, size: 58 }, // Luz mesa de apoio
+            { x: 0.74, y: 0.58, size: 60 }  // Candeeiro de pé sofá
         ] : [
-            { x: 0.12, y: 0.18, size: 74 }, // Teto canto esquerdo
-            { x: 0.32, y: 0.15, size: 78 }, // Candeeiro de teto
-            { x: 0.50, y: 0.14, size: 84 }, // Lustre central
-            { x: 0.72, y: 0.16, size: 78 }, // Candeeiro suspenso direito
-            { x: 0.88, y: 0.20, size: 72 }, // Aplique teto lateral
+            { x: 0.12, y: 0.16, size: 74 }, // Teto canto esquerdo
+            { x: 0.32, y: 0.14, size: 78 }, // Candeeiro de teto esquerdo
+            { x: 0.50, y: 0.25, size: 84 }, // Lustre central suspenso na sala
+            { x: 0.72, y: 0.14, size: 78 }, // Candeeiro suspenso direito
+            { x: 0.88, y: 0.16, size: 72 }, // Aplique teto lateral
             { x: 0.18, y: 0.44, size: 70 }, // Candeeiro de mesa esquerda
             { x: 0.42, y: 0.48, size: 68 }, // Luz ambiente móvel
             { x: 0.65, y: 0.42, size: 70 }, // Abajur estante
