@@ -31,27 +31,65 @@ document.addEventListener('DOMContentLoaded', () => {
     function distribuirLixosSeguro() {
         const stageWidth = gameStage.clientWidth || window.innerWidth;
         const stageHeight = gameStage.clientHeight || window.innerHeight;
+        const isPortrait = (stageHeight > stageWidth) || (stageWidth <= 640);
+        const posicoesUsadas = [];
+
+        if (isPortrait) {
+            // Em ecrãs verticais, distribuir em grelha adaptada (3 colunas x 4 linhas)
+            const cols = 3;
+            const rows = 4;
+            const startY = stageHeight * 0.08;
+            const endY = stageHeight * 0.68;
+            const colWidth = stageWidth / cols;
+            const rowHeight = (endY - startY) / rows;
+
+            lixos.forEach((item, index) => {
+                const c = index % cols;
+                const r = Math.floor(index / cols);
+
+                const itemW = item.offsetWidth || 56;
+                const itemH = item.offsetHeight || 56;
+
+                const jitterX = (Math.random() - 0.5) * 16;
+                const jitterY = (Math.random() - 0.5) * 14;
+
+                const posX = Math.floor((c * colWidth) + (colWidth / 2) - (itemW / 2) + jitterX);
+                const posY = Math.floor(startY + (r * rowHeight) + (rowHeight / 2) - (itemH / 2) + jitterY);
+
+                item.style.position = 'absolute';
+                item.style.left = `${Math.max(10, Math.min(stageWidth - itemW - 10, posX))}px`;
+                item.style.top = `${posY}px`;
+                item.dataset.originLeft = item.style.left.replace('px', '');
+                item.dataset.originTop = item.style.top.replace('px', '');
+            });
+            return;
+        }
+
+        // Em Modo Horizontal: ajustar alturas para ecrãs de telemóvel na horizontal
+        const isCompact = stageHeight < 550;
+        const deskMinY = isCompact ? stageHeight * 0.16 : stageHeight * 0.46;
+        const deskMaxY = isCompact ? stageHeight * 0.60 : stageHeight * 0.78;
+        const rugMinY = isCompact ? stageHeight * 0.14 : stageHeight * 0.44;
+        const rugMaxY = isCompact ? stageHeight * 0.58 : stageHeight * 0.64;
 
         // Zonas lógicas do quarto: secretária à esquerda, chão/tapete central e área da cama à direita
         const zones = [
             // Secretária / Mesa de estudo à esquerda (3 itens)
-            { minX: stageWidth * 0.08, maxX: stageWidth * 0.28, minY: stageHeight * 0.46, maxY: stageHeight * 0.76 },
-            { minX: stageWidth * 0.06, maxX: stageWidth * 0.26, minY: stageHeight * 0.50, maxY: stageHeight * 0.80 },
-            { minX: stageWidth * 0.10, maxX: stageWidth * 0.30, minY: stageHeight * 0.44, maxY: stageHeight * 0.74 },
+            { minX: stageWidth * 0.08, maxX: stageWidth * 0.28, minY: deskMinY, maxY: deskMaxY },
+            { minX: stageWidth * 0.06, maxX: stageWidth * 0.26, minY: deskMinY, maxY: deskMaxY },
+            { minX: stageWidth * 0.10, maxX: stageWidth * 0.30, minY: deskMinY, maxY: deskMaxY },
 
             // Área central do tapete e chão acima dos contentores (4 itens)
-            { minX: stageWidth * 0.30, maxX: stageWidth * 0.48, minY: stageHeight * 0.44, maxY: stageHeight * 0.63 },
-            { minX: stageWidth * 0.50, maxX: stageWidth * 0.68, minY: stageHeight * 0.44, maxY: stageHeight * 0.63 },
-            { minX: stageWidth * 0.35, maxX: stageWidth * 0.55, minY: stageHeight * 0.46, maxY: stageHeight * 0.65 },
-            { minX: stageWidth * 0.45, maxX: stageWidth * 0.65, minY: stageHeight * 0.47, maxY: stageHeight * 0.66 },
+            { minX: stageWidth * 0.30, maxX: stageWidth * 0.48, minY: rugMinY, maxY: rugMaxY },
+            { minX: stageWidth * 0.50, maxX: stageWidth * 0.68, minY: rugMinY, maxY: rugMaxY },
+            { minX: stageWidth * 0.35, maxX: stageWidth * 0.55, minY: rugMinY, maxY: rugMaxY },
+            { minX: stageWidth * 0.45, maxX: stageWidth * 0.65, minY: rugMinY, maxY: rugMaxY },
 
             // Área da mesinha e chão à direita (3 itens)
-            { minX: stageWidth * 0.70, maxX: stageWidth * 0.90, minY: stageHeight * 0.46, maxY: stageHeight * 0.76 },
-            { minX: stageWidth * 0.72, maxX: stageWidth * 0.92, minY: stageHeight * 0.50, maxY: stageHeight * 0.80 },
-            { minX: stageWidth * 0.68, maxX: stageWidth * 0.88, minY: stageHeight * 0.44, maxY: stageHeight * 0.74 }
+            { minX: stageWidth * 0.70, maxX: stageWidth * 0.90, minY: deskMinY, maxY: deskMaxY },
+            { minX: stageWidth * 0.72, maxX: stageWidth * 0.92, minY: deskMinY, maxY: deskMaxY },
+            { minX: stageWidth * 0.68, maxX: stageWidth * 0.88, minY: deskMinY, maxY: deskMaxY }
         ];
-
-        const posicoesUsadas = [];
 
         lixos.forEach((item, index) => {
             const zone = zones[index % zones.length];

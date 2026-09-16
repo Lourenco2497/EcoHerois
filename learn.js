@@ -3,12 +3,28 @@
  * Gere o mostruário de ecopontos, a ferramenta de pesquisa de resíduos e o simulador de compostagem.
  */
 document.addEventListener('DOMContentLoaded', () => {
-    // Menu mobile
+    // Menu mobile responsivo
     const toggleBtn = document.getElementById('nav-toggle');
     const navList = document.getElementById('nav-list');
     if (toggleBtn && navList) {
-        toggleBtn.addEventListener('click', () => {
-            navList.classList.toggle('is-open');
+        toggleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isOpen = navList.classList.toggle('is-open');
+            toggleBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        });
+
+        navList.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navList.classList.remove('is-open');
+                toggleBtn.setAttribute('aria-expanded', 'false');
+            });
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!navList.contains(e.target) && !toggleBtn.contains(e.target)) {
+                navList.classList.remove('is-open');
+                toggleBtn.setAttribute('aria-expanded', 'false');
+            }
         });
     }
 

@@ -173,12 +173,30 @@
     <script src="js/audio-manager.js"></script>
     <script src="js/storage-manager.js"></script>
     <script>
-        // Menu Móvel
+        // Menu Móvel Responsivo
         const toggleBtn = document.getElementById('nav-toggle');
         const navList = document.getElementById('nav-list');
         if (toggleBtn && navList) {
-            toggleBtn.addEventListener('click', () => {
-                navList.classList.toggle('is-open');
+            toggleBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const isOpen = navList.classList.toggle('is-open');
+                toggleBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+            });
+
+            // Fechar ao clicar num link de navegação
+            navList.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    navList.classList.remove('is-open');
+                    toggleBtn.setAttribute('aria-expanded', 'false');
+                });
+            });
+
+            // Fechar ao clicar fora
+            document.addEventListener('click', (e) => {
+                if (!navList.contains(e.target) && !toggleBtn.contains(e.target)) {
+                    navList.classList.remove('is-open');
+                    toggleBtn.setAttribute('aria-expanded', 'false');
+                }
             });
         }
 

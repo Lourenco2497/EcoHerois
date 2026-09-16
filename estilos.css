@@ -88,6 +88,7 @@ body {
     flex-direction: column;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: transparent;
     overflow-x: hidden;
 }
 
@@ -656,6 +657,8 @@ img {
     position: absolute;
     cursor: grab;
     user-select: none;
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
     touch-action: none;
     z-index: 10;
     filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.22));
@@ -1224,16 +1227,369 @@ img {
         height: 64px;
     }
 
+    .eco-game-container {
+        top: 64px;
+    }
+
     .hud-badge-sub {
         display: none;
+    }
+
+    .hud-badge-tag {
+        font-size: 1.15rem;
     }
 
     .hud-counter-card, .hud-timer-card {
         padding: 0.3rem 0.6rem;
         font-size: 0.95rem;
+        gap: 0.4rem;
     }
 
     .ecoponto-drop {
         height: 110px;
     }
+
+    .ecopontos-dock {
+        gap: 0.8rem;
+        bottom: 0.8rem;
+    }
+
+    .eco-modal-card {
+        padding: 2rem 1.5rem;
+        max-width: 90%;
+        max-height: 88vh;
+        overflow-y: auto;
+    }
+
+    .modal-mascot-img {
+        height: 90px;
+    }
+
+    .eco-modal-title {
+        font-size: 1.9rem;
+    }
+}
+
+/* Otimizações Específicas para Smartphones (≤ 480px) */
+@media (max-width: 480px) {
+    .eco-header {
+        padding: 0.5rem 0.8rem;
+    }
+
+    .eco-logo {
+        font-size: 1.45rem;
+    }
+
+    .eco-logo-badge {
+        font-size: 0.72rem;
+        padding: 0.15rem 0.4rem;
+    }
+
+    .eco-game-hud {
+        height: 58px;
+        padding: 0 0.5rem;
+    }
+
+    .eco-game-container {
+        top: 58px;
+    }
+
+    .hud-left {
+        gap: 0.4rem;
+    }
+
+    .hud-center {
+        gap: 0.35rem;
+    }
+
+    .hud-right {
+        gap: 0.35rem;
+    }
+
+    .hud-btn-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 0.95rem;
+    }
+
+    .hud-badge-tag {
+        font-size: 0.95rem;
+    }
+
+    .hud-counter-card, .hud-timer-card {
+        padding: 0.2rem 0.45rem;
+        font-size: 0.82rem;
+        gap: 0.25rem;
+    }
+
+    /* Redimensionamento gracioso dos itens arrastáveis em telemóveis */
+    .lixo-drag {
+        max-width: 56px !important;
+        max-height: 56px !important;
+        filter: drop-shadow(0 2px 5px rgba(0,0,0,0.3));
+    }
+
+    /* Contentores compactos na parte inferior */
+    .ecoponto-drop {
+        height: 86px !important;
+    }
+
+    .ecopontos-dock {
+        gap: 0.4rem;
+        bottom: calc(0.35rem + env(safe-area-inset-bottom, 0px));
+        padding: 0 0.2rem;
+        width: 96%;
+        justify-content: space-around;
+    }
+
+    .ecoponto-label {
+        font-size: 0.65rem;
+        padding: 0.1rem 0.3rem;
+        margin-top: 0.2rem;
+    }
+
+    /* Balão e Hero em Mobile */
+    .eco-hero-stage {
+        padding: 1.5rem 1rem;
+    }
+
+    .eco-speech-bubble {
+        padding: 1.5rem 1.2rem;
+        border-radius: var(--radius-md);
+    }
+
+    .eco-speech-bubble h1 {
+        font-size: 1.7rem;
+    }
+
+    .eco-speech-bubble p {
+        font-size: 0.95rem;
+        margin-bottom: 0.9rem;
+    }
+
+    .eco-bubble-actions {
+        flex-direction: column;
+        width: 100%;
+        gap: 0.75rem;
+    }
+
+    .eco-bubble-actions .eco-btn {
+        width: 100%;
+        padding: 0.8rem 1rem;
+        font-size: 1rem;
+    }
+
+    .level-intro-card {
+        padding: 1.8rem 1.2rem;
+        border-radius: var(--radius-md);
+    }
+
+    .level-intro-card h2 {
+        font-size: 1.8rem;
+    }
+
+    .level-intro-card p {
+        font-size: 0.92rem;
+    }
+
+    /* Torneiras em Mobile */
+    .tap-img {
+        width: 58px !important;
+    }
+
+    .tap-water-stream {
+        width: 13px !important;
+        height: 65px !important;
+    }
+
+    /* Lâmpadas em Mobile */
+    .lamp-node img {
+        width: 50px !important;
+    }
+
+    /* Modais em Mobile */
+    .eco-modal-card {
+        padding: 1.5rem 1.1rem;
+        border-radius: var(--radius-md);
+    }
+
+    .eco-modal-title {
+        font-size: 1.6rem;
+    }
+
+    .victory-stars {
+        font-size: 1.8rem;
+    }
+
+    .eco-modal-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .eco-modal-actions .eco-btn {
+        width: 100%;
+    }
+
+    .level-instruction-pill {
+        top: 0.4rem;
+        padding: 0.35rem 0.8rem;
+        font-size: 0.78rem;
+        white-space: normal;
+    }
+}
+
+/* Otimização de Posicionamento para Nível 4 (Torneiras) em Ecrãs Estreitos */
+@media (max-width: 600px) {
+    #tap-3 {
+        left: 20% !important;
+        top: 42% !important;
+    }
+    #tap-1 {
+        left: 50% !important;
+        top: 52% !important;
+    }
+    #tap-2 {
+        left: 80% !important;
+        top: 42% !important;
+    }
+}
+
+/* Otimização para Simulador de Compostagem em Ecrãs Pequenos */
+@media (max-width: 768px) {
+    .compost-sim-grid {
+        grid-template-columns: 1fr !important;
+        gap: 1.2rem !important;
+    }
+    .sim-plant-img {
+        height: 140px;
+    }
+}
+
+/* Otimização Específica para Dispositivos Móveis em Modo Horizontal (Landscape: altura <= 520px) */
+@media (max-height: 520px) {
+    .eco-game-hud {
+        height: 48px;
+        padding: 0 0.8rem;
+    }
+
+    .eco-game-container {
+        top: 48px;
+    }
+
+    .hud-btn-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 0.9rem;
+    }
+
+    .hud-badge-tag {
+        font-size: 1rem;
+    }
+
+    .hud-counter-card, .hud-timer-card {
+        padding: 0.2rem 0.5rem;
+        font-size: 0.85rem;
+    }
+
+    .ecoponto-drop {
+        height: 72px !important;
+    }
+
+    .ecopontos-dock {
+        bottom: 0.2rem;
+        gap: 0.6rem;
+    }
+
+    .ecoponto-label {
+        font-size: 0.65rem;
+        padding: 0.1rem 0.3rem;
+    }
+
+    .lixo-drag {
+        max-width: 48px !important;
+        max-height: 48px !important;
+    }
+
+    .level-intro-card {
+        padding: 1rem 1.5rem;
+        max-height: 94vh;
+        overflow-y: auto;
+    }
+
+    .level-intro-card h2 {
+        font-size: 1.5rem;
+        margin-bottom: 0.2rem;
+    }
+
+    .level-intro-card p {
+        font-size: 0.85rem;
+        margin-bottom: 0.6rem;
+    }
+
+    .modal-mascot-img {
+        height: 55px;
+    }
+
+    .eco-modal-card {
+        padding: 1.2rem 1.5rem;
+        max-height: 94vh;
+        overflow-y: auto;
+    }
+
+    .eco-modal-title {
+        font-size: 1.4rem;
+        margin-bottom: 0.2rem;
+    }
+
+    .eco-modal-body {
+        font-size: 0.88rem;
+        margin-bottom: 0.8rem;
+    }
+
+    .eco-modal-stats {
+        margin-bottom: 0.8rem;
+        gap: 0.6rem;
+    }
+
+    .stat-pill {
+        padding: 0.3rem 0.6rem;
+    }
+
+    .stat-val {
+        font-size: 1rem;
+    }
+}
+
+/* Pulso animado para contentores quando um item está selecionado por toque */
+.drop-zone-waiting {
+    animation: dropZoneWaitingPulse 1.2s ease-in-out infinite alternate;
+}
+
+@keyframes dropZoneWaitingPulse {
+    0% { transform: scale(1); filter: drop-shadow(0 4px 10px rgba(226, 153, 36, 0.4)); }
+    100% { transform: scale(1.08); filter: drop-shadow(0 8px 20px rgba(226, 153, 36, 0.85)); }
+}
+
+/* Pílula de Instrução Superior nos Níveis */
+.level-instruction-pill {
+    position: absolute;
+    top: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    padding: 0.5rem 1.2rem;
+    border-radius: var(--radius-pill);
+    border: 2px solid var(--eco-border);
+    box-shadow: var(--eco-shadow-md);
+    white-space: nowrap;
+    max-width: 90%;
+    font-weight: 700;
+    color: var(--eco-primary);
+    font-size: 0.95rem;
+    user-select: none;
+    pointer-events: none;
 }

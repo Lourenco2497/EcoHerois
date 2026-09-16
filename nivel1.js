@@ -31,32 +31,70 @@ document.addEventListener('DOMContentLoaded', () => {
     function distribuirLixosSeguro() {
         const stageWidth = gameStage.clientWidth || window.innerWidth;
         const stageHeight = gameStage.clientHeight || window.innerHeight;
+        const isPortrait = (stageHeight > stageWidth) || (stageWidth <= 640);
+        const posicoesUsadas = [];
 
-        // Definir zonas lógicas do terreno do parque (chão, relvado esquerdo, caminho central superior, relvado direito)
-        // Desta forma, o lixo nunca flutua no céu/copas das árvores nem colide com os ecopontos em baixo.
+        if (isPortrait) {
+            // Em ecrãs verticais, distribuir em grelha adaptada (3 ou 4 colunas)
+            // de modo a que os 14 itens fiquem bem espaçados e nunca sobreponham os ecopontos em baixo.
+            const cols = stageWidth < 500 ? 3 : 4;
+            const rows = Math.ceil(TOTAL_LIXOS / cols);
+            const startY = stageHeight * 0.05;
+            const endY = stageHeight * 0.68;
+            const colWidth = stageWidth / cols;
+            const rowHeight = (endY - startY) / rows;
+
+            lixos.forEach((item, index) => {
+                const c = index % cols;
+                const r = Math.floor(index / cols);
+
+                const itemW = item.offsetWidth || 54;
+                const itemH = item.offsetHeight || 54;
+
+                const jitterX = (Math.random() - 0.5) * 16;
+                const jitterY = (Math.random() - 0.5) * 14;
+
+                const posX = Math.floor((c * colWidth) + (colWidth / 2) - (itemW / 2) + jitterX);
+                const posY = Math.floor(startY + (r * rowHeight) + (rowHeight / 2) - (itemH / 2) + jitterY);
+
+                item.style.position = 'absolute';
+                item.style.left = `${Math.max(10, Math.min(stageWidth - itemW - 10, posX))}px`;
+                item.style.top = `${posY}px`;
+                item.dataset.originLeft = item.style.left.replace('px', '');
+                item.dataset.originTop = item.style.top.replace('px', '');
+            });
+            return;
+        }
+
+        // Em Modo Horizontal: ajustar alturas se o telemóvel estiver na horizontal (ecrã estreito em altura)
+        const isCompact = stageHeight < 550;
+        const groundMinY = isCompact ? stageHeight * 0.16 : stageHeight * 0.48;
+        const groundMaxY = isCompact ? stageHeight * 0.62 : stageHeight * 0.82;
+        const centerMinY = isCompact ? stageHeight * 0.14 : stageHeight * 0.44;
+        const centerMaxY = isCompact ? stageHeight * 0.58 : stageHeight * 0.64;
+
+        // Zonas de terreno realistas (relvados e caminhos)
         const zones = [
             // Zona 1: Relvado à esquerda (4 resíduos)
-            { minX: stageWidth * 0.05, maxX: stageWidth * 0.28, minY: stageHeight * 0.48, maxY: stageHeight * 0.82 },
-            { minX: stageWidth * 0.06, maxX: stageWidth * 0.29, minY: stageHeight * 0.50, maxY: stageHeight * 0.82 },
-            { minX: stageWidth * 0.04, maxX: stageWidth * 0.27, minY: stageHeight * 0.46, maxY: stageHeight * 0.80 },
-            { minX: stageWidth * 0.08, maxX: stageWidth * 0.30, minY: stageHeight * 0.52, maxY: stageHeight * 0.84 },
+            { minX: stageWidth * 0.05, maxX: stageWidth * 0.28, minY: groundMinY, maxY: groundMaxY },
+            { minX: stageWidth * 0.06, maxX: stageWidth * 0.29, minY: groundMinY, maxY: groundMaxY },
+            { minX: stageWidth * 0.04, maxX: stageWidth * 0.27, minY: groundMinY, maxY: groundMaxY },
+            { minX: stageWidth * 0.08, maxX: stageWidth * 0.30, minY: groundMinY, maxY: groundMaxY },
 
             // Zona 2: Relvado à direita (4 resíduos)
-            { minX: stageWidth * 0.72, maxX: stageWidth * 0.94, minY: stageHeight * 0.48, maxY: stageHeight * 0.82 },
-            { minX: stageWidth * 0.70, maxX: stageWidth * 0.93, minY: stageHeight * 0.50, maxY: stageHeight * 0.82 },
-            { minX: stageWidth * 0.73, maxX: stageWidth * 0.95, minY: stageHeight * 0.46, maxY: stageHeight * 0.80 },
-            { minX: stageWidth * 0.69, maxX: stageWidth * 0.92, minY: stageHeight * 0.52, maxY: stageHeight * 0.84 },
+            { minX: stageWidth * 0.72, maxX: stageWidth * 0.94, minY: groundMinY, maxY: groundMaxY },
+            { minX: stageWidth * 0.70, maxX: stageWidth * 0.93, minY: groundMinY, maxY: groundMaxY },
+            { minX: stageWidth * 0.73, maxX: stageWidth * 0.95, minY: groundMinY, maxY: groundMaxY },
+            { minX: stageWidth * 0.69, maxX: stageWidth * 0.92, minY: groundMinY, maxY: groundMaxY },
 
             // Zona 3: Caminho e relvado central acima dos ecopontos (6 resíduos)
-            { minX: stageWidth * 0.28, maxX: stageWidth * 0.48, minY: stageHeight * 0.44, maxY: stageHeight * 0.62 },
-            { minX: stageWidth * 0.48, maxX: stageWidth * 0.68, minY: stageHeight * 0.44, maxY: stageHeight * 0.62 },
-            { minX: stageWidth * 0.32, maxX: stageWidth * 0.52, minY: stageHeight * 0.45, maxY: stageHeight * 0.63 },
-            { minX: stageWidth * 0.45, maxX: stageWidth * 0.65, minY: stageHeight * 0.46, maxY: stageHeight * 0.64 },
-            { minX: stageWidth * 0.22, maxX: stageWidth * 0.42, minY: stageHeight * 0.48, maxY: stageHeight * 0.65 },
-            { minX: stageWidth * 0.55, maxX: stageWidth * 0.74, minY: stageHeight * 0.48, maxY: stageHeight * 0.65 }
+            { minX: stageWidth * 0.28, maxX: stageWidth * 0.48, minY: centerMinY, maxY: centerMaxY },
+            { minX: stageWidth * 0.48, maxX: stageWidth * 0.68, minY: centerMinY, maxY: centerMaxY },
+            { minX: stageWidth * 0.32, maxX: stageWidth * 0.52, minY: centerMinY, maxY: centerMaxY },
+            { minX: stageWidth * 0.45, maxX: stageWidth * 0.65, minY: centerMinY, maxY: centerMaxY },
+            { minX: stageWidth * 0.22, maxX: stageWidth * 0.42, minY: centerMinY, maxY: centerMaxY },
+            { minX: stageWidth * 0.55, maxX: stageWidth * 0.74, minY: centerMinY, maxY: centerMaxY }
         ];
-
-        const posicoesUsadas = [];
 
         lixos.forEach((item, index) => {
             const zone = zones[index % zones.length];
@@ -75,7 +113,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 posX = Math.floor(zone.minX + Math.random() * spanX);
                 posY = Math.floor(zone.minY + Math.random() * spanY);
 
-                // Garantir distância mínima entre itens para não se taparem
                 sobreposto = posicoesUsadas.some(pos => {
                     const dist = Math.hypot(pos.x - posX, pos.y - posY);
                     return dist < 82;
@@ -83,7 +120,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             if (sobreposto) {
-                // Posição determinística segura dentro da zona
                 posX = Math.floor(zone.minX + 20);
                 posY = Math.floor(zone.minY + 20);
             }

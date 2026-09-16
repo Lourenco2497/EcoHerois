@@ -31,28 +31,66 @@ document.addEventListener('DOMContentLoaded', () => {
     function distribuirLixosSeguro() {
         const stageWidth = gameStage.clientWidth || window.innerWidth;
         const stageHeight = gameStage.clientHeight || window.innerHeight;
+        const isPortrait = (stageHeight > stageWidth) || (stageWidth <= 640);
+        const posicoesUsadas = [];
+
+        if (isPortrait) {
+            // Em ecrãs verticais, distribuir em grelha adaptada (3 colunas x 4 linhas)
+            const cols = 3;
+            const rows = 4;
+            const startY = stageHeight * 0.08;
+            const endY = stageHeight * 0.68;
+            const colWidth = stageWidth / cols;
+            const rowHeight = (endY - startY) / rows;
+
+            lixos.forEach((item, index) => {
+                const c = index % cols;
+                const r = Math.floor(index / cols);
+
+                const itemW = item.offsetWidth || 56;
+                const itemH = item.offsetHeight || 56;
+
+                const jitterX = (Math.random() - 0.5) * 16;
+                const jitterY = (Math.random() - 0.5) * 14;
+
+                const posX = Math.floor((c * colWidth) + (colWidth / 2) - (itemW / 2) + jitterX);
+                const posY = Math.floor(startY + (r * rowHeight) + (rowHeight / 2) - (itemH / 2) + jitterY);
+
+                item.style.position = 'absolute';
+                item.style.left = `${Math.max(10, Math.min(stageWidth - itemW - 10, posX))}px`;
+                item.style.top = `${posY}px`;
+                item.dataset.originLeft = item.style.left.replace('px', '');
+                item.dataset.originTop = item.style.top.replace('px', '');
+            });
+            return;
+        }
+
+        // Em Modo Horizontal: ajustar alturas para telemóveis na horizontal
+        const isCompact = stageHeight < 550;
+        const soilMinY = isCompact ? stageHeight * 0.16 : stageHeight * 0.48;
+        const soilMaxY = isCompact ? stageHeight * 0.60 : stageHeight * 0.82;
+        const centerMinY = isCompact ? stageHeight * 0.14 : stageHeight * 0.44;
+        const centerMaxY = isCompact ? stageHeight * 0.58 : stageHeight * 0.62;
 
         // Zonas lógicas da horta: canteiro esquerdo, solo/horta direita e caminho central acima da composteira
         const zones = [
             // Canteiro e terra à esquerda (4 resíduos)
-            { minX: stageWidth * 0.06, maxX: stageWidth * 0.30, minY: stageHeight * 0.48, maxY: stageHeight * 0.82 },
-            { minX: stageWidth * 0.08, maxX: stageWidth * 0.28, minY: stageHeight * 0.50, maxY: stageHeight * 0.80 },
-            { minX: stageWidth * 0.05, maxX: stageWidth * 0.29, minY: stageHeight * 0.45, maxY: stageHeight * 0.76 },
-            { minX: stageWidth * 0.09, maxX: stageWidth * 0.32, minY: stageHeight * 0.52, maxY: stageHeight * 0.84 },
+            { minX: stageWidth * 0.06, maxX: stageWidth * 0.30, minY: soilMinY, maxY: soilMaxY },
+            { minX: stageWidth * 0.08, maxX: stageWidth * 0.28, minY: soilMinY, maxY: soilMaxY },
+            { minX: stageWidth * 0.05, maxX: stageWidth * 0.29, minY: soilMinY, maxY: soilMaxY },
+            { minX: stageWidth * 0.09, maxX: stageWidth * 0.32, minY: soilMinY, maxY: soilMaxY },
 
             // Solo e relva à direita (4 resíduos)
-            { minX: stageWidth * 0.70, maxX: stageWidth * 0.94, minY: stageHeight * 0.48, maxY: stageHeight * 0.82 },
-            { minX: stageWidth * 0.72, maxX: stageWidth * 0.92, minY: stageHeight * 0.50, maxY: stageHeight * 0.80 },
-            { minX: stageWidth * 0.68, maxX: stageWidth * 0.90, minY: stageHeight * 0.45, maxY: stageHeight * 0.76 },
-            { minX: stageWidth * 0.71, maxX: stageWidth * 0.93, minY: stageHeight * 0.52, maxY: stageHeight * 0.84 },
+            { minX: stageWidth * 0.70, maxX: stageWidth * 0.94, minY: soilMinY, maxY: soilMaxY },
+            { minX: stageWidth * 0.72, maxX: stageWidth * 0.92, minY: soilMinY, maxY: soilMaxY },
+            { minX: stageWidth * 0.68, maxX: stageWidth * 0.90, minY: soilMinY, maxY: soilMaxY },
+            { minX: stageWidth * 0.71, maxX: stageWidth * 0.93, minY: soilMinY, maxY: soilMaxY },
 
             // Área central da terra acima da composteira (3 resíduos)
-            { minX: stageWidth * 0.30, maxX: stageWidth * 0.48, minY: stageHeight * 0.44, maxY: stageHeight * 0.62 },
-            { minX: stageWidth * 0.52, maxX: stageWidth * 0.70, minY: stageHeight * 0.44, maxY: stageHeight * 0.62 },
-            { minX: stageWidth * 0.38, maxX: stageWidth * 0.62, minY: stageHeight * 0.46, maxY: stageHeight * 0.64 }
+            { minX: stageWidth * 0.30, maxX: stageWidth * 0.48, minY: centerMinY, maxY: centerMaxY },
+            { minX: stageWidth * 0.52, maxX: stageWidth * 0.70, minY: centerMinY, maxY: centerMaxY },
+            { minX: stageWidth * 0.38, maxX: stageWidth * 0.62, minY: centerMinY, maxY: centerMaxY }
         ];
-
-        const posicoesUsadas = [];
 
         lixos.forEach((item, index) => {
             const zone = zones[index % zones.length];

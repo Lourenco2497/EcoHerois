@@ -26,7 +26,7 @@ class DragDropEngine {
     bindEvents() {
         const container = this.container;
 
-        // Pointer events para suporte unificado
+        // Pointer events para suporte unificado (touch, rato, caneta)
         container.addEventListener('pointerdown', this.handlePointerDown.bind(this));
         window.addEventListener('pointermove', this.handlePointerMove.bind(this));
         window.addEventListener('pointerup', this.handlePointerUp.bind(this));
@@ -42,7 +42,7 @@ class DragDropEngine {
         const target = e.target.closest(this.draggableSelector);
         if (!target || target.dataset.locked === 'true') {
             // Se clicar fora de um item, limpar seleção do modo alternativo
-            if (this.selectedElement && !e.target.closest(this.dropZoneSelector)) {
+            if (this.selectedElement && !e.target.closest(this.dropZoneSelector) && !e.target.closest('.ecoponto-drop-wrapper')) {
                 this.deselectItem(this.selectedElement);
             }
             return;
@@ -54,13 +54,15 @@ class DragDropEngine {
         }
 
         this.activeElement = target;
-        this.isDragging = false; // Só vira drag se houver movimento significativo
+        this.activePointerId = e.pointerId;
+        this.isDragging = false;
 
         const rect = target.getBoundingClientRect();
         this.offset.x = e.clientX - rect.left;
         this.offset.y = e.clientY - rect.top;
         this.startPos.x = target.offsetLeft;
         this.startPos.y = target.offsetTop;
+        this.startPointer = { x: e.clientX, y: e.clientY };
 
         // Guardar posição inicial se ainda não guardada
         if (!target.dataset.originLeft) {
@@ -68,18 +70,20 @@ class DragDropEngine {
             target.dataset.originTop = target.offsetTop;
         }
 
-        target.setPointerCapture(e.pointerId);
+        try {
+            target.setPointerCapture(e.pointerId);
+        } catch (err) {}
     }
 
     handlePointerMove(e) {
         if (!this.activeElement) return;
 
-        const distance = Math.hypot(e.movementX || 0, e.movementY || 0);
-        if (!this.isDragging && distance > 2) {
+        // Medição robusta de deslocamento acumulado desde o início do toque/clique
+        const totalMove = Math.hypot(e.clientX - this.startPointer.x, e.clientY - this.startPointer.y);
+        if (!this.isDragging && totalMove > 6) {
             this.isDragging = true;
             this.activeElement.classList.add('is-dragging');
             this.activeElement.style.zIndex = '1000';
-            this.activeElement.style.pointerEvents = 'none'; // Permitir que elementFromPoint encontre os alvos por baixo
             this.onDragStart(this.activeElement);
         }
 
@@ -91,9 +95,8 @@ class DragDropEngine {
             this.activeElement.style.left = `${x}px`;
             this.activeElement.style.top = `${y}px`;
 
-            // Detetar alvo por baixo do ponteiro
-            const elemUnder = document.elementFromPoint(e.clientX, e.clientY);
-            const dropTarget = elemUnder ? elemUnder.closest(this.dropZoneSelector) : null;
+            // Deteção geométrica de alvo (com tolerância generosa para dedos em ecrãs táteis)
+            const dropTarget = this.findDropTarget(e.clientX, e.clientY);
 
             if (dropTarget !== this.currentDropTarget) {
                 if (this.currentDropTarget) {
@@ -107,19 +110,43 @@ class DragDropEngine {
         }
     }
 
+    findDropTarget(clientX, clientY) {
+        const dropZones = Array.from(this.container.querySelectorAll(this.dropZoneSelector));
+        const isCoarse = window.matchMedia('(pointer: coarse)').matches;
+        const tolerance = isCoarse ? 28 : 12; // Margem extra em telemóveis para facilidade de toque
+
+        for (const zone of dropZones) {
+            const rect = zone.getBoundingClientRect();
+            if (
+                clientX >= rect.left - tolerance &&
+                clientX <= rect.right + tolerance &&
+                clientY >= rect.top - tolerance &&
+                clientY <= rect.bottom + tolerance
+            ) {
+                return zone;
+            }
+        }
+        return null;
+    }
+
     handlePointerUp(e) {
         if (!this.activeElement) return;
 
         const element = this.activeElement;
         const wasDragging = this.isDragging;
-        const dropTarget = this.currentDropTarget;
+        const dropTarget = this.currentDropTarget || this.findDropTarget(e.clientX, e.clientY);
+
+        try {
+            if (element.hasPointerCapture(e.pointerId)) {
+                element.releasePointerCapture(e.pointerId);
+            }
+        } catch (err) {}
 
         element.classList.remove('is-dragging');
-        element.style.pointerEvents = '';
         element.style.zIndex = '';
 
-        if (dropTarget) {
-            dropTarget.classList.remove('drop-hover');
+        if (this.currentDropTarget) {
+            this.currentDropTarget.classList.remove('drop-hover');
         }
 
         this.activeElement = null;
@@ -137,15 +164,20 @@ class DragDropEngine {
                 this.returnToOrigin(element);
             }
         } else {
-            // Foi apenas um toque/clique sem arrastar: ativar/desativar modo de seleção
+            // Foi apenas um toque/clique sem arrastar: ativar/desativar modo de seleção acessível
             this.toggleSelect(element);
         }
     }
 
     handlePointerCancel(e) {
         if (this.activeElement) {
+            try {
+                if (this.activeElement.hasPointerCapture(e.pointerId)) {
+                    this.activeElement.releasePointerCapture(e.pointerId);
+                }
+            } catch (err) {}
+
             this.activeElement.classList.remove('is-dragging');
-            this.activeElement.style.pointerEvents = '';
             this.activeElement.style.zIndex = '';
             this.returnToOrigin(this.activeElement);
             this.activeElement = null;
@@ -168,7 +200,11 @@ class DragDropEngine {
     selectItem(element) {
         this.selectedElement = element;
         element.classList.add('is-selected');
-        // Adicionar ouvintes diretos nos dropzones para aceitar clique
+
+        // Adicionar pulso indicativo nos ecopontos
+        const dropZones = this.container.querySelectorAll(this.dropZoneSelector);
+        dropZones.forEach(dz => dz.classList.add('drop-zone-waiting'));
+
         this.attachDropZoneClick();
     }
 
@@ -176,27 +212,43 @@ class DragDropEngine {
         if (!element) return;
         element.classList.remove('is-selected');
         this.selectedElement = null;
+
+        const dropZones = this.container.querySelectorAll(this.dropZoneSelector);
+        dropZones.forEach(dz => dz.classList.remove('drop-zone-waiting'));
+
         this.detachDropZoneClick();
     }
 
     attachDropZoneClick() {
+        this.detachDropZoneClick();
+
         this.dropZoneClickHandler = (e) => {
-            const dropTarget = e.target.closest(this.dropZoneSelector);
-            if (dropTarget && this.selectedElement) {
-                const elem = this.selectedElement;
-                this.deselectItem(elem);
-                const accepted = this.onDrop(elem, dropTarget);
-                if (!accepted) {
-                    this.returnToOrigin(elem);
+            const wrapper = e.target.closest(this.dropZoneSelector) || e.target.closest('.ecoponto-drop-wrapper');
+            if (wrapper && this.selectedElement) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                const actualDropTarget = wrapper.matches(this.dropZoneSelector)
+                    ? wrapper
+                    : wrapper.querySelector(this.dropZoneSelector);
+
+                if (actualDropTarget) {
+                    const elem = this.selectedElement;
+                    this.deselectItem(elem);
+                    const accepted = this.onDrop(elem, actualDropTarget);
+                    if (!accepted) {
+                        this.returnToOrigin(elem);
+                    }
                 }
             }
         };
-        this.container.addEventListener('click', this.dropZoneClickHandler);
+
+        this.container.addEventListener('pointerdown', this.dropZoneClickHandler);
     }
 
     detachDropZoneClick() {
         if (this.dropZoneClickHandler) {
-            this.container.removeEventListener('click', this.dropZoneClickHandler);
+            this.container.removeEventListener('pointerdown', this.dropZoneClickHandler);
             this.dropZoneClickHandler = null;
         }
     }
